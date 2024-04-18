@@ -17,7 +17,7 @@ class MenuItem extends StatelessWidget {
             BoxShadow(
               color: Color.fromARGB(90, 0, 0, 0),
               offset: Offset(0, 2),
-              blurRadius: 7.7,
+              blurRadius: 0.4,
             ),
           ],
           color: Colors.white,
@@ -34,9 +34,12 @@ class MenuItem extends StatelessWidget {
               flex: 2,
               child: Padding(
                 padding: const EdgeInsets.only(right: 5),
-                child: Image.network(
-                  link,
-                  height: 100,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    link,
+                    height: 100,
+                  ),
                 ),
               ),
             ),
