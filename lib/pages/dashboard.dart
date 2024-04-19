@@ -1,8 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/widgets/menu_item.dart';
@@ -135,7 +133,8 @@ class _DashboardState extends State<Dashboard> {
                 child: TextButton(
                   onPressed: () {},
                   style: ButtonStyle(
-                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(7))),
+                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(7))),
                       fixedSize: MaterialStatePropertyAll(Size(250, 30)),
                       backgroundColor: MaterialStatePropertyAll(
                           Color.fromARGB(255, 227, 77, 30))),
@@ -151,181 +150,113 @@ class _DashboardState extends State<Dashboard> {
         body: DefaultTabController(
           initialIndex: 0,
           length: 3,
-          child: NotificationListener<OverscrollIndicatorNotification>(
-            onNotification: (overScroll) {
-              overScroll.disallowIndicator();
-              return true;
-            },
-            child: NestedScrollView(
+          child: NestedScrollView(
               headerSliverBuilder: (context, innerShouldScroll) {
-                return [
-                  MultiSliver(children: [
-                    SliverAppBar(
-                      snap: true,
-                      floating: true,
-                      pinned: true,
-                      expandedHeight: 130,
-                      title: const Text('Our Menus'),
-                      actions: [
-                        IconButton(
-                            onPressed: null,
-                            icon: Icon(Icons.shopping_cart_outlined))
-                      ],
-                      flexibleSpace: FlexibleSpaceBar(
-                        background: Container(
-                          padding: EdgeInsets.all(20),
-                          alignment: Alignment.bottomCenter,
-                          child: SearchInput(),
+            return [
+              SliverOverlapAbsorber(
+                handle:
+                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                sliver: MultiSliver(children: [
+                  SliverAppBar(
+                    snap: true,
+                    floating: true,
+                    pinned: true,
+                    expandedHeight: 120,
+                    title: const Text('Our Menus'),
+                    actions: [
+                      IconButton(
+                          onPressed: null,
+                          icon: Icon(Icons.shopping_cart_outlined))
+                    ],
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: Container(
+                        padding: EdgeInsets.all(20),
+                        alignment: Alignment.bottomCenter,
+                        child: SearchInput(),
+                      ),
+                    ),
+                  ),
+                  SliverPinnedHeader(
+                      child: Container(
+                    height: 30,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: primary,
+                          offset: Offset(0, -1),
                         ),
-                      ),
-                    ),
-                    SliverPinnedHeader(
-                        child: Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: primary,
-                            offset: Offset(0, -1),
-                          ),
-                        ],
-                        color: primary,
-                      ),
-                      child: TabBar(
-                          tabs: [
-                            Text('Meals'),
-                            Text('Dessert'),
-                            Text('Drinks'),
-                          ]),
-                    )),
-                  ])
-                ];
-              },
-              body: TabBarView(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(8),
-                    child: ListView(
-                      children: [
-                        MenuItem(),
-                        MenuItem(),
-                        MenuItem(),
-                        MenuItem(),
-                        MenuItem(),
-                        MenuItem(),
-                        MenuItem(),
-                        MenuItem(),
-                        MenuItem(),
                       ],
+                      color: primary,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView(
-                      children: [
-                        MenuItem(),
+                    child: TabBar(tabs: [
+                      Text('Meals'),
+                      Text('Dessert'),
+                      Text('Drinks'),
+                    ]),
+                  )),
+                ]),
+              )
+            ];
+          }, body: Builder(builder: (context) {
+            return TabBarView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverOverlapInjector(
+                        handle:
+                            NestedScrollView.sliverOverlapAbsorberHandleFor(
+                                context),
+                      ),
+                      SliverList.list(children: [
                         MenuItem(),
                         MenuItem(),
                         MenuItem(),
                         MenuItem()
-                      ],
-                    ),
+                      ])
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView(
-                      children: [
-                        MenuItem(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverOverlapInjector(
+                        handle:
+                            NestedScrollView.sliverOverlapAbsorberHandleFor(
+                                context),
+                      ),
+                      SliverList.list(children: [
                         MenuItem(),
                         MenuItem(),
                         MenuItem(),
                         MenuItem()
-                      ],
-                    ),
+                      ])
+                    ],
                   ),
-                ],
-              ),
-            ),
-            // child: CustomScrollView(
-            //   slivers: [
-            //     SliverAppBar(
-            //       snap: true,
-            //       floating: true,
-            //       pinned: true,
-            //       expandedHeight: 130,
-            //       title: const Text('Our Menu'),
-            //       actions: [
-            //         IconButton(
-            //             onPressed: null,
-            //             icon: Icon(Icons.shopping_cart_outlined))
-            //       ],
-            //       flexibleSpace: FlexibleSpaceBar(
-            //         background: Container(
-            //           padding: EdgeInsets.all(20),
-            //           alignment: Alignment.bottomCenter,
-            //           child: SearchInput(),
-            //         ),
-            //       ),
-            //     ),
-            //     SliverPinnedHeader(
-            //         child: Container(
-            //       height: 40,
-            //       decoration: BoxDecoration(
-            //         boxShadow: [
-            //           BoxShadow(
-            //             color: primary,
-            //             offset: Offset(0, -1),
-            //           ),
-            //         ],
-            //         color: primary,
-            //       ),
-            //       child: TabBar(tabs: [
-            //         Text('Meals'),
-            //         Text('Dessert'),
-            //         Text('Drinks'),
-            //       ]),
-            //     )),
-
-            //     SliverToBoxAdapter(
-            //       child: TabBarView(
-            //         children: [
-            //           ListView(
-            //             children: [
-            //               MenuItem(),
-            //               MenuItem(),
-            //               MenuItem(),
-            //               MenuItem(),
-            //               MenuItem(),
-            //               MenuItem(),
-            //               MenuItem(),
-            //               MenuItem(),
-            //               MenuItem(),
-            //             ],
-            //           ),
-            //           ListView(
-            //             children: [
-            //               MenuItem(),
-            //               MenuItem(),
-            //               MenuItem(),
-            //               MenuItem(),
-            //               MenuItem()
-            //             ],
-            //           ),
-            //           ListView(
-            //             children: [
-            //               MenuItem(),
-            //               MenuItem(),
-            //               MenuItem(),
-            //               MenuItem(),
-            //               MenuItem()
-            //             ],
-            //           ),
-            //         ],
-            //       ),
-            //     )
-            //   ],
-            // ),
-          ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverOverlapInjector(
+                        handle:
+                            NestedScrollView.sliverOverlapAbsorberHandleFor(
+                                context),
+                      ),
+                      SliverList.list(children: [
+                        MenuItem(),
+                        MenuItem(),
+                        MenuItem(),
+                        MenuItem()
+                      ])
+                    ],
+                  ),
+                ),
+              ],
+            );
+          })),
         ));
   }
 }

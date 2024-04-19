@@ -10,7 +10,7 @@ class MenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 4),
       child: Container(
         decoration: const BoxDecoration(
           boxShadow: [
@@ -26,7 +26,7 @@ class MenuItem extends StatelessWidget {
           ),
         ),
         padding: const EdgeInsets.all(12),
-        height: 100,
+        height: 85,
         child: Row(
           children: [
             Flexible(
@@ -38,7 +38,7 @@ class MenuItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   child: Image.network(
                     link,
-                    height: 100,
+                    height: 85,
                   ),
                 ),
               ),
@@ -51,7 +51,7 @@ class MenuItem extends StatelessWidget {
                 children: [
                   Text(
                     'Burger',
-                    style: TextStyle(fontSize: 30),
+                    style: TextStyle(fontSize: 20),
                   ),
                   Text(
                     'No Descriptions',
@@ -59,7 +59,7 @@ class MenuItem extends StatelessWidget {
                 ],
               ),
             ),
-            const Flexible(
+            Flexible(
               flex: 1,
               child: Align(
                 alignment: Alignment.bottomRight,
@@ -67,13 +67,20 @@ class MenuItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text('\$51.00', style: TextStyle(fontWeight: FontWeight.bold),),
+                    const Text(
+                      '\$5.00',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     IconButton(
-                      style: ButtonStyle(
+                      iconSize: 15,
+                      visualDensity: VisualDensity.compact,
+                      style: const ButtonStyle(
+                        alignment: Alignment.center,
                           iconColor: MaterialStatePropertyAll(Colors.black),
+                          fixedSize: MaterialStatePropertyAll(Size(1, 1)),
                           backgroundColor: MaterialStatePropertyAll(secondary)),
-                      onPressed: null,
-                      icon: Icon(
+                      onPressed: (){},
+                      icon: const Icon(
                         Icons.add,
                       ),
                     )
