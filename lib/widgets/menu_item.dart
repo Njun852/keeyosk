@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/link.dart';
+import 'package:keeyosk/models/menu_item.dart';
 
-class MenuItem extends StatelessWidget {
-  const MenuItem({super.key});
+class MenuItemView extends StatelessWidget {
+  final MenuItem item;
+  const MenuItemView({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -29,61 +31,57 @@ class MenuItem extends StatelessWidget {
         height: 85,
         child: Row(
           children: [
-            Flexible(
-              fit: FlexFit.tight,
-              flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 5),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.network(
-                    link,
-                    height: 85,
-                  ),
+            Padding(
+              padding: const EdgeInsets.only(right: 15),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(
+                  width: 70,
+                  fit: BoxFit.cover,
+                  item.imageUrl,
                 ),
               ),
             ),
-            const Flexible(
-              flex: 4,
-              fit: FlexFit.tight,
+            SizedBox(
+              width: 200,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Burger',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Text(
-                    'No Descriptions',
-                  )
-                ],
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+              Text(
+                item.name,
+                style: const TextStyle(fontSize: 20),
               ),
+              Text(
+                item.description ?? 'No Description',
+                style: const TextStyle(
+                  color: Colors.black54,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+                            ],
+                          ),
             ),
-            Flexible(
-              flex: 1,
+            Expanded(
               child: Align(
-                alignment: Alignment.bottomRight,
+                alignment: Alignment.centerLeft,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Text(
-                      '\$5.00',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                     Text(
+                      item.priceFormatted(),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    IconButton(
-                      iconSize: 15,
-                      visualDensity: VisualDensity.compact,
-                      style: const ButtonStyle(
-                        alignment: Alignment.center,
-                          iconColor: MaterialStatePropertyAll(Colors.black),
-                          fixedSize: MaterialStatePropertyAll(Size(1, 1)),
-                          backgroundColor: MaterialStatePropertyAll(secondary)),
-                      onPressed: (){},
-                      icon: const Icon(
-                        Icons.add,
+                    Align(
+                      alignment: Alignment.center,
+                      child: ConstrainedBox(
+                        constraints:
+                            const BoxConstraints(maxWidth: 30, maxHeight: 30),
+                        child: FloatingActionButton(
+                          onPressed: () {},
+                          child: const Icon(Icons.add),
+                        ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

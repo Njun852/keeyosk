@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keeyosk/constants/colors.dart';
-import 'package:keeyosk/pages/dashboard.dart';
+import 'package:keeyosk/pages/dashboard/dashboard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +11,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      
       title: 'Flutter Demo',
       theme: ThemeData(
         iconButtonTheme: const IconButtonThemeData(
@@ -32,6 +31,8 @@ class MyApp extends StatelessWidget {
             indicatorColor: secondary,
             unselectedLabelColor: Colors.white),
         iconTheme: const IconThemeData(color: Colors.white),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: secondary, elevation: 2),
         primaryColor: primary,
         useMaterial3: true,
       ),
