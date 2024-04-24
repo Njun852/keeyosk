@@ -7,6 +7,7 @@ import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/extensions/price_format.dart';
 import 'package:keeyosk/models/menu_item.dart';
+import 'package:keeyosk/pages/dashboard/bottom_sheet.dart';
 import 'package:keeyosk/pages/dashboard/drawer_item.dart';
 import 'package:keeyosk/widgets/menu_item.dart';
 import 'package:keeyosk/widgets/search_input.dart';
@@ -171,7 +172,7 @@ class _DashboardState extends State<Dashboard> {
           return TabBarView(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
                 child: CustomScrollView(
                   slivers: [
                     SliverOverlapInjector(
@@ -185,12 +186,12 @@ class _DashboardState extends State<Dashboard> {
                         );
                       },
                       itemCount: meals.length,
-                    )
+                    ),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
                 child: CustomScrollView(
                   slivers: [
                     SliverOverlapInjector(
@@ -202,24 +203,29 @@ class _DashboardState extends State<Dashboard> {
                         return MenuItemView(item: desserts[index]);
                       },
                       itemCount: desserts.length,
-                    )
+                    ),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CustomScrollView(
-                  slivers: [
-                    SliverOverlapInjector(
-                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                          context),
+                padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
+                child: Column(
+                  children: [
+                    CustomScrollView(
+                      slivers: [
+                        SliverOverlapInjector(
+                          handle:
+                              NestedScrollView.sliverOverlapAbsorberHandleFor(
+                                  context),
+                        ),
+                        SliverList.builder(
+                          itemBuilder: ((context, index) {
+                            return MenuItemView(item: drinks[index]);
+                          }),
+                          itemCount: drinks.length,
+                        ),
+                      ],
                     ),
-                    SliverList.builder(
-                      itemBuilder: ((context, index) {
-                        return MenuItemView(item: drinks[index]);
-                      }),
-                      itemCount: drinks.length,
-                    )
                   ],
                 ),
               ),
@@ -227,63 +233,7 @@ class _DashboardState extends State<Dashboard> {
           );
         })),
       ),
-      bottomSheet: Container(
-        height: 120,
-        padding: EdgeInsets.all(15),
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: primary,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Total: ${20.toPrice()}',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 6,),
-            SizedBox(
-              width: 200,
-              child: TextButton(
-                  style: ButtonStyle(
-                    shape: MaterialStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
-                    backgroundColor: MaterialStatePropertyAll(
-                      secondary,
-                    ),
-                  ),
-                  onPressed: () {},
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.shopping_cart_outlined,
-                        color: Colors.white,
-                      ),
-                      SizedBox(width: 6,),
-                      Text(
-                        'Continue to checkout',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500
-                        ),
-                      )
-                    ],
-                  )),
-            )
-          ],
-        ),
-      ),
+      bottomNavigationBar: CustomBottomSheet(),
     );
   }
 }
