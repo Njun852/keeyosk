@@ -7,6 +7,6 @@ extension PriceFormat on num {
       settings: MoneyFormatterSettings(
         symbol: '₱',
       ),
-    ).output.symbolOnLeft;
+    ).output.symbolOnLeft.replaceFirst(RegExp(r' '), '');
   }
 }

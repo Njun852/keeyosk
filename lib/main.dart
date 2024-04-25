@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/pages/dashboard/dashboard.dart';
+import 'package:keeyosk/pages/product/product_page.dart';
 
 void main() {
   runApp(const MyApp());

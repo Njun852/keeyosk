@@ -1,4 +1,3 @@
-import 'package:money_formatter/money_formatter.dart';
 
 class MenuItem {
   final String name;
@@ -12,13 +11,4 @@ class MenuItem {
     required this.imageUrl,
     required this.price,
   });
-
-  String priceFormatted() {
-    return MoneyFormatter(
-      amount: price,
-      settings: MoneyFormatterSettings(
-        symbol: '₱',
-      ),
-    ).output.symbolOnLeft;
-  }
 }

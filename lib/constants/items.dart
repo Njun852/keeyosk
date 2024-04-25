@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:keeyosk/models/menu_item.dart';
 
 const List<MenuItem> meals = [
@@ -21,7 +22,7 @@ const List<MenuItem> meals = [
       imageUrl:
           'https://images.yummy.ph/yummy/uploads/2022/06/balbacuarecipe-2.jpg',
       price: 40),
-      MenuItem(
+  MenuItem(
       name: 'Burger',
       imageUrl:
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_rFvgkrfICZ15a7ZmW1Lvfo246sj9MAoTJA&s',
@@ -40,7 +41,8 @@ const List<MenuItem> meals = [
       name: 'Balbacua',
       imageUrl:
           'https://images.yummy.ph/yummy/uploads/2022/06/balbacuarecipe-2.jpg',
-      price: 40),MenuItem(
+      price: 40),
+  MenuItem(
       name: 'Burger',
       imageUrl:
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_rFvgkrfICZ15a7ZmW1Lvfo246sj9MAoTJA&s',
@@ -93,3 +95,42 @@ const List<MenuItem> drinks = [
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxSS9w18ghKyKdLP-wj2wHsCO2j_mrqwS6I_8yIceJQg&s',
       price: 50)
 ];
+
+final List<Widget> imgs = [
+  SizedBox(
+      height: 100,
+      width: double.infinity,
+      child: Image.asset(
+        './lib/images/burger1.jpg',
+        fit: BoxFit.cover,
+      )),
+  SizedBox(
+      height: 100,
+      width: double.infinity,
+      child: Image.asset(
+        './lib/images/burger2.jpg',
+        fit: BoxFit.cover,
+      )),
+  SizedBox(
+      height: 100,
+      width: double.infinity,
+      child: Image.asset(
+        './lib/images/burger3.jpg',
+        fit: BoxFit.cover,
+      )),
+];
+
+final List<Container> teset = [
+  Container(
+    color: Colors.pink,
+  ),
+  Container(
+    color: Colors.orange,
+  ),
+  Container(
+    color: Colors.purple,
+  )
+];
+
+const String txt =
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sed congue leo, vel egestas est. Pellentesque et commodo lacus, vel fermentum ex.';

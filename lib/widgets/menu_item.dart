@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/link.dart';
+import 'package:keeyosk/extensions/price_format.dart';
 import 'package:keeyosk/models/menu_item.dart';
+import 'package:keeyosk/pages/product/product_page.dart';
 
 class MenuItemView extends StatelessWidget {
   final MenuItem item;
@@ -45,21 +47,21 @@ class MenuItemView extends StatelessWidget {
             SizedBox(
               width: 200,
               child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-              Text(
-                item.name,
-                style: const TextStyle(fontSize: 20),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item.name,
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  Text(
+                    item.description ?? 'No Description',
+                    style: const TextStyle(
+                      color: Colors.black54,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                item.description ?? 'No Description',
-                style: const TextStyle(
-                  color: Colors.black54,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-                            ],
-                          ),
             ),
             Expanded(
               child: Align(
@@ -67,8 +69,8 @@ class MenuItemView extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                     Text(
-                      item.priceFormatted(),
+                    Text(
+                      item.price.toPrice(),
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Align(
@@ -77,7 +79,13 @@ class MenuItemView extends StatelessWidget {
                         constraints:
                             const BoxConstraints(maxWidth: 30, maxHeight: 30),
                         child: FloatingActionButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const ProductPage(),
+                              ),
+                            );
+                          },
                           child: const Icon(Icons.add),
                         ),
                       ),
