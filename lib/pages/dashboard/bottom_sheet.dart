@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/extensions/price_format.dart';
+import 'package:keeyosk/pages/checkout/checkout_page.dart';
 
 class CustomBottomSheet extends StatelessWidget {
   const CustomBottomSheet({super.key});
@@ -46,7 +47,13 @@ class CustomBottomSheet extends StatelessWidget {
                     secondary,
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const CheckoutPage(),
+                    ),
+                  );
+                },
                 child: const Row(
                   children: [
                     Icon(

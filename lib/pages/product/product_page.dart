@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/items.dart';
+import 'package:keeyosk/pages/checkout/checkout_page.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key});
@@ -33,63 +34,70 @@ class _ProductPageState extends State<ProductPage> {
           return [
             SliverOverlapAbsorber(
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: SliverAppBar(
-                pinned: true,
-                floating: true,
-                title: innerIsScrolled ? const Text('Product Details') : null,
-                snap: true,
-                expandedHeight: 200,
-                backgroundColor: innerIsScrolled ? primary : Colors.transparent,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Positioned(
-                        child: CarouselSlider(
-                          items: imgs,
-                          options: CarouselOptions(
-                              viewportFraction: 1,
-                              onPageChanged: (position, _) {
-                                setState(() {
-                                  _index = position;
-                                });
-                              }),
+              sliver: SliverLayoutBuilder(
+                builder: (context, constraints) {
+                  final bool isScrolled = constraints.scrollOffset > 100;
+                  return SliverAppBar(
+                    pinned: true,
+                    floating: true,
+                    title: isScrolled ? const Text('Product Details') : null,
+                    snap: true,
+                    expandedHeight: 200,
+                    backgroundColor: primary,
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: Stack(
+                        alignment: Alignment.topCenter,
+                        children: [
+                          Positioned(
+                            child: CarouselSlider(
+                              items: imgs,
+                              options: CarouselOptions(
+                                  height: double.infinity,
+                                  viewportFraction: 1,
+                                  onPageChanged: (position, _) {
+                                    setState(() {
+                                      _index = position;
+                                    });
+                                  }),
+                            ),
+                          ),
+                          Positioned(
+                              bottom: 8,
+                              child: DotsIndicator(
+                                dotsCount: 3,
+                                position: _index,
+                              ))
+                        ],
+                      ),
+                    ),
+                    leading: IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: Icon(
+                        Icons.arrow_back_ios_new,
+                        color: isScrolled ? Colors.white : Colors.black,
+                      ),
+                    ),
+                    actions: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CheckoutPage()));
+                        },
+                        icon: Icon(
+                          Icons.shopping_cart,
+                          color: isScrolled ? Colors.white : Colors.black,
                         ),
                       ),
-                      Positioned(
-                          bottom: 8,
-                          child: DotsIndicator(
-                            dotsCount: 3,
-                            position: _index,
-                          ))
                     ],
-                  ),
-                ),
-                leading: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: Icon(
-                    Icons.arrow_back_ios_new,
-                    color: innerIsScrolled ? Colors.white : Colors.black,
-                  ),
-                ),
-                actions: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.shopping_cart,
-                      color: innerIsScrolled ? Colors.white : Colors.black,
-                    ),
-                  ),
-                ],
+                  );
+                },
               ),
             )
           ];
         },
         body: Builder(builder: (context) {
           return CustomScrollView(
-            physics: const NeverScrollableScrollPhysics(),
             slivers: [
               SliverOverlapInjector(
                 handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
@@ -260,43 +268,36 @@ class _ProductPageState extends State<ProductPage> {
                   ),
                 ),
               ),
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    color: primary,
-                    height: 100,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 40),
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: const ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(
-                          Color.fromARGB(
-                            255,
-                            244,
-                            203,
-                            26,
-                          ),
-                        ),
-                      ),
-                      onPressed: () {},
-                      child: const Text(
-                        'ADD TO ORDER',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              )
             ],
           );
         }),
+      ),
+      bottomNavigationBar: Container(
+        color: primary,
+        height: 100,
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+        width: double.infinity,
+        child: ElevatedButton(
+          style: const ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll(
+              Color.fromARGB(
+                255,
+                244,
+                203,
+                26,
+              ),
+            ),
+          ),
+          onPressed: () {},
+          child: const Text(
+            'ADD TO ORDER',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+            ),
+          ),
+        ),
       ),
     );
   }

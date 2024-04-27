@@ -97,29 +97,43 @@ const List<MenuItem> drinks = [
 ];
 
 final List<Widget> imgs = [
-  SizedBox(
-      height: 100,
-      width: double.infinity,
-      child: Image.asset(
-        './lib/images/burger1.jpg',
-        fit: BoxFit.cover,
-      )),
-  SizedBox(
-      height: 100,
-      width: double.infinity,
-      child: Image.asset(
-        './lib/images/burger2.jpg',
-        fit: BoxFit.cover,
-      )),
-  SizedBox(
-      height: 100,
-      width: double.infinity,
-      child: Image.asset(
-        './lib/images/burger3.jpg',
-        fit: BoxFit.cover,
-      )),
+  Image.asset(
+    './lib/images/burger1.jpg',
+    fit: BoxFit.cover,
+    width: double.infinity,
+
+  ),
+  Image.asset(
+    './lib/images/burger2.jpg',
+    fit: BoxFit.cover,
+    width: double.infinity,
+
+
+  ),
+  Image.asset(
+    './lib/images/burger3.jpg',
+    fit: BoxFit.cover,
+    width: double.infinity,
+  ),
 ];
 
+final List<Container> c = [
+  Container(
+    color: Colors.green,
+    width: double.infinity,
+    height: double.infinity,
+  ),
+  Container(
+    color: Colors.blue,
+    width: double.infinity,
+    height: double.infinity,
+  ),
+  Container(
+    color: Colors.yellow,
+    width: double.infinity,
+    height: double.infinity,
+  )
+];
 final List<Container> teset = [
   Container(
     color: Colors.pink,

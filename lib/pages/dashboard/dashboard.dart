@@ -7,8 +7,10 @@ import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/extensions/price_format.dart';
 import 'package:keeyosk/models/menu_item.dart';
+import 'package:keeyosk/pages/checkout/checkout_page.dart';
 import 'package:keeyosk/pages/dashboard/bottom_sheet.dart';
 import 'package:keeyosk/pages/dashboard/drawer_item.dart';
+import 'package:keeyosk/pages/dashboard/item_selection.dart';
 import 'package:keeyosk/widgets/menu_item.dart';
 import 'package:keeyosk/widgets/search_input.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -136,7 +138,11 @@ class _DashboardState extends State<Dashboard> {
                   title: const Text('Our Menu'),
                   actions: [
                     IconButton(
-                        onPressed: null,
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => CheckoutPage(),
+                          ));
+                        },
                         icon: Icon(Icons.shopping_cart_outlined))
                   ],
                   flexibleSpace: FlexibleSpaceBar(
@@ -181,7 +187,7 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     SliverList.builder(
                       itemBuilder: (context, index) {
-                        return MenuItemView(
+                        return ItemSelectionView(
                           item: meals[index],
                         );
                       },
@@ -200,7 +206,7 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     SliverList.builder(
                       itemBuilder: (context, index) {
-                        return MenuItemView(item: desserts[index]);
+                        return ItemSelectionView(item: desserts[index]);
                       },
                       itemCount: desserts.length,
                     ),
@@ -209,22 +215,17 @@ class _DashboardState extends State<Dashboard> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
-                child: Column(
-                  children: [
-                    CustomScrollView(
-                      slivers: [
-                        SliverOverlapInjector(
-                          handle:
-                              NestedScrollView.sliverOverlapAbsorberHandleFor(
-                                  context),
-                        ),
-                        SliverList.builder(
-                          itemBuilder: ((context, index) {
-                            return MenuItemView(item: drinks[index]);
-                          }),
-                          itemCount: drinks.length,
-                        ),
-                      ],
+                child: CustomScrollView(
+                  slivers: [
+                    SliverOverlapInjector(
+                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                          context),
+                    ),
+                    SliverList.builder(
+                      itemBuilder: (context, index) {
+                        return ItemSelectionView(item: drinks[index]);
+                      },
+                      itemCount: drinks.length,
                     ),
                   ],
                 ),
