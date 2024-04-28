@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/pages/checkout/checkout_page.dart';
 import 'package:keeyosk/pages/dashboard/dashboard.dart';
+import 'package:keeyosk/pages/manage_orders/manage_orders.dart';
+import 'package:keeyosk/pages/manage_orders/order_page.dart';
 import 'package:keeyosk/pages/product/product_page.dart';
 
 void main() {
@@ -23,7 +25,6 @@ class MyApp extends StatelessWidget {
         )),
         appBarTheme: const AppBarTheme(
             backgroundColor: primary,
-            centerTitle: true,
             titleTextStyle: TextStyle(
                 color: Colors.white,
                 fontSize: 24,
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
         primaryColor: primary,
         useMaterial3: true,
       ),
-      home: const Dashboard(),
+      home: const OrderPage(),
     );
   }
 }

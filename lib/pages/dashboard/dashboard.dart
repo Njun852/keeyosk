@@ -134,6 +134,7 @@ class _DashboardState extends State<Dashboard> {
                   snap: true,
                   floating: true,
                   pinned: true,
+                  centerTitle: true,
                   expandedHeight: 120,
                   title: const Text('Our Menu'),
                   actions: [
