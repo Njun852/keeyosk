@@ -6,11 +6,8 @@ import 'package:keeyosk/constants/colors.dart';
 class OrderItemView extends StatelessWidget {
   final int index;
   final double itemColWidth;
-  const OrderItemView({
-    super.key,
-    required this.index,
-    required this.itemColWidth
-  });
+  const OrderItemView(
+      {super.key, required this.index, required this.itemColWidth});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +15,7 @@ class OrderItemView extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(8),
       width: double.infinity,
-      height: 75,
+      height: 85,
       decoration: BoxDecoration(
         color: Color.fromARGB(
           255,
@@ -32,18 +29,23 @@ class OrderItemView extends StatelessWidget {
         children: [
           Image.asset(
             './lib/images/burger1.jpg',
-            width: itemColWidth + itemColWidth * 0.75,
-            height: double.infinity,
+            width: itemColWidth,
+            height: itemColWidth,
             fit: BoxFit.cover,
           ),
-          const Text(
-            'Burger',
-            style: TextStyle(fontSize: 12),
+          SizedBox(
+            width: itemColWidth,
+            child: const Text(
+              'Burger',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 12),
+            ),
           ),
           SizedBox(
             width: itemColWidth,
             child: const Text(
               'Cheese, Pickles💀, Raisins',
+              textAlign: TextAlign.justify,
               style: TextStyle(fontSize: 12),
             ),
           ),
@@ -51,6 +53,7 @@ class OrderItemView extends StatelessWidget {
             width: itemColWidth,
             child: const Text(
               '\$2,500',
+              textAlign: TextAlign.center,
               style: TextStyle(fontSize: 12),
             ),
           ),
@@ -58,42 +61,46 @@ class OrderItemView extends StatelessWidget {
             width: itemColWidth,
             child: const Text(
               '10',
+              textAlign: TextAlign.center,
               style: TextStyle(fontSize: 12),
             ),
           ),
-          SizedBox(
-            width: itemColWidth,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 28,
-                  height: 28,
-                  child: IconButton(
-                    iconSize: 12,
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(secondary)),
-                    visualDensity: VisualDensity.compact,
-                    onPressed: () {},
-                    icon: Icon(Icons.edit),
+          Row(
+            children: [
+              SizedBox(
+                width: itemColWidth * 0.5 - 2,
+                height: itemColWidth * 0.5 - 2,
+                child: IconButton(
+                  iconSize: 10,
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(secondary)),
+                  visualDensity: VisualDensity.compact,
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.edit,
+                    color: Colors.black,
                   ),
                 ),
-                SizedBox(
-                  width: 4,
-                ),
-                SizedBox(
-                  width: 28,
-                  height: 28,
-                  child: IconButton(
-                    iconSize: 12,
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(secondary)),
-                    visualDensity: VisualDensity.compact,
-                    onPressed: () {},
-                    icon: Icon(Icons.close),
+              ),
+              SizedBox(
+                width: 4,
+              ),
+              SizedBox(
+                width: itemColWidth * 0.5 - 2,
+                height: itemColWidth * 0.5 - 2,
+                child: IconButton(
+                  iconSize: 10,
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(secondary)),
+                  visualDensity: VisualDensity.compact,
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.close,
+                    color: Colors.black,
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           )
         ],
       ),

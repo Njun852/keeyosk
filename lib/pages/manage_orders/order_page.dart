@@ -33,6 +33,7 @@ class OrderPage extends StatelessWidget {
         ),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 12),
           Container(
@@ -48,7 +49,6 @@ class OrderPage extends StatelessWidget {
               ],
             ),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
@@ -56,6 +56,7 @@ class OrderPage extends StatelessWidget {
                   child: Image.asset('./lib/images/order.png'),
                 ),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Row(
@@ -119,10 +120,13 @@ class OrderPage extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 14),
-          const Text(
-            'Order List',
-            style: TextStyle(fontSize: 17),
+          const SizedBox(height: 28),
+          Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: const Text(
+              'Item List',
+              style: TextStyle(fontSize: 17),
+            ),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -132,15 +136,16 @@ class OrderPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  width: itemColWidth + itemColWidth * 0.75,
+                  width: itemColWidth,
                 ),
                 SizedBox(
                   width: itemColWidth,
                   child: Text(
                     'Item Name',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontStyle: FontStyle.italic,
-                      fontSize: 12,
+                      fontSize: 9,
                     ),
                   ),
                 ),
@@ -148,8 +153,9 @@ class OrderPage extends StatelessWidget {
                   width: itemColWidth,
                   child: Text(
                     'Add-ons',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 9,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
@@ -158,8 +164,9 @@ class OrderPage extends StatelessWidget {
                   width: itemColWidth,
                   child: Text(
                     'Price',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 9,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
@@ -168,8 +175,9 @@ class OrderPage extends StatelessWidget {
                   width: itemColWidth,
                   child: Text(
                     'Quantity',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 9,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
@@ -178,8 +186,9 @@ class OrderPage extends StatelessWidget {
                   width: itemColWidth,
                   child: Text(
                     'Actions',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 9,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
@@ -188,8 +197,9 @@ class OrderPage extends StatelessWidget {
             ),
           ),
           ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: 400),
+            constraints: BoxConstraints(maxHeight: 400, minHeight: 50),
             child: ListView.builder(
+              shrinkWrap: true,
               itemBuilder: (context, index) {
                 return OrderItemView(
                   index: index,
@@ -198,69 +208,133 @@ class OrderPage extends StatelessWidget {
               },
               itemCount: 3,
             ),
+          ),
+          Container(
+            decoration: BoxDecoration(color: Colors.white, boxShadow: [
+              BoxShadow(
+                offset: Offset(0, 4),
+                blurRadius: 4,
+                color: Colors.black.withOpacity(0.25),
+              )
+            ]),
+            padding: EdgeInsets.all(8),
+            child: Row(
+              children: [
+                Image.asset('./lib/images/ticket_blue.png'),
+                SizedBox(width: 3),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Vouchers Applied:',
+                      style:
+                          TextStyle(fontSize: 10, fontStyle: FontStyle.italic),
+                    ),
+                    Text(
+                      'Custard Apple Coupon, Black Coupon, KKK Exclusive',
+                      style:
+                          TextStyle(fontSize: 10, fontStyle: FontStyle.italic),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+          Expanded(child: Container()),
+          Container(
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+                border: Border(
+              top: BorderSide(color: Colors.black),
+              bottom: BorderSide(color: Colors.black),
+            )),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Customer Details',
+                  style: TextStyle(fontSize: 13),
+                ),
+                SizedBox(height: 5),
+                Row(
+                  children: [
+                    Image.asset(
+                      './lib/images/user_black.png',
+                      height: 75,
+                    ),
+                    SizedBox(width: 15),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Tess Teing Tieng',
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          'Phone Number:',
+                          style: TextStyle(
+                              fontSize: 12, fontStyle: FontStyle.italic),
+                        ),
+                        Text(
+                          '09123456789',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        )
+                      ],
+                    ),
+                    Expanded(child: Container()),
+                    IconButton(
+                      iconSize: 35,
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.phone,
+                        color: Colors.black,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      iconSize: 35,
+                      icon: Icon(
+                        Icons.message,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+          Row(
+            children: [
+              Expanded(
+                  child: SizedBox(
+                height: 50,
+                child: IconButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(
+                      Color.fromARGB(255, 76, 187, 23),
+                    ),
+                    shape: MaterialStatePropertyAll(BeveledRectangleBorder()),
+                  ),
+                  onPressed: () {},
+                  icon: Icon(Icons.check),
+                ),
+              )),
+              Expanded(
+                  child: SizedBox(
+                height: 50,
+                child: IconButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(
+                        Color.fromARGB(255, 236, 61, 61)),
+                    shape: MaterialStatePropertyAll(BeveledRectangleBorder()),
+                  ),
+                  onPressed: () {},
+                  icon: Icon(Icons.close),
+                ),
+              ))
+            ],
           )
-          //           GridView.count(
-          //   crossAxisCount: 6,
-          //   children: [
-          //     Container(),
-          //     Text('Item Name'),
-          //     Text('Details'),
-          //     Text('Price'),
-          //     Text('Quantity'),
-          //     Text('Actions')
-          //   ],
-          // )
-          // Container(
-          //   constraints: BoxConstraints(maxHeight: 20),
-          //   color: secondary,
-          //   child: GridView.count(
-          //     primary: false,
-          //     crossAxisCount: 6,
-          //     children: [
-          //       SizedBox(width: 45,),
-          //       Text(
-          //         'Item Name',
-          //         textAlign: TextAlign.center,
-          //         style: TextStyle(
-          //           fontStyle: FontStyle.italic,
-          //           fontSize: 12,
-          //         ),
-          //       ),
-          //       Text(
-          //         'Details',
-          //         textAlign: TextAlign.center,
-          //         style: TextStyle(
-          //           fontStyle: FontStyle.italic,
-          //           fontSize: 12,
-          //         ),
-          //       ),
-          //       Text(
-          //         'Price',
-          //         textAlign: TextAlign.center,
-          //         style: TextStyle(
-          //           fontStyle: FontStyle.italic,
-          //           fontSize: 12,
-          //         ),
-          //       ),
-          //       Text(
-          //         'Quantity',
-          //         textAlign: TextAlign.center,
-          //         style: TextStyle(
-          //           fontStyle: FontStyle.italic,
-          //           fontSize: 12,
-          //         ),
-          //       ),
-          //       Text(
-          //         'Actions',
-          //         textAlign: TextAlign.center,
-          //         style: TextStyle(
-          //           fontStyle: FontStyle.italic,
-          //           fontSize: 12,
-          //         ),
-          //       )
-          //     ],
-          //   ),
-          // )
         ],
       ),
     );

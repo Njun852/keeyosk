@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         primaryColor: primary,
         useMaterial3: true,
       ),
-      home: const OrderPage(),
+      home: const Dashboard(),
     );
   }
 }
