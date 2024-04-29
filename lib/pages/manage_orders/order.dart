@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
+import 'package:keeyosk/pages/manage_orders/order_page.dart';
 
 class OrderItemView extends StatelessWidget {
   const OrderItemView({super.key});
@@ -85,7 +86,11 @@ class OrderItemView extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(7)))),
                     backgroundColor: MaterialStatePropertyAll(secondary),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const OrderPage(),
+                    ));
+                  },
                   icon: const Icon(
                     Icons.arrow_forward_ios,
                     color: Colors.black,

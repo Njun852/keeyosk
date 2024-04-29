@@ -2,12 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
+import 'package:keeyosk/pages/manage_orders/order_item.dart';
 
 class OrderPage extends StatelessWidget {
   const OrderPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    const double itemColWidth = 55;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -25,7 +27,9 @@ class OrderPage extends StatelessWidget {
             Icons.arrow_back_ios_new,
             color: Colors.black,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
       ),
       body: Column(
@@ -121,18 +125,17 @@ class OrderPage extends StatelessWidget {
             style: TextStyle(fontSize: 17),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 8
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             color: secondary,
             width: double.infinity,
             child: const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  width: 60,
+                  width: itemColWidth + itemColWidth * 0.75,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
+                SizedBox(
+                  width: itemColWidth,
                   child: Text(
                     'Item Name',
                     style: TextStyle(
@@ -141,45 +144,123 @@ class OrderPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
+                SizedBox(
+                  width: itemColWidth,
                   child: Text(
                     'Add-ons',
                     style: TextStyle(
+                      fontSize: 12,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
+                SizedBox(
+                  width: itemColWidth,
                   child: Text(
                     'Price',
                     style: TextStyle(
+                      fontSize: 12,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
+                SizedBox(
+                  width: itemColWidth,
                   child: Text(
                     'Quantity',
                     style: TextStyle(
+                      fontSize: 12,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
+                SizedBox(
+                  width: itemColWidth,
                   child: Text(
                     'Actions',
                     style: TextStyle(
+                      fontSize: 12,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
                 )
               ],
             ),
+          ),
+          ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: 400),
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                return OrderItemView(
+                  index: index,
+                  itemColWidth: itemColWidth,
+                );
+              },
+              itemCount: 3,
+            ),
           )
+          //           GridView.count(
+          //   crossAxisCount: 6,
+          //   children: [
+          //     Container(),
+          //     Text('Item Name'),
+          //     Text('Details'),
+          //     Text('Price'),
+          //     Text('Quantity'),
+          //     Text('Actions')
+          //   ],
+          // )
+          // Container(
+          //   constraints: BoxConstraints(maxHeight: 20),
+          //   color: secondary,
+          //   child: GridView.count(
+          //     primary: false,
+          //     crossAxisCount: 6,
+          //     children: [
+          //       SizedBox(width: 45,),
+          //       Text(
+          //         'Item Name',
+          //         textAlign: TextAlign.center,
+          //         style: TextStyle(
+          //           fontStyle: FontStyle.italic,
+          //           fontSize: 12,
+          //         ),
+          //       ),
+          //       Text(
+          //         'Details',
+          //         textAlign: TextAlign.center,
+          //         style: TextStyle(
+          //           fontStyle: FontStyle.italic,
+          //           fontSize: 12,
+          //         ),
+          //       ),
+          //       Text(
+          //         'Price',
+          //         textAlign: TextAlign.center,
+          //         style: TextStyle(
+          //           fontStyle: FontStyle.italic,
+          //           fontSize: 12,
+          //         ),
+          //       ),
+          //       Text(
+          //         'Quantity',
+          //         textAlign: TextAlign.center,
+          //         style: TextStyle(
+          //           fontStyle: FontStyle.italic,
+          //           fontSize: 12,
+          //         ),
+          //       ),
+          //       Text(
+          //         'Actions',
+          //         textAlign: TextAlign.center,
+          //         style: TextStyle(
+          //           fontStyle: FontStyle.italic,
+          //           fontSize: 12,
+          //         ),
+          //       )
+          //     ],
+          //   ),
+          // )
         ],
       ),
     );

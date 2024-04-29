@@ -11,6 +11,7 @@ import 'package:keeyosk/pages/checkout/checkout_page.dart';
 import 'package:keeyosk/pages/dashboard/bottom_sheet.dart';
 import 'package:keeyosk/pages/dashboard/drawer_item.dart';
 import 'package:keeyosk/pages/dashboard/item_selection.dart';
+import 'package:keeyosk/pages/manage_orders/manage_orders.dart';
 import 'package:keeyosk/widgets/menu_item.dart';
 import 'package:keeyosk/widgets/search_input.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -63,11 +64,13 @@ class _DashboardState extends State<Dashboard> {
                     isImage: false,
                     label: 'Order History',
                     icon: Icons.history,
+                    onClick: () {},
                   ),
                   DrawerItem(
                     isImage: false,
                     label: 'FAQ',
                     icon: Icons.help,
+                    onClick: () {},
                   ),
                   Row(
                     children: [
@@ -93,11 +96,16 @@ class _DashboardState extends State<Dashboard> {
                     isImage: false,
                     label: 'Orders',
                     icon: Icons.list_alt,
+                    onClick: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ManageOrders()));
+                    },
                   ),
                   DrawerItem(
                     isImage: true,
                     label: 'Coupons',
                     url: './lib/images/ticket.png',
+                    onClick: () {},
                   )
                 ],
               ),
