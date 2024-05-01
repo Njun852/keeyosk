@@ -5,6 +5,7 @@ import 'package:keeyosk/pages/dashboard/dashboard.dart';
 import 'package:keeyosk/pages/manage_orders/manage_orders.dart';
 import 'package:keeyosk/pages/manage_orders/order_page.dart';
 import 'package:keeyosk/pages/product/product_page.dart';
+import 'package:keeyosk/pages/signin/signin_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
         primaryColor: primary,
         useMaterial3: true,
       ),
-      home: const Dashboard(),
+      home: const SignInPage(),
     );
   }
 }
