@@ -4,7 +4,9 @@ import 'package:keeyosk/pages/checkout/checkout_page.dart';
 import 'package:keeyosk/pages/dashboard/dashboard.dart';
 import 'package:keeyosk/pages/manage_orders/manage_orders.dart';
 import 'package:keeyosk/pages/manage_orders/order_page.dart';
+import 'package:keeyosk/pages/postcheckout/postcheckout_page.dart';
 import 'package:keeyosk/pages/product/product_page.dart';
+import 'package:keeyosk/pages/profile/profile_page.dart';
 import 'package:keeyosk/pages/signin/signin_page.dart';
 
 void main() {

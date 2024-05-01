@@ -12,6 +12,8 @@ import 'package:keeyosk/pages/dashboard/bottom_sheet.dart';
 import 'package:keeyosk/pages/dashboard/drawer_item.dart';
 import 'package:keeyosk/pages/dashboard/item_selection.dart';
 import 'package:keeyosk/pages/manage_orders/manage_orders.dart';
+import 'package:keeyosk/pages/profile/profile_page.dart';
+import 'package:keeyosk/pages/signin/signin_page.dart';
 import 'package:keeyosk/widgets/menu_item.dart';
 import 'package:keeyosk/widgets/search_input.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -36,28 +38,37 @@ class _DashboardState extends State<Dashboard> {
                 children: [
                   DrawerHeader(
                     decoration: BoxDecoration(color: primary),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Image(
-                          height: 60,
-                          image: AssetImage('lib/images/user.png'),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          'Tess Tieng Tieng',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          '09276300212',
-                          style: TextStyle(color: Colors.white),
-                        )
-                      ],
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ProfilePage(),
+                          ),
+                        );
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Image(
+                            height: 60,
+                            image: AssetImage('lib/images/user.png'),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'Tess Tieng Tieng',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            '09276300212',
+                            style: TextStyle(color: Colors.white),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   DrawerItem(
@@ -113,7 +124,13 @@ class _DashboardState extends State<Dashboard> {
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => SignInPage(),
+                    ),
+                  );
+                },
                 style: ButtonStyle(
                     shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(7))),

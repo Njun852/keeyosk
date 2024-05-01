@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/pages/checkout/order_item.dart';
+import 'package:keeyosk/pages/postcheckout/postcheckout_page.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});
@@ -223,7 +224,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         Color.fromARGB(255, 244, 203, 26),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => PostCheckoutPage(),
+                        ),
+                      );
+                    },
                     child: const Text(
                       'Checkout',
                       style: TextStyle(
