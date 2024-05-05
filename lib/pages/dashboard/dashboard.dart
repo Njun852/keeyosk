@@ -1,22 +1,24 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
+import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/items.dart';
+import 'package:keeyosk/constants/styles.dart';
 import 'package:keeyosk/extensions/price_format.dart';
 import 'package:keeyosk/models/menu_item.dart';
 import 'package:keeyosk/pages/checkout/checkout_page.dart';
-import 'package:keeyosk/pages/dashboard/bottom_sheet.dart';
-import 'package:keeyosk/pages/dashboard/drawer_item.dart';
-import 'package:keeyosk/pages/dashboard/item_selection.dart';
+import 'package:keeyosk/pages/dashboard/item_card.dart';
+import 'package:keeyosk/pages/dashboard/search_bar.dart';
 import 'package:keeyosk/pages/manage_orders/manage_orders.dart';
 import 'package:keeyosk/pages/profile/profile_page.dart';
 import 'package:keeyosk/pages/signin/signin_page.dart';
 import 'package:keeyosk/widgets/menu_item.dart';
-import 'package:keeyosk/widgets/search_input.dart';
 import 'package:sliver_tools/sliver_tools.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -25,242 +27,78 @@ class Dashboard extends StatefulWidget {
   State<Dashboard> createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
+  late TabController _tabController;
+  @override
+  void initState() {
+    super.initState();
+    _tabController =
+        TabController(length: 3, vsync: this, animationDuration: Duration.zero);
+    _tabController.addListener(handleChange);
+  }
+
+  void handleChange() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.zero,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            floating: true,
+            centerTitle: true,
+            title: Text(
+              'Our menu',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(color: Colors.white),
+            ),
+            leading: IconButton(
+              style: appBarIconButtonStyle,
+              icon: Icon(Icons.menu),
+              onPressed: () {},
+            ),
+            actions: [
+              IconButton(
+                style: appBarIconButtonStyle,
+                icon: Icon(Icons.shopping_cart_outlined),
+                onPressed: () {},
+              )
+            ],
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
                 children: [
-                  DrawerHeader(
-                    decoration: BoxDecoration(color: primary),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => ProfilePage(),
-                          ),
-                        );
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Image(
-                            height: 60,
-                            image: AssetImage('lib/images/user.png'),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            'Tess Tieng Tieng',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            '09276300212',
-                            style: TextStyle(color: Colors.white),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  DrawerItem(
-                    isImage: false,
-                    label: 'Order History',
-                    icon: Icons.history,
-                    onClick: () {},
-                  ),
-                  DrawerItem(
-                    isImage: false,
-                    label: 'FAQ',
-                    icon: Icons.help,
-                    onClick: () {},
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          height: 20,
-                          endIndent: 20,
-                        ),
-                      ),
-                      Text(
-                        'Admin Panel',
-                        style: TextStyle(fontSize: 20, color: Colors.black54),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          height: 20,
-                          indent: 20,
-                        ),
-                      ),
-                    ],
-                  ),
-                  DrawerItem(
-                    isImage: false,
-                    label: 'Orders',
-                    icon: Icons.list_alt,
-                    onClick: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ManageOrders()));
-                    },
-                  ),
-                  DrawerItem(
-                    isImage: true,
-                    label: 'Coupons',
-                    url: './lib/images/ticket.png',
-                    onClick: () {},
-                  )
+                  SearchBarView(),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => SignInPage(),
-                    ),
-                  );
-                },
-                style: ButtonStyle(
-                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7))),
-                    fixedSize: MaterialStatePropertyAll(Size(250, 30)),
-                    backgroundColor: MaterialStatePropertyAll(
-                        Color.fromARGB(255, 227, 77, 30))),
-                child: Text(
-                  'Logout',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            )
-          ],
-        ),
+          ),
+          SliverFillRemaining(
+            child: GridView.count(
+              padding: EdgeInsets.all(18),
+              childAspectRatio: 0.75,
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 8,
+              crossAxisCount: 2,
+              children: List.generate(items.length, (index) {
+                return ItemCard(
+                  name: items[index].name,
+                  price: items[index].price,
+                  imgLink: items[index].imageUrl,
+                  discountPrice: items[index].discount,
+                );
+              }),
+            ),
+          )
+        ],
       ),
-      body: DefaultTabController(
-        initialIndex: 0,
-        length: 3,
-        child:
-            NestedScrollView(headerSliverBuilder: (context, innerShouldScroll) {
-          return [
-            SliverOverlapAbsorber(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: MultiSliver(children: [
-                SliverAppBar(
-                  snap: true,
-                  floating: true,
-                  pinned: true,
-                  centerTitle: true,
-                  expandedHeight: 120,
-                  title: const Text('Our Menu'),
-                  actions: [
-                    IconButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => CheckoutPage(),
-                          ));
-                        },
-                        icon: Icon(Icons.shopping_cart_outlined))
-                  ],
-                  flexibleSpace: FlexibleSpaceBar(
-                    background: Container(
-                      padding: EdgeInsets.all(20),
-                      alignment: Alignment.bottomCenter,
-                      child: SearchInput(),
-                    ),
-                  ),
-                ),
-                SliverPinnedHeader(
-                    child: Container(
-                  height: 30,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: primary,
-                        offset: Offset(0, -1),
-                      ),
-                    ],
-                    color: primary,
-                  ),
-                  child: TabBar(tabs: [
-                    Text('Meals'),
-                    Text('Dessert'),
-                    Text('Drinks'),
-                  ]),
-                )),
-              ]),
-            )
-          ];
-        }, body: Builder(builder: (context) {
-          return TabBarView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
-                child: CustomScrollView(
-                  slivers: [
-                    SliverOverlapInjector(
-                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                          context),
-                    ),
-                    SliverList.builder(
-                      itemBuilder: (context, index) {
-                        return ItemSelectionView(
-                          item: meals[index],
-                        );
-                      },
-                      itemCount: meals.length,
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
-                child: CustomScrollView(
-                  slivers: [
-                    SliverOverlapInjector(
-                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                          context),
-                    ),
-                    SliverList.builder(
-                      itemBuilder: (context, index) {
-                        return ItemSelectionView(item: desserts[index]);
-                      },
-                      itemCount: desserts.length,
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
-                child: CustomScrollView(
-                  slivers: [
-                    SliverOverlapInjector(
-                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                          context),
-                    ),
-                    SliverList.builder(
-                      itemBuilder: (context, index) {
-                        return ItemSelectionView(item: drinks[index]);
-                      },
-                      itemCount: drinks.length,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          );
-        })),
-      ),
-      bottomNavigationBar: CustomBottomSheet(),
     );
   }
 }

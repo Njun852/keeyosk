@@ -1,13 +1,13 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/items.dart';
-import 'package:keeyosk/pages/checkout/checkout_page.dart';
+import 'package:keeyosk/constants/styles.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key});
@@ -17,287 +17,180 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  late int _index;
-
-  @override
-  void initState() {
-    super.initState();
-    _index = 0;
-  }
+  int _index = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: NestedScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        headerSliverBuilder: (context, innerIsScrolled) {
-          return [
-            SliverOverlapAbsorber(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: SliverLayoutBuilder(
-                builder: (context, constraints) {
-                  final bool isScrolled = constraints.scrollOffset > 100;
-                  return SliverAppBar(
-                    pinned: true,
-                    floating: true,
-                    title: isScrolled ? const Text('Product Details') : null,
-                    snap: true,
-                    expandedHeight: 200,
-                    backgroundColor: primary,
-                    flexibleSpace: FlexibleSpaceBar(
-                      background: Stack(
-                        alignment: Alignment.topCenter,
-                        children: [
-                          Positioned(
-                            child: CarouselSlider(
-                              items: imgs,
-                              options: CarouselOptions(
-                                  height: double.infinity,
-                                  viewportFraction: 1,
-                                  onPageChanged: (position, _) {
-                                    setState(() {
-                                      _index = position;
-                                    });
-                                  }),
-                            ),
-                          ),
-                          Positioned(
-                              bottom: 8,
-                              child: DotsIndicator(
-                                dotsCount: 3,
-                                position: _index,
-                              ))
-                        ],
-                      ),
-                    ),
-                    leading: IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios_new,
-                        color: isScrolled ? Colors.white : Colors.black,
-                      ),
-                    ),
-                    actions: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CheckoutPage()));
-                        },
-                        icon: Icon(
-                          Icons.shopping_cart,
-                          color: isScrolled ? Colors.white : Colors.black,
-                        ),
-                      ),
-                    ],
-                  );
-                },
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {},
+            style: appBarIconButtonStyle,
+            icon: Icon(
+              Icons.arrow_back_ios_new,
+            )),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.shopping_cart_outlined),
+            style: appBarIconButtonStyle,
+          )
+        ],
+      ),
+      body: Column(
+        children: [
+          Stack(alignment: Alignment.center, children: [
+            CarouselSlider(
+              items: imgs,
+              options: CarouselOptions(
+                  viewportFraction: 1,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _index = index;
+                    });
+                  }),
+            ),
+            Positioned(
+              bottom: 0,
+              child: DotsIndicator(
+                decorator: DotsDecorator(
+                  size: Size(5, 5),
+                  color: Color.fromRGBO(244, 203, 26, 1),
+                  activeColor: Color.fromRGBO(244, 203, 26, 0.5),
+                ),
+                dotsCount: imgs.length,
+                position: _index,
               ),
             )
-          ];
-        },
-        body: Builder(builder: (context) {
-          return CustomScrollView(
-            slivers: [
-              SliverOverlapInjector(
-                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                  context,
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 12,
-                    horizontal: 18,
-                  ),
-                  child: Column(
-                    children: [
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Product Name',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                            ),
-                          ),
-                          Text(
-                            '\$15.00',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 16),
-                          ),
-                        ],
+          ]),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 34, vertical: 16),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Product Name',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 24,
                       ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Description:',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
+                    ),
+                    Expanded(child: Container()),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Color.fromRGBO(210, 210, 210, 1),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      const Text(
-                        txt,
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 38,
-                      ),
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Quantity:',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          IconButton(
-                            style: const ButtonStyle(
-                              overlayColor: MaterialStatePropertyAll(
-                                Colors.grey,
-                              ),
-                              side: MaterialStatePropertyAll(
-                                BorderSide(color: Colors.black),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              height: 30,
+                              width: 30,
+                              child: IconButton(
+                                padding: EdgeInsets.zero,
+                                style: ButtonStyle(
+                                  shape: MaterialStatePropertyAll(
+                                      BeveledRectangleBorder()),
+                                  backgroundColor:
+                                      MaterialStatePropertyAll(secondary),
+                                ),
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.remove,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
-                            visualDensity: VisualDensity.compact,
-                            onPressed: () {},
-                            iconSize: 15,
-                            icon: const Icon(
-                              Icons.remove,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Container(
-                            width: 60,
-                            height: 30,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: const Offset(0, 3),
-                                  color: Colors.black.withOpacity(0.15),
-                                )
-                              ],
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Colors.black),
-                            ),
-                            child: const Text('1'),
-                          ),
-                          IconButton(
-                            style: const ButtonStyle(
-                              overlayColor: MaterialStatePropertyAll(
-                                Colors.grey,
+                            Container(
+                              alignment: Alignment.center,
+                              width: 40,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  left: BorderSide(
+                                      color: Color.fromRGBO(210, 210, 210, 1)),
+                                  right: BorderSide(
+                                      color: Color.fromRGBO(210, 210, 210, 1)),
+                                ),
+                                color: Colors.white,
                               ),
-                              side: MaterialStatePropertyAll(
-                                BorderSide(color: Colors.black),
-                              ),
-                            ),
-                            visualDensity: VisualDensity.compact,
-                            onPressed: () {},
-                            iconSize: 15,
-                            icon: const Icon(
-                              Icons.add,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('SIZE:'),
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: DropdownButtonFormField(
-                          alignment: Alignment.topCenter,
-                          value: 'Small',
-                          style: const TextStyle(
-                              fontSize: 16, color: Colors.black),
-                          elevation: 1,
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.all(8),
-                            isDense: true,
-                            constraints:
-                                BoxConstraints(maxWidth: 100, maxHeight: 35),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8),
-                              ),
-                            ),
-                          ),
-                          items: const [
-                            DropdownMenuItem(
-                              value: 'Small',
                               child: Text(
-                                'Small',
+                                '1',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 16),
                               ),
                             ),
-                            DropdownMenuItem(
-                              value: 'Medium',
-                              child: Text('Medium'),
-                            ),
-                            DropdownMenuItem(
-                              value: 'Large',
-                              child: Text('Large'),
+                            SizedBox(
+                              height: 30,
+                              width: 30,
+                              child: IconButton(
+                                padding: EdgeInsets.zero,
+                                style: ButtonStyle(
+                                  shape: MaterialStatePropertyAll(
+                                      BeveledRectangleBorder()),
+                                  backgroundColor:
+                                      MaterialStatePropertyAll(secondary),
+                                ),
+                                onPressed: () {},
+                                icon: Icon(
+                                  color: Colors.black,
+                                  Icons.add,
+                                ),
+                              ),
                             ),
                           ],
-                          onChanged: (_) {},
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          );
-        }),
-      ),
-      bottomNavigationBar: Container(
-        color: primary,
-        height: 100,
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-        width: double.infinity,
-        child: ElevatedButton(
-          style: const ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(
-              Color.fromARGB(
-                255,
-                244,
-                203,
-                26,
-              ),
+                Row(
+                  children: [
+                    Text(
+                      '\$15.00',
+                      style: TextStyle(
+                          color: Color.fromRGBO(96, 96, 96, 1),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    // Expanded(child: Container()),
+                    SizedBox(
+                      width: 100,
+                      child: DropdownButtonFormField(
+                        elevation: 0,
+                        dropdownColor: secondary,
+                        items: [
+                          DropdownMenuItem(
+                            child: Text('SMALL'),
+                            value: 'SMALL',
+                          ),
+                          DropdownMenuItem(
+                            child: Text('NORMAL'),
+                            value: 'NORMAL',
+                          ),
+                          DropdownMenuItem(
+                            child: Text('LARGE'),
+                            value: 'LARGE',
+                          ),
+                        ],
+                        decoration: InputDecoration(
+                          fillColor: secondary,
+                          border: InputBorder.none,
+                          filled: true,
+                        ),
+                        onChanged: (value) {},
+                      ),
+                    )
+                  ],
+                )
+              ],
             ),
-          ),
-          onPressed: () {},
-          child: const Text(
-            'ADD TO ORDER',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-            ),
-          ),
-        ),
+          )
+        ],
       ),
     );
   }
