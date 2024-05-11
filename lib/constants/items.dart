@@ -18,6 +18,38 @@ List<MenuItem> items = [
     imageUrl: './lib/images/food3.png',
     price: 50,
     discount: 30,
+  ), MenuItem(
+    name: 'Burger',
+    imageUrl: './lib/images/food1.png',
+    price: 20,
+    discount: 15,
+  ),
+  MenuItem(
+    name: 'Fries',
+    imageUrl: './lib/images/food2.png',
+    price: 10,
+  ),
+  MenuItem(
+    name: 'Fried Chicken',
+    imageUrl: './lib/images/food3.png',
+    price: 50,
+    discount: 30,
+  ), MenuItem(
+    name: 'Burger',
+    imageUrl: './lib/images/food1.png',
+    price: 20,
+    discount: 15,
+  ),
+  MenuItem(
+    name: 'Fries',
+    imageUrl: './lib/images/food2.png',
+    price: 10,
+  ),
+  MenuItem(
+    name: 'Fried Chicken',
+    imageUrl: './lib/images/food3.png',
+    price: 50,
+    discount: 30,
   ),
 ];
 

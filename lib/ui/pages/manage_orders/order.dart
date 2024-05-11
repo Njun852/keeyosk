@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
-import 'package:keeyosk/pages/manage_orders/order_page.dart';
+import 'package:keeyosk/ui/pages/manage_orders/order_page.dart';
 
 class OrderItemView extends StatelessWidget {
   const OrderItemView({super.key});

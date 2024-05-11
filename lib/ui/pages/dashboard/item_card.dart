@@ -3,64 +3,41 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:keeyosk/constants/colors.dart';
+import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/extensions/price_format.dart';
+import 'package:keeyosk/models/menu_item.dart';
+import 'package:keeyosk/ui/pages/product/product_page.dart';
+import 'package:keeyosk/ui/widgets/price_display.dart';
 
 class ItemCard extends StatelessWidget {
-  final String imgLink;
-  final String name;
-  final double price;
-  double? discountPrice;
-  String? description;
+  final double scale;
+  final MenuItem item;
+  final bool shouldPop;
 
-  ItemCard({
+  const ItemCard({
     super.key,
-    required this.name,
-    required this.price,
-    required this.imgLink,
-    this.discountPrice,
-    this.description,
+    this.shouldPop = true,
+    required this.item,
+    this.scale = 1,
   });
 
   @override
   Widget build(BuildContext context) {
-    final bigText = TextStyle(fontWeight: FontWeight.w700, fontSize: 15);
-
-    dynamic priceDisplay = Text(
-      price.toPrice(),
-      style: bigText,
-    );
-
-    if (discountPrice != null) {
-      priceDisplay = Row(
-        children: [
-          Text(
-            discountPrice!.toPrice(),
-            style: bigText,
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          Transform.translate(
-            offset: Offset(0, 2),
-            child: Text(
-              price.toPrice(),
-              style: TextStyle(
-                  decoration: TextDecoration.lineThrough,
-                  color: Color.fromARGB(255, 120, 120, 120),
-                  fontSize: 9,
-                  fontWeight: FontWeight.w500),
-            ),
-          )
-        ],
-      );
-    }
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: Material(
         child: InkWell(
           splashColor: secondary,
-          onTap: () {},
+          onTap: () {
+            if (shouldPop) {
+              Navigator.of(context).pushNamed(productPage, arguments: item);
+              return;
+            }
+            Navigator.of(context).pushReplacementNamed(productPage, arguments: item);
+          },
           child: Container(
             color: Color.fromARGB(255, 239, 249, 252),
             child: LayoutBuilder(
@@ -73,27 +50,28 @@ class ItemCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Image.asset(
-                          imgLink,
+                          item.imageUrl,
                           width: double.infinity,
                           fit: BoxFit.cover,
                           height: constraints.maxHeight / 2,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 8, left: 8),
+                          padding:
+                              EdgeInsets.only(top: 8 * scale, left: 8 * scale),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                name,
+                                item.name,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 20,
+                                  fontSize: 20 * scale,
                                 ),
                               ),
                               Text(
-                                description ?? 'No description',
+                                item.description,
                                 style: TextStyle(
-                                  fontSize: 10,
+                                  fontSize: 10 * scale,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.black.withOpacity(0.47),
                                 ),
@@ -107,11 +85,16 @@ class ItemCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                            padding: EdgeInsets.only(left: 8),
-                            child: priceDisplay),
+                            padding: EdgeInsets.only(left: 8 * scale),
+                            child: PriceDisplay(
+                              price: item.price,
+                              fontSize: 15 * scale,
+                              discount: item.discount,
+                              color: Colors.black,
+                            )),
                         Container(
-                          width: 35,
-                          height: 35,
+                          width: 35 * scale,
+                          height: 35 * scale,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(10),
@@ -123,7 +106,10 @@ class ItemCard extends StatelessWidget {
                               26,
                             ),
                           ),
-                          child: Icon(Icons.add),
+                          child: Icon(
+                            Icons.add,
+                            size: scale * 24,
+                          ),
                         )
                       ],
                     ),

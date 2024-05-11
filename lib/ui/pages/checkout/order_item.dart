@@ -4,7 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/link.dart';
-import 'package:keeyosk/widgets/menu_item.dart';
+import 'package:keeyosk/ui/widgets/menu_item.dart';
 
 class OrderItemView extends StatelessWidget {
   const OrderItemView({super.key});

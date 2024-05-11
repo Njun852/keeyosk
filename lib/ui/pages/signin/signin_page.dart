@@ -3,7 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keeyosk/constants/colors.dart';
-import 'package:keeyosk/pages/dashboard/dashboard.dart';
+import 'package:keeyosk/ui/pages/dashboard/dashboard.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});

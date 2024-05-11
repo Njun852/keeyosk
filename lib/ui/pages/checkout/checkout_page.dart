@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
-import 'package:keeyosk/pages/checkout/order_item.dart';
-import 'package:keeyosk/pages/postcheckout/postcheckout_page.dart';
+import 'package:keeyosk/ui/pages/checkout/order_item.dart';
+import 'package:keeyosk/ui/pages/postcheckout/postcheckout_page.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});

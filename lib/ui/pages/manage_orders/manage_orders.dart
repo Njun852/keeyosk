@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:keeyosk/pages/manage_orders/order.dart';
+import 'package:keeyosk/ui/pages/manage_orders/order.dart';
 
 class ManageOrders extends StatelessWidget {
   const ManageOrders({super.key});
