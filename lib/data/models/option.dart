@@ -1,4 +1,4 @@
-import 'package:keeyosk/models/option_item.dart';
+import 'package:keeyosk/data/models/option_item.dart';
 
 class Option {
   final String id = 'test';

@@ -1,5 +1,5 @@
-import 'package:keeyosk/models/cart.dart';
-import 'package:keeyosk/models/voucher.dart';
+import 'package:keeyosk/data/models/cart.dart';
+import 'package:keeyosk/data/models/voucher.dart';
 
 enum OrderStatus { completed, cancelled, pending }
 

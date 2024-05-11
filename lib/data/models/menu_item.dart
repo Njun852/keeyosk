@@ -1,4 +1,4 @@
-import 'package:keeyosk/models/option.dart';
+import 'package:keeyosk/data/models/option.dart';
 
 class MenuItem {
   final String name;

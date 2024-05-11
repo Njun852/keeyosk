@@ -13,7 +13,7 @@ import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/constants/styles.dart';
 import 'package:keeyosk/extensions/price_format.dart';
-import 'package:keeyosk/models/menu_item.dart';
+import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/ui/pages/dashboard/item_card.dart';
 import 'package:keeyosk/ui/pages/product/options_modal.dart';
 import 'package:keeyosk/ui/widgets/price_display.dart';

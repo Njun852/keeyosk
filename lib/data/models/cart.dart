@@ -1,5 +1,5 @@
-import 'package:keeyosk/models/menu_item.dart';
-import 'package:keeyosk/models/option_item.dart';
+import 'package:keeyosk/data/models/menu_item.dart';
+import 'package:keeyosk/data/models/option_item.dart';
 
 class Cart {
   final String id;

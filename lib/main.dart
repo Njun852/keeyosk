@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/routes.dart';
+import 'package:keeyosk/ui/pages/admin_panel/admin_panel.dart';
+import 'package:keeyosk/ui/pages/category/category_page.dart';
 import 'package:keeyosk/ui/pages/checkout/checkout_page.dart';
 import 'package:keeyosk/ui/pages/dashboard/dashboard.dart';
 import 'package:keeyosk/ui/pages/manage_orders/manage_orders.dart';
@@ -49,7 +51,11 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: Dashboard(),
-      routes: {productPage: (context) => const ProductPage()},
+      routes: {
+        productPage: (context) => const ProductPage(),
+        adminPanel: (context) => AdminPanel(),
+        category: (context) => const Category()
+      },
     );
   }
 }

@@ -10,7 +10,7 @@ import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/constants/styles.dart';
 import 'package:keeyosk/extensions/price_format.dart';
-import 'package:keeyosk/models/menu_item.dart';
+import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/ui/pages/checkout/checkout_page.dart';
 import 'package:keeyosk/ui/pages/dashboard/item_card.dart';
 import 'package:keeyosk/ui/pages/dashboard/search_bar.dart';
@@ -30,13 +30,14 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  final int _length = 3;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       body: DefaultTabController(
-        length: 3,
+        length: _length,
         child: CustomScrollView(
           physics: NeverScrollableScrollPhysics(),
           slivers: [
@@ -79,10 +80,13 @@ class _DashboardState extends State<Dashboard> {
                         borderRadius: BorderRadius.circular(10),
                         color: Color.fromRGBO(227, 234, 246, 1),
                         child: TabBar(
+                          tabAlignment: _length > 3 ? TabAlignment.center : TabAlignment.fill,
+                          isScrollable: _length > 3 ? true : false,
                           tabs: [
                             Tab(text: 'Meals'),
                             Tab(text: 'Desserts'),
                             Tab(text: 'Drinks'),
+
                           ],
                           dividerHeight: 0,
                           indicatorSize: TabBarIndicatorSize.tab,
@@ -101,7 +105,7 @@ class _DashboardState extends State<Dashboard> {
             SliverFillRemaining(
               child: TabBarView(
                   children: List.generate(
-                3,
+                _length,
                 (index) => GridView.count(
                   padding: EdgeInsets.all(18),
                   childAspectRatio: 0.75,

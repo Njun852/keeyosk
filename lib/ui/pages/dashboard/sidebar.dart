@@ -4,7 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
-import 'package:keeyosk/ui/pages/dashboard/sidebar_item.dart';
+import 'package:keeyosk/constants/routes.dart';
+import 'package:keeyosk/ui/widgets/sidebar_item.dart';
 
 class Sidebar extends StatelessWidget {
   const Sidebar({super.key});
@@ -84,20 +85,23 @@ class Sidebar extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                 horizontal: 12,
               ),
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SidebarItem(
                     imgUrl: './lib/images/user.png',
                     label: 'Personal Information',
+                    onClick: () {},
                   ),
                   SidebarItem(
                     imgUrl: './lib/images/history.png',
                     label: 'Order History',
+                    onClick: () {},
                   ),
                   SidebarItem(
                     imgUrl: './lib/images/help.png',
                     label: 'FAQ',
+                    onClick: () {},
                   )
                 ],
               ),
@@ -129,10 +133,17 @@ class Sidebar extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SidebarItem(
+                      onClick: () {
+                        Navigator.of(context).pushNamed(adminPanel);
+                      },
                       imgUrl: './lib/images/user.png',
                       label: 'Admin Panel',
                     ),
-                    SidebarItem(imgUrl: './lib/images/exit.png', label: 'Log Out')
+                    SidebarItem(
+                      imgUrl: './lib/images/exit.png',
+                      label: 'Log Out',
+                      onClick: () {},
+                    )
                   ],
                 ),
               ),

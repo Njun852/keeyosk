@@ -1,4 +1,4 @@
-import 'package:keeyosk/models/menu_item.dart';
+import 'package:keeyosk/data/models/menu_item.dart';
 
 abstract class OrderState {
   final MenuItem value;

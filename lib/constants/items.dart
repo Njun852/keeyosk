@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:keeyosk/models/menu_item.dart';
+import 'package:keeyosk/data/models/menu_item.dart';
 
 List<MenuItem> items = [
   MenuItem(

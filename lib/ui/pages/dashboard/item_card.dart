@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/extensions/price_format.dart';
-import 'package:keeyosk/models/menu_item.dart';
+import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/ui/pages/product/product_page.dart';
 import 'package:keeyosk/ui/widgets/price_display.dart';
 

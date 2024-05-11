@@ -7,7 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/extensions/price_format.dart';
-import 'package:keeyosk/models/menu_item.dart';
+import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/ui/pages/product/product_page.dart';
 
 class ItemViewParams {
