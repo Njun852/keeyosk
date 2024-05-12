@@ -57,7 +57,7 @@ class CategoryRepo implements Repo<Category> {
 
   void updateCategoryByLabel(String label, String updated) {
     int index = getCategoryByLabel(label);
-    update(index, Category(label: label));
+    update(index, Category(label: updated));
   }
 
   @override

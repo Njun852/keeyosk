@@ -4,6 +4,7 @@ import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/constants/styles.dart';
 import 'package:keeyosk/ui/pages/admin_panel/admin_option.dart';
+import 'package:keeyosk/ui/pages/product_list/product_list.dart';
 
 class AdminPanel extends StatelessWidget {
   AdminPanel({super.key});
@@ -78,7 +79,9 @@ class AdminPanel extends StatelessWidget {
                   AdminOption(
                     imageUrl: './lib/images/open_box.png',
                     label: 'Product List',
-                    onClick: () {},
+                    onClick: () {
+                      Navigator.of(context).pushNamed(productList);
+                    },
                   ),
                   AdminOption(
                     imageUrl: './lib/images/4squares.png',

@@ -30,8 +30,9 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    RouteSettings rs = ModalRoute.of(context)!.settings;
-    final item = rs.arguments as MenuItem;
+    // RouteSettings rs = ModalRoute.of(context)!.settings;
+    // final item = rs.arguments as MenuItem;
+    final item = items[0];
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -159,7 +160,7 @@ class _ProductPageState extends State<ProductPage> {
             showModalBottomSheet(
               context: context,
               builder: (context) {
-                return OptionsModal();
+                return OptionsModal(item: item,);
               },
             );
           },

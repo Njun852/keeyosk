@@ -49,6 +49,7 @@ class _CategoryFieldState extends State<CategoryField> {
                     child: TextField(
                       controller: _controller,
                       onChanged: (value) {
+                        print(widget.initalTxt);
                         context.read<CategoryBloc>().add(
                               EditingField(
                                 label: widget.initalTxt,

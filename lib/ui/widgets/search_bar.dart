@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:keeyosk/constants/colors.dart';
 
 class SearchBarView extends StatefulWidget {
-  const SearchBarView({super.key});
+  final double padding;
+  const SearchBarView({
+    super.key,
+    this.padding = 24,
+  });
 
   @override
   State<SearchBarView> createState() => _SearchBarViewState();
@@ -40,16 +44,17 @@ class _SearchBarViewState extends State<SearchBarView> {
           suffixIcon: Padding(
             padding: EdgeInsets.all(1),
             child: IconButton(
-              visualDensity: VisualDensity.compact,
-              iconSize: 24,
+                visualDensity: VisualDensity.compact,
+                iconSize: 24,
                 onPressed: () {},
-                style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.yellow)),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.yellow)),
                 icon: Icon(
                   Icons.search,
                   color: Colors.white,
                 )),
           ),
-          contentPadding: EdgeInsets.symmetric(horizontal: 24),
+          contentPadding: EdgeInsets.symmetric(horizontal: widget.padding),
           hintText: 'Search for your food',
         ),
       ),

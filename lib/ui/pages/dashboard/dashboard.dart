@@ -13,7 +13,7 @@ import 'package:keeyosk/extensions/price_format.dart';
 import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/ui/pages/checkout/checkout_page.dart';
 import 'package:keeyosk/ui/pages/dashboard/item_card.dart';
-import 'package:keeyosk/ui/pages/dashboard/search_bar.dart';
+import 'package:keeyosk/ui/widgets/search_bar.dart';
 import 'package:keeyosk/ui/pages/dashboard/sidebar.dart';
 import 'package:keeyosk/ui/pages/manage_orders/manage_orders.dart';
 import 'package:keeyosk/ui/pages/profile/profile_page.dart';

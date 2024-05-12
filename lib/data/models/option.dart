@@ -6,11 +6,12 @@ class Option {
   final bool isRequired;
   final bool isMultiSelect;
   final String name;
-  final List<OptionItem> items = [];
+  final List<OptionItem> items;
 
   Option({
     required this.isRequired,
     required this.isMultiSelect,
     required this.name,
+    this.items = const []
   });
 }
