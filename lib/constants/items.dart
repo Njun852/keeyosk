@@ -1,56 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:keeyosk/data/models/category.dart';
 import 'package:keeyosk/data/models/menu_item.dart';
 
 List<MenuItem> items = [
   MenuItem(
-    name: 'Burger',
-    imageUrl: './lib/images/food1.png',
-    price: 20,
-    discount: 15,
-  ),
+      name: 'Burger',
+      imageUrl: './lib/images/food1.png',
+      price: 20,
+      discount: 15,
+      category: Category(label: 'afd')),
   MenuItem(
-    name: 'Fries',
-    imageUrl: './lib/images/food2.png',
-    price: 10,
-  ),
+      name: 'Fries',
+      imageUrl: './lib/images/food2.png',
+      price: 10,
+      category: Category(label: 'afd')),
   MenuItem(
-    name: 'Fried Chicken',
-    imageUrl: './lib/images/food3.png',
-    price: 50,
-    discount: 30,
-  ), MenuItem(
-    name: 'Burger',
-    imageUrl: './lib/images/food1.png',
-    price: 20,
-    discount: 15,
-  ),
-  MenuItem(
-    name: 'Fries',
-    imageUrl: './lib/images/food2.png',
-    price: 10,
-  ),
-  MenuItem(
-    name: 'Fried Chicken',
-    imageUrl: './lib/images/food3.png',
-    price: 50,
-    discount: 30,
-  ), MenuItem(
-    name: 'Burger',
-    imageUrl: './lib/images/food1.png',
-    price: 20,
-    discount: 15,
-  ),
-  MenuItem(
-    name: 'Fries',
-    imageUrl: './lib/images/food2.png',
-    price: 10,
-  ),
-  MenuItem(
-    name: 'Fried Chicken',
-    imageUrl: './lib/images/food3.png',
-    price: 50,
-    discount: 30,
-  ),
+      name: 'Fried Chicken',
+      imageUrl: './lib/images/food3.png',
+      price: 50,
+      discount: 30,
+      category: Category(label: 'afd')),
 ];
 
 final List<Widget> imgs = [

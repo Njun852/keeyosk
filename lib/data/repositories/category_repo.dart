@@ -1,7 +1,8 @@
 import 'package:keeyosk/data/models/category.dart';
+import 'package:keeyosk/data/repositories/repo.dart';
 import 'package:keeyosk/utils/status.dart';
 
-class CategoryRepo {
+class CategoryRepo implements Repo<Category> {
   static final CategoryRepo repo = CategoryRepo._sharedInstance();
   factory CategoryRepo() => repo;
   CategoryRepo._sharedInstance();
@@ -9,64 +10,69 @@ class CategoryRepo {
   final List<Category> _editableCategories = [];
   final List<Category> _categories = [];
 
-  List<Category> getAllCategories() {
+  @override
+  List<Category> getAllFinal() {
     return _categories;
   }
 
-  List<Category> getEditableCategories() {
+  @override
+  List<Category> getAll() {
     return _editableCategories;
   }
 
-  void truncateRepo() {
+  @override
+  void deleteAll() {
+    _editableCategories.clear();
+  }
+
+  @override
+  void replaceAll(List<Category> cat) {
+    _editableCategories.clear();
+    _editableCategories.addAll(cat);
+  }
+
+  @override
+  void deleteAllFinal() {
     _editableCategories.clear();
     _categories.clear();
   }
 
+  @override
   void init() {
     _editableCategories.clear();
     _editableCategories.addAll(_categories);
   }
 
+  @override
   void apply() {
     _categories.clear();
     _categories.addAll(_editableCategories);
     _editableCategories.clear();
   }
 
-  Status updateCategories(List<Category> categories) {
-    _editableCategories.clear();
-    getAllCategories().addAll(categories);
-    return Status.success;
+  @override
+  void update(int index, Category cat) {
+    _editableCategories[index] = cat;
   }
 
-  Status updateCategory(String label, String updated) {
-    Category old = getCategoryByLabel(label).first;
-    int index = _editableCategories.indexOf(old);
-    _editableCategories[index] = Category(label: updated, items: old.items);
-    return Status.success;
+  void updateCategoryByLabel(String label, String updated) {
+    int index = getCategoryByLabel(label);
+    update(index, Category(label: label));
   }
 
-  Status addCategory(Category cat) {
-    if (getCategoryByLabel(cat.label).isNotEmpty) {
-      return Status.failed;
-    }
+  @override
+  void add(Category cat) {
     _editableCategories.add(cat);
-    return Status.success;
   }
 
-  Status removeCategoryByLabel(String label) {
-    final cat = getCategoryByLabel(label).first;
-    _editableCategories.remove(cat);
-    return Status.success;
+  @override
+  void delete(int index) {}
+  void removeCategoryByLabel(String label) {
+    final index = getCategoryByLabel(label);
+    _editableCategories.remove(_editableCategories[index]);
   }
 
-  List<Category> getCategoryByLabel(String label) {
-    final List<Category> categories = [];
-    for (Category cat in _editableCategories) {
-      if (cat.label == label) {
-        categories.add(cat);
-      }
-    }
-    return categories;
+  int getCategoryByLabel(String label) {
+    return _editableCategories.indexWhere((element) => element.label == label);
   }
 }

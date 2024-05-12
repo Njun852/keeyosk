@@ -19,3 +19,5 @@ class DeletedField extends CategoryEvent {
   final String label;
   DeletedField({required this.label});
 }
+
+
