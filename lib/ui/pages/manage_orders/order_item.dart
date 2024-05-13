@@ -28,7 +28,7 @@ class OrderItemView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Image.asset(
-            './lib/images/burger1.jpg',
+            './lib/ui/assets/images/burger1.jpg',
             width: itemColWidth,
             height: itemColWidth,
             fit: BoxFit.cover,

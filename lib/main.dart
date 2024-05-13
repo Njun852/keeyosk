@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/ui/pages/admin_panel/admin_panel.dart';
+import 'package:keeyosk/ui/pages/cart_page/cart_page.dart';
 import 'package:keeyosk/ui/pages/category/category_page.dart';
-import 'package:keeyosk/ui/pages/checkout/checkout_page.dart';
 import 'package:keeyosk/ui/pages/dashboard/dashboard.dart';
 import 'package:keeyosk/ui/pages/manage_orders/manage_orders.dart';
 import 'package:keeyosk/ui/pages/manage_orders/order_page.dart';
-import 'package:keeyosk/ui/pages/postcheckout/postcheckout_page.dart';
 import 'package:keeyosk/ui/pages/product/product_page.dart';
 import 'package:keeyosk/ui/pages/product_list/product_list.dart';
 import 'package:keeyosk/ui/pages/profile/profile_page.dart';
@@ -35,7 +34,7 @@ class MyApp extends StatelessWidget {
             Colors.white,
           ),
         )),
-        textTheme: GoogleFonts.robotoTextTheme(),
+        fontFamily: 'Poppins',
         appBarTheme: const AppBarTheme(
           backgroundColor: primary,
           titleTextStyle: TextStyle(
@@ -51,7 +50,7 @@ class MyApp extends StatelessWidget {
         primaryColor: primary,
         useMaterial3: true,
       ),
-      home: ProductPage(),
+      home: CartPage(),
       routes: {
         productPage: (context) => const ProductPage(),
         adminPanel: (context) => AdminPanel(),

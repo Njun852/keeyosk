@@ -29,7 +29,7 @@ class OrderItemView extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8),
-              child: Image.asset('./lib/images/user_black.png'),
+              child: Image.asset('./lib/ui/assets/images/user_black.png'),
             ),
             Expanded(
               child: Column(

@@ -25,7 +25,7 @@ class _SignInPageState extends State<SignInPage> {
           color: Colors.white,
           image: DecorationImage(
             alignment: Alignment.topCenter,
-            image: AssetImage('./lib/images/wave.png'),
+            image: AssetImage('./lib/ui/assets/images/wave.png'),
           ),
         ),
         child: SingleChildScrollView(
@@ -162,17 +162,17 @@ class _SignInPageState extends State<SignInPage> {
                       children: [
                         GestureDetector(
                           onTap: () {},
-                          child: Image.asset('./lib/images/google.png'),
+                          child: Image.asset('./lib/ui/assets/images/google.png'),
                         ),
                         SizedBox(width: 20),
                         GestureDetector(
                           onTap: () {},
-                          child: Image.asset('./lib/images/facebook.png'),
+                          child: Image.asset('./lib/ui/assets/images/facebook.png'),
                         ),
                         SizedBox(width: 20),
                         GestureDetector(
                           onTap: () {},
-                          child: Image.asset('./lib/images/twitter.png'),
+                          child: Image.asset('./lib/ui/assets/images/twitter.png'),
                         )
                       ],
                     )

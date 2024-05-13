@@ -18,11 +18,12 @@ class PriceDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('gg: $price');
     final bigText = TextStyle(
-      fontWeight: FontWeight.w700,
-      fontSize: fontSize * scale,
-      color: color,
-    );
+        fontWeight: FontWeight.w700,
+        fontSize: fontSize * scale,
+        color: color,
+        fontFamily: 'Roboto');
 
     if (discount == null) {
       return Text(
@@ -45,6 +46,7 @@ class PriceDisplay extends StatelessWidget {
             price.toPrice(),
             style: TextStyle(
                 decoration: TextDecoration.lineThrough,
+                fontFamily: 'Roboto',
                 color: const Color.fromARGB(255, 120, 120, 120),
                 fontSize: (fontSize - 5) * scale,
                 fontWeight: FontWeight.w500),

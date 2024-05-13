@@ -11,7 +11,6 @@ import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/constants/styles.dart';
 import 'package:keeyosk/extensions/price_format.dart';
 import 'package:keeyosk/data/models/menu_item.dart';
-import 'package:keeyosk/ui/pages/checkout/checkout_page.dart';
 import 'package:keeyosk/ui/pages/dashboard/item_card.dart';
 import 'package:keeyosk/ui/widgets/search_bar.dart';
 import 'package:keeyosk/ui/pages/dashboard/sidebar.dart';

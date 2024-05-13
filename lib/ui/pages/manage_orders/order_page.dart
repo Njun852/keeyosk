@@ -53,7 +53,7 @@ class OrderPage extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
-                  child: Image.asset('./lib/images/order.png'),
+                  child: Image.asset('./lib/ui/assets/images/order.png'),
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -220,7 +220,7 @@ class OrderPage extends StatelessWidget {
             padding: EdgeInsets.all(8),
             child: Row(
               children: [
-                Image.asset('./lib/images/ticket_blue.png'),
+                Image.asset('./lib/ui/assets/images/ticket_blue.png'),
                 SizedBox(width: 3),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -259,7 +259,7 @@ class OrderPage extends StatelessWidget {
                 Row(
                   children: [
                     Image.asset(
-                      './lib/images/user_black.png',
+                      './lib/ui/assets/images/user_black.png',
                       height: 75,
                     ),
                     SizedBox(width: 15),

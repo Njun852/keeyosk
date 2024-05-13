@@ -32,7 +32,7 @@ class AdminPanel extends StatelessWidget {
           image: DecorationImage(
             fit: BoxFit.fitWidth,
             alignment: Alignment.bottomCenter,
-            image: AssetImage('./lib/images/wave.png'),
+            image: AssetImage('./lib/ui/assets/images/wave.png'),
           ),
         ),
         child: Column(
@@ -57,34 +57,34 @@ class AdminPanel extends StatelessWidget {
                 crossAxisSpacing: 18,
                 children: [
                   AdminOption(
-                    imageUrl: './lib/images/card.png',
+                    imageUrl: './lib/ui/assets/images/card.png',
                     label: 'Manage Orders',
                     onClick: () {},
                   ),
                   AdminOption(
-                    imageUrl: './lib/images/ticket.png',
+                    imageUrl: './lib/ui/assets/images/ticket.png',
                     label: 'Offer Manager',
                     onClick: () {},
                   ),
                   AdminOption(
-                    imageUrl: './lib/images/2person.png',
+                    imageUrl: './lib/ui/assets/images/2person.png',
                     label: 'User Management',
                     onClick: () {},
                   ),
                   AdminOption(
-                    imageUrl: './lib/images/2person.png',
+                    imageUrl: './lib/ui/assets/images/2person.png',
                     label: 'Admin Management',
                     onClick: () {},
                   ),
                   AdminOption(
-                    imageUrl: './lib/images/open_box.png',
+                    imageUrl: './lib/ui/assets/images/open_box.png',
                     label: 'Product List',
                     onClick: () {
                       Navigator.of(context).pushNamed(productList);
                     },
                   ),
                   AdminOption(
-                    imageUrl: './lib/images/4squares.png',
+                    imageUrl: './lib/ui/assets/images/4squares.png',
                     label: 'Category\n(Add/Edit)',
                     onClick: () {
                       Navigator.of(context).pushNamed(category);

@@ -91,7 +91,7 @@ class _CategoryFieldState extends State<CategoryField> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('./lib/images/trash.png'),
+                        Image.asset('./lib/ui/assets/images/trash.png'),
                         SizedBox(height: 2),
                         Text(
                           'Delete',

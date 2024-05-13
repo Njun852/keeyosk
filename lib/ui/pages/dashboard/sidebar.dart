@@ -46,7 +46,7 @@ class Sidebar extends StatelessWidget {
                                 shape: BoxShape.circle,
                               ),
                               child: Image.asset(
-                                './lib/images/user_black.png',
+                                './lib/ui/assets/images/user_black.png',
                               ),
                             ),
                           ),
@@ -89,17 +89,17 @@ class Sidebar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SidebarItem(
-                    imgUrl: './lib/images/user.png',
+                    imgUrl: './lib/ui/assets/images/user.png',
                     label: 'Personal Information',
                     onClick: () {},
                   ),
                   SidebarItem(
-                    imgUrl: './lib/images/history.png',
+                    imgUrl: './lib/ui/assets/images/history.png',
                     label: 'Order History',
                     onClick: () {},
                   ),
                   SidebarItem(
-                    imgUrl: './lib/images/help.png',
+                    imgUrl: './lib/ui/assets/images/help.png',
                     label: 'FAQ',
                     onClick: () {},
                   )
@@ -136,11 +136,11 @@ class Sidebar extends StatelessWidget {
                       onClick: () {
                         Navigator.of(context).pushNamed(adminPanel);
                       },
-                      imgUrl: './lib/images/user.png',
+                      imgUrl: './lib/ui/assets/images/user.png',
                       label: 'Admin Panel',
                     ),
                     SidebarItem(
-                      imgUrl: './lib/images/exit.png',
+                      imgUrl: './lib/ui/assets/images/exit.png',
                       label: 'Log Out',
                       onClick: () {},
                     )

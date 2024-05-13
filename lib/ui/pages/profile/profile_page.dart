@@ -22,7 +22,7 @@ class ProfilePage extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
             alignment: Alignment(0, -1.4),
-            image: AssetImage('./lib/images/ellipse.png'),
+            image: AssetImage('./lib/ui/assets/images/ellipse.png'),
           ),
         ),
         child: Column(
@@ -44,7 +44,7 @@ class ProfilePage extends StatelessWidget {
               ),
               child: Image.asset(
                 fit: BoxFit.fill,
-                './lib/images/user_black.png',
+                './lib/ui/assets/images/user_black.png',
                 width: 150,
                 height: 150,
               ),
