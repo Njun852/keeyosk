@@ -29,8 +29,8 @@ migrate_working_dir/
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
-/build/
-/lib/ui/assets/fonts/
+build/
+lib/ui/assets/fonts/
 
 # Symbolication related
 app.*.symbols
