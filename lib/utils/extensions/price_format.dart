@@ -9,4 +9,13 @@ extension PriceFormat on num {
       ),
     ).output.symbolOnLeft.replaceFirst(RegExp(r' '), '');
   }
+
+  String toPriceNoSymbol() {
+    return MoneyFormatter(
+      amount: toDouble(),
+      settings: MoneyFormatterSettings(
+        symbol: '',
+      ),
+    ).output.symbolOnLeft.replaceFirst(RegExp(r' '), '');
+  }
 }

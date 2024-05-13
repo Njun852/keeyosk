@@ -3,8 +3,11 @@ import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/data/repositories/repo.dart';
 
 class CartRepo {
-  static final List<Cart> _cartList = [];
+  static final _repo = CartRepo._sharedInstance();
+  final List<Cart> _cartList = [];
+  factory CartRepo() => _repo;
 
+  CartRepo._sharedInstance();
   void apply(Cart cart) {
     _cartList.add(cart);
   }

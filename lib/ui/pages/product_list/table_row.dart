@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/data/models/menu_item.dart';
-import 'package:keeyosk/extensions/price_format.dart';
+import 'package:keeyosk/utils/extensions/price_format.dart';
 
 class TableRow extends StatelessWidget {
   final MenuItem? item;

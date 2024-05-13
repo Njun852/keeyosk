@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:keeyosk/extensions/price_format.dart';
+import 'package:keeyosk/utils/extensions/price_format.dart';
 
 class PriceDisplay extends StatelessWidget {
   final double price;
@@ -18,7 +18,6 @@ class PriceDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('gg: $price');
     final bigText = TextStyle(
         fontWeight: FontWeight.w700,
         fontSize: fontSize * scale,

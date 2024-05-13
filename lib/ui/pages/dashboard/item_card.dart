@@ -7,9 +7,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/routes.dart';
-import 'package:keeyosk/extensions/price_format.dart';
+import 'package:keeyosk/utils/extensions/price_format.dart';
 import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/ui/pages/product/product_page.dart';
+import 'package:keeyosk/ui/widgets/options_modal.dart';
 import 'package:keeyosk/ui/widgets/price_display.dart';
 
 class ItemCard extends StatelessWidget {
@@ -36,7 +37,8 @@ class ItemCard extends StatelessWidget {
               Navigator.of(context).pushNamed(productPage, arguments: item);
               return;
             }
-            Navigator.of(context).pushReplacementNamed(productPage, arguments: item);
+            Navigator.of(context)
+                .pushReplacementNamed(productPage, arguments: item);
           },
           child: Container(
             color: Color.fromARGB(255, 239, 249, 252),
@@ -92,23 +94,35 @@ class ItemCard extends StatelessWidget {
                               discount: item.discount,
                               color: Colors.black,
                             )),
-                        Container(
-                          width: 35 * scale,
-                          height: 35 * scale,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
+                        GestureDetector(
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return OptionsModal(
+                                  item: item,
+                                );
+                              },
+                            );
+                          },
+                          child: Container(
+                            width: 35 * scale,
+                            height: 35 * scale,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                              ),
+                              color: Color.fromARGB(
+                                255,
+                                244,
+                                203,
+                                26,
+                              ),
                             ),
-                            color: Color.fromARGB(
-                              255,
-                              244,
-                              203,
-                              26,
+                            child: Icon(
+                              Icons.add,
+                              size: scale * 24,
                             ),
-                          ),
-                          child: Icon(
-                            Icons.add,
-                            size: scale * 24,
                           ),
                         )
                       ],

@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         iconButtonTheme: const IconButtonThemeData(
@@ -50,9 +51,10 @@ class MyApp extends StatelessWidget {
         primaryColor: primary,
         useMaterial3: true,
       ),
-      home: CartPage(),
+      home: Dashboard(),
       routes: {
         productPage: (context) => const ProductPage(),
+        cartPage: (context) => const CartPage(),
         adminPanel: (context) => AdminPanel(),
         category: (context) => const Category(),
         productList: (context) => const ProductList()

@@ -5,18 +5,18 @@ import 'package:keeyosk/blocs/option/option_bloc.dart';
 import 'package:keeyosk/blocs/option/option_event.dart';
 import 'package:keeyosk/blocs/option/option_state.dart';
 import 'package:keeyosk/constants/colors.dart';
+import 'package:keeyosk/data/models/menu_item.dart';
+import 'package:keeyosk/data/models/option.dart';
 import 'package:keeyosk/data/models/option_item.dart';
 
 class OptionSelector extends StatelessWidget {
-  final List<OptionItem> items;
-  final bool isMultiSelect;
-  final String optionName;
-
-  const OptionSelector(
-      {super.key,
-      required this.items,
-      required this.optionName,
-      required this.isMultiSelect});
+  final Option option;
+  final MenuItem item;
+  const OptionSelector({
+    super.key,
+    required this.item,
+    required this.option,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +27,15 @@ class OptionSelector extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 5,),
-
+              SizedBox(
+                height: 5,
+              ),
               Text(
-                optionName,
+                option.name,
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
               ),
               Row(
-                children: List.generate(items.length, (index) {
+                children: List.generate(option.items.length, (index) {
                   return Row(
                     children: [
                       TextButton(
@@ -48,7 +49,7 @@ class OptionSelector extends StatelessWidget {
                                   color: (state is OptionModified &&
                                           (state.options.indexWhere((element) =>
                                                   element.name ==
-                                                  items[index].name)) !=
+                                                  option.items[index].name)) !=
                                               -1)
                                       ? Colors.red
                                       : Colors.transparent),
@@ -60,16 +61,11 @@ class OptionSelector extends StatelessWidget {
                           final bloc = context.read<OptionBloc>();
 
                           bloc.add(SelectedOption(
-                            item: items[index],
-                            others: items
-                                .where((element) =>
-                                    element.name != items[index].name)
-                                .toList(),
-                            isMultiSelect: isMultiSelect,
-                          ));
+                              itemId: option.items[index].id,
+                              optionId: option.id));
                         },
                         child: Text(
-                          items[index].name,
+                          option.items[index].name,
                           style: const TextStyle(
                             fontSize: 12,
                             color: Colors.black,
@@ -78,13 +74,15 @@ class OptionSelector extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        width: index != items.length - 1 ? 8 : 0,
+                        width: index != option.items.length - 1 ? 8 : 0,
                       ),
                     ],
                   );
                 }),
               ),
-              SizedBox(height: 5,),
+              SizedBox(
+                height: 5,
+              ),
               Divider(),
             ],
           );

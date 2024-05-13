@@ -63,7 +63,7 @@ class _OptionsModalState extends State<OptionsModal> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => OptionBloc(),
+      create: (context) => OptionBloc(item: widget.item),
       child: BlocBuilder<OptionBloc, OptionState>(
         builder: (context, state) {
           return Container(
@@ -145,10 +145,9 @@ class _OptionsModalState extends State<OptionsModal> {
                             children: List.generate(widget.item.options.length,
                                 (index) {
                               return OptionSelector(
-                                  optionName: widget.item.options[index].name,
-                                  isMultiSelect:
-                                      widget.item.options[index].isMultiSelect,
-                                  items: widget.item.options[index].items);
+                                option: widget.item.options[index],
+                                item: widget.item,
+                              );
                             }),
                           ),
                         ],
@@ -177,7 +176,7 @@ class _OptionsModalState extends State<OptionsModal> {
                             ),
                             Expanded(child: Container()),
                             NumberAdjuster(
-                              btnColor: secondary,
+                                btnColor: secondary,
                                 onAdd: () {
                                   context
                                       .read<OptionBloc>()

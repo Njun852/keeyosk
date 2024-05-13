@@ -46,6 +46,7 @@ dependencies:
   dropdown_button2: ^2.3.9
   input_quantity: ^2.3.2
   fluttertoast: ^8.2.5
+  uuid: ^4.4.0
 
 dev_dependencies:
   flutter_test:

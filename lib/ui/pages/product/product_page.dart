@@ -11,11 +11,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/items.dart';
+import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/constants/styles.dart';
-import 'package:keeyosk/extensions/price_format.dart';
+import 'package:keeyosk/utils/extensions/price_format.dart';
 import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/ui/pages/dashboard/item_card.dart';
-import 'package:keeyosk/ui/pages/product/options_modal.dart';
+import 'package:keeyosk/ui/widgets/options_modal.dart';
 import 'package:keeyosk/ui/widgets/price_display.dart';
 
 class ProductPage extends StatefulWidget {
@@ -30,9 +31,9 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    // RouteSettings rs = ModalRoute.of(context)!.settings;
-    // final item = rs.arguments as MenuItem;
-    final item = items[0];
+    RouteSettings rs = ModalRoute.of(context)!.settings;
+    final item = rs.arguments as MenuItem;
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -45,7 +46,9 @@ class _ProductPageState extends State<ProductPage> {
             )),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(cartPage);
+            },
             icon: Icon(Icons.shopping_cart_outlined),
             style: appBarIconButtonStyle,
           )
@@ -160,7 +163,9 @@ class _ProductPageState extends State<ProductPage> {
             showModalBottomSheet(
               context: context,
               builder: (context) {
-                return OptionsModal(item: item,);
+                return OptionsModal(
+                  item: item,
+                );
               },
             );
           },

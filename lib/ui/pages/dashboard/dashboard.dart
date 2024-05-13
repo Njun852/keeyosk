@@ -8,8 +8,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/items.dart';
+import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/constants/styles.dart';
-import 'package:keeyosk/extensions/price_format.dart';
+import 'package:keeyosk/utils/extensions/price_format.dart';
 import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/ui/pages/dashboard/item_card.dart';
 import 'package:keeyosk/ui/widgets/search_bar.dart';
@@ -62,7 +63,9 @@ class _DashboardState extends State<Dashboard> {
                 IconButton(
                   style: appBarIconButtonStyle,
                   icon: Icon(Icons.shopping_cart_outlined),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(cartPage);
+                  },
                 )
               ],
             ),
@@ -79,13 +82,14 @@ class _DashboardState extends State<Dashboard> {
                         borderRadius: BorderRadius.circular(10),
                         color: Color.fromRGBO(227, 234, 246, 1),
                         child: TabBar(
-                          tabAlignment: _length > 3 ? TabAlignment.center : TabAlignment.fill,
+                          tabAlignment: _length > 3
+                              ? TabAlignment.center
+                              : TabAlignment.fill,
                           isScrollable: _length > 3 ? true : false,
                           tabs: [
                             Tab(text: 'Meals'),
                             Tab(text: 'Desserts'),
                             Tab(text: 'Drinks'),
-
                           ],
                           dividerHeight: 0,
                           indicatorSize: TabBarIndicatorSize.tab,

@@ -9,13 +9,12 @@ class ChangedQuantity extends OptionEvent {
 }
 
 class SelectedOption extends OptionEvent {
-  final OptionItem item;
-  final bool isMultiSelect;
-  final List<OptionItem> others;
+  final String itemId;
+  final String optionId;
+  // final List<OptionItem> others;
   SelectedOption({
-    required this.item,
-    required this.others,
-    required this.isMultiSelect,
+    required this.itemId,
+    required this.optionId,
   });
 }
 
