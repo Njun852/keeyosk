@@ -1,6 +1,9 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
-import 'package:keeyosk/ui/pages/manage_orders/order.dart';
+import 'package:keeyosk/constants/colors.dart';
+import 'package:keeyosk/constants/styles.dart';
+import 'package:keeyosk/ui/pages/manage_orders/order_tile.dart';
 
 class ManageOrders extends StatelessWidget {
   const ManageOrders({super.key});
@@ -9,34 +12,49 @@ class ManageOrders extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        centerTitle: true,
         leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Colors.black,
+          onPressed: () {},
+          style: appBarIconButtonStyle,
+          icon: Icon(
+            Icons.arrow_back_ios_rounded,
           ),
         ),
-        title: const Text(
+        actions: [
+          IconButton(
+            style: appBarIconButtonStyle,
+            onPressed: () {},
+            icon: Icon(
+              Icons.history,
+            ),
+          )
+        ],
+        title: Text(
           'Manage Orders',
           style: TextStyle(
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-            fontSize: 27,
+            fontWeight: FontWeight.w500,
+            fontSize: 20,
           ),
         ),
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(8.0),
+      body: Container(
+        color: lightblue,
+        padding: EdgeInsets.all(8),
         child: Column(
           children: [
-            OrderItemView(),
-            OrderItemView(),
-            OrderItemView(),
+            OrderTile(),
           ],
         ),
+      ),
+      floatingActionButton: IconButton(
+        style: ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll(
+          secondary,
+        )),
+        icon: Icon(
+          Icons.qr_code_scanner_outlined,
+        ),
+        onPressed: () {},
       ),
     );
   }

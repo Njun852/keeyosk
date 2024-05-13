@@ -9,7 +9,6 @@ import 'package:keeyosk/ui/pages/cart_page/cart_page.dart';
 import 'package:keeyosk/ui/pages/category/category_page.dart';
 import 'package:keeyosk/ui/pages/dashboard/dashboard.dart';
 import 'package:keeyosk/ui/pages/manage_orders/manage_orders.dart';
-import 'package:keeyosk/ui/pages/manage_orders/order_page.dart';
 import 'package:keeyosk/ui/pages/product/product_page.dart';
 import 'package:keeyosk/ui/pages/product_list/product_list.dart';
 import 'package:keeyosk/ui/pages/profile/profile_page.dart';
@@ -51,7 +50,7 @@ class MyApp extends StatelessWidget {
         primaryColor: primary,
         useMaterial3: true,
       ),
-      home: Dashboard(),
+      home: ManageOrders(),
       routes: {
         productPage: (context) => const ProductPage(),
         cartPage: (context) => const CartPage(),

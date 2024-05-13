@@ -29,3 +29,5 @@ class RemovedItem extends CartEvent {
   final String id;
   RemovedItem({required this.id});
 }
+
+class Checkout extends CartEvent {}

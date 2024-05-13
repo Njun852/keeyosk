@@ -2,17 +2,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keeyosk/blocs/cart/cart_event.dart';
 import 'package:keeyosk/blocs/cart/cart_state.dart';
 import 'package:keeyosk/data/models/cart.dart';
+import 'package:keeyosk/data/models/order.dart';
+import 'package:keeyosk/data/models/user.dart';
 import 'package:keeyosk/data/repositories/cart_repo.dart';
+import 'package:keeyosk/data/repositories/order_repo.dart';
+import 'package:uuid/uuid.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
   final CartRepo cartRepo;
   final List<Cart> selectedItems;
+  final OrderRepo orderRepo;
   OrderMode mode;
 
   CartBloc({
     required this.cartRepo,
     required this.selectedItems,
     required this.mode,
+    required this.orderRepo,
   }) : super(
           CartState(
             items: cartRepo.getAll(),
@@ -78,6 +84,24 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         ),
       );
     });
+
+    on<Checkout>(
+      (event, emit) {
+        orderRepo.add(Order(
+          time: DateTime.now(),
+          customer: User(
+              userId: '123',
+              firstName: 'John',
+              lastName: 'Doe',
+              middleName: '',
+              phoneNumber: '09123456789'),
+          orderId: const Uuid().v1(),
+          carts: selectedItems,
+          vouchersApplied: [],
+          status: OrderStatus.pending,
+        ));
+      },
+    );
   }
 
   double getSubTotal() {

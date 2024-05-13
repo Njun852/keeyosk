@@ -10,6 +10,7 @@ import 'package:keeyosk/blocs/cart/cart_state.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/styles.dart';
 import 'package:keeyosk/data/repositories/cart_repo.dart';
+import 'package:keeyosk/data/repositories/order_repo.dart';
 import 'package:keeyosk/utils/extensions/price_format.dart';
 import 'package:keeyosk/ui/pages/cart_page/cart_item.dart';
 
@@ -27,6 +28,7 @@ class CartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => CartBloc(
+        orderRepo: OrderRepo(),
         cartRepo: CartRepo(),
         selectedItems: [],
         mode: OrderMode.dineIn,
