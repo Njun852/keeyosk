@@ -30,7 +30,7 @@ class ManageOrders extends StatelessWidget {
               centerTitle: true,
               leading: IconButton(
                 onPressed: () {
-                Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                 },
                 style: appBarIconButtonStyle,
                 icon: Icon(
@@ -62,13 +62,7 @@ class ManageOrders extends StatelessWidget {
                   children: List.generate(state.orders.length, (index) {
                 final Order order = state.orders[index];
                 return OrderTile(
-                  tableId: order.tableId!,
-                  fullName:
-                      '${order.customer.firstName} ${order.customer.lastName}',
-                  totalPrice: getSubTotal(order.carts),
-                  phonNumber: order.customer.phoneNumber,
-                  date: order.date,
-                  time: order.hour,
+                  order: order,
                 );
               })),
             ),

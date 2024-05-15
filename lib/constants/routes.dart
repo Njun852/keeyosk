@@ -7,3 +7,4 @@ const String cartPage = '/cart-page/';
 const String qrCodeScanner = '/qr-code-scanner/';
 const String manageOrders = 'manage-orders';
 const String orderSuccess = 'order-success';
+const String orderDetails = '/order-details/';

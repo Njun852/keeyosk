@@ -1,3 +1,4 @@
+import 'package:keeyosk/data/services/http_service.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 class SocketService {
@@ -7,7 +8,8 @@ class SocketService {
   SocketService._sharedInstance();
   void init() {
     socket = io(
-      'https://keeyosk-api.onrender.com',
+      // 'https://keeyosk-api.onrender.com',
+      url,
       OptionBuilder().setTransports(['websocket']).disableAutoConnect().build(),
     );
     socket.connect();

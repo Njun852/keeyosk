@@ -107,17 +107,20 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         int hour = t.hour;
         int minute = t.minute;
         String suffix = 'AM';
-
-        if (12 % hour == 12) {
+        if (hour % 12 == 12) {
           suffix = 'PM';
           hour = hour % 12;
+        }
+        String hPrefix = '';
+        if (hour < 10) {
+          hPrefix = '0';
         }
         String prefix = '';
         if (minute < 10) {
           prefix = '0';
         }
         String date = '$month/$day/$year';
-        String time = '$hour:$prefix$minute$suffix';
+        String time = '$hPrefix$hour:$prefix$minute$suffix';
         final Order order = Order(
           orderMode: orderMode,
           date: date,

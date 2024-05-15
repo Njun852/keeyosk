@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
-const String url = '192.168.254.144';
+const String url = 'http://192.168.254.144:8080';
 
 class HttpService {
   static final _service = HttpService._sharedInstance();

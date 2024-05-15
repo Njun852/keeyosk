@@ -12,6 +12,7 @@ import 'package:keeyosk/ui/pages/category/category_page.dart';
 import 'package:keeyosk/ui/pages/dashboard/dashboard.dart';
 import 'package:keeyosk/ui/pages/manage_orders/manage_orders.dart';
 import 'package:keeyosk/ui/pages/manage_orders/qr_code_scanner.dart';
+import 'package:keeyosk/ui/pages/order_details/order_details.dart';
 import 'package:keeyosk/ui/pages/order_success/order_success.dart';
 import 'package:keeyosk/ui/pages/product/product_page.dart';
 import 'package:keeyosk/ui/pages/product_list/product_list.dart';
@@ -50,7 +51,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           backgroundColor: primary,
           titleTextStyle: TextStyle(
-              color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
         ),
         tabBarTheme: const TabBarTheme(
             labelColor: secondary,
@@ -72,7 +73,8 @@ class MyApp extends StatelessWidget {
         productList: (context) => const ProductList(),
         qrCodeScanner: (context) => const QRCodeScanner(),
         manageOrders: (context) => ManageOrders(),
-        orderSuccess: (context) => const OrderSuccess()
+        orderSuccess: (context) => const OrderSuccess(),
+        orderDetails: (context) => const OrderDetails()
       },
     );
   }
