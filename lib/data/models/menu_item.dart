@@ -3,7 +3,7 @@ import 'package:keeyosk/data/models/option.dart';
 
 class MenuItem {
   final String name;
-  final String id = 'test';
+  final String id;
   final String description;
   final Category category;
   //TODO: make this a list of binary files
@@ -14,6 +14,7 @@ class MenuItem {
 
   MenuItem({
     required this.name,
+    required this.id,
     this.description = 'No Description',
     this.discount,
     required this.imageUrl,

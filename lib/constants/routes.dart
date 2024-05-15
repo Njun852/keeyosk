@@ -4,3 +4,6 @@ const String adminPanel = '/admin-panel/';
 const String category = '/category/';
 const String productList = '/product-list/';
 const String cartPage = '/cart-page/';
+const String qrCodeScanner = '/qr-code-scanner/';
+const String manageOrders = 'manage-orders';
+const String orderSuccess = 'order-success';

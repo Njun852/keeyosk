@@ -59,7 +59,9 @@ class AdminPanel extends StatelessWidget {
                   AdminOption(
                     imageUrl: './lib/ui/assets/images/card.png',
                     label: 'Manage Orders',
-                    onClick: () {},
+                    onClick: () {
+                      Navigator.of(context).pushNamed(manageOrders);
+                    },
                   ),
                   AdminOption(
                     imageUrl: './lib/ui/assets/images/ticket.png',

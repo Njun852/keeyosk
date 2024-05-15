@@ -91,7 +91,7 @@ class ItemCard extends StatelessWidget {
                             child: PriceDisplay(
                               price: item.price,
                               fontSize: 15 * scale,
-                              discount: item.discount,
+                              discount: item.discount ?? 0,
                               color: Colors.black,
                             )),
                         GestureDetector(

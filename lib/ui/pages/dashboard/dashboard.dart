@@ -1,25 +1,16 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
-import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/constants/styles.dart';
-import 'package:keeyosk/utils/extensions/price_format.dart';
-import 'package:keeyosk/data/models/menu_item.dart';
+
 import 'package:keeyosk/ui/pages/dashboard/item_card.dart';
 import 'package:keeyosk/ui/widgets/search_bar.dart';
 import 'package:keeyosk/ui/pages/dashboard/sidebar.dart';
-import 'package:keeyosk/ui/pages/profile/profile_page.dart';
-import 'package:keeyosk/ui/pages/signin/signin_page.dart';
-import 'package:keeyosk/ui/widgets/menu_item.dart';
-import 'package:sliver_tools/sliver_tools.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -111,8 +102,8 @@ class _DashboardState extends State<Dashboard> {
                 (index) => GridView.count(
                   padding: EdgeInsets.all(18),
                   childAspectRatio: 0.75,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 15,
+                  crossAxisSpacing: 15,
                   crossAxisCount: 2,
                   children: List.generate(items.length, (index) {
                     return ItemCard(

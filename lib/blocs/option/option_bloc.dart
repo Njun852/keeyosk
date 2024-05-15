@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keeyosk/blocs/option/option_event.dart';
 import 'package:keeyosk/blocs/option/option_state.dart';
+import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/data/models/cart.dart';
 import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/data/models/option.dart';
@@ -14,32 +15,23 @@ class OptionBloc extends Bloc<OptionEvent, OptionState> {
   final MenuItem item;
   int quantity = 1;
 
-  OptionBloc({required this.item}) : super(InitialOptions()) {
+  OptionBloc({required this.item})
+      : super(InitialOptions(
+          quantity: 1,
+          additionalPrice: 0,
+          allRequiredFilled: item.options.isEmpty,
+        )) {
     on<ChangedQuantity>((event, emit) {
       quantity += event.updatedQuantity;
       emit(OptionModified(
         quantity: quantity,
+        allRequiredFilled: filledRequiredOptions(),
         additionalPrice: getAdditionalPrice(),
         options: selectedOptions,
       ));
     });
     on<SelectedOption>(
       (event, emit) {
-        // final int index = selectedOptions.indexWhere(
-        //   (element) => element.name == event.item.name,
-        // );
-        // if (index != -1 &&
-        //     event.item.name == selectedOptions[index].name) {
-        //   selectedOptions.removeAt(index);
-        // } else {
-        //   selectedOptions.add(event.item);
-        // }
-
-        // if (!event.isMultiSelect) {
-        //   for (OptionItem item in event.others) {
-        //     selectedOptions.removeWhere((element) => element.name == item.name);
-        //   }
-        // }
         final option = item.options[
             item.options.indexWhere((element) => element.id == event.optionId)];
         final optionItem = option.items[
@@ -55,15 +47,15 @@ class OptionBloc extends Bloc<OptionEvent, OptionState> {
               }
             }
           }
-          // print('ismult: ${option.isMultiSelect}, index: $indexWhereItExist');
         }
-          if (option.isMultiSelect && indexWhereItExist != -1) {
-            selectedOptions.removeAt(indexWhereItExist);
-          } else {
-            selectedOptions.add(optionItem);
-          }
+        if (option.isMultiSelect && indexWhereItExist != -1) {
+          selectedOptions.removeAt(indexWhereItExist);
+        } else {
+          selectedOptions.add(optionItem);
+        }
         emit(OptionModified(
           quantity: quantity,
+          allRequiredFilled: filledRequiredOptions(),
           additionalPrice: getAdditionalPrice(),
           options: selectedOptions,
         ));
@@ -73,6 +65,7 @@ class OptionBloc extends Bloc<OptionEvent, OptionState> {
     on<Apply>((event, emit) {
       repo.apply(
         Cart(
+          ownerId: currentUser.userId,
           id: const Uuid().v1(),
           item: event.item,
           selectedOptions: selectedOptions,
@@ -87,5 +80,29 @@ class OptionBloc extends Bloc<OptionEvent, OptionState> {
     return selectedOptions.map((e) => e.additionalPrice).toList().reduce(
           (value, element) => value + element,
         );
+  }
+
+  bool filledRequiredOptions() {
+    List<bool> allOptionIsFilled = [];
+    for (Option option in item.options) {
+      if (option.isRequired) {
+        bool isFilled = false;
+        bool hasFound = false;
+        for (OptionItem item in option.items) {
+          for (OptionItem selectedItem in selectedOptions) {
+            if (item.id == selectedItem.id) {
+              isFilled = true;
+              hasFound = true;
+              break;
+            }
+          }
+          if (hasFound) {
+            allOptionIsFilled.add(isFilled);
+            break;
+          }
+        }
+      }
+    }
+    return (!allOptionIsFilled.contains(false) && allOptionIsFilled.isNotEmpty) || item.options.isEmpty;
   }
 }

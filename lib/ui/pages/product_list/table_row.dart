@@ -45,13 +45,14 @@ class TableRow extends StatelessWidget {
                           fit: BoxFit.fitHeight,
                         ),
                       ),
-                      SizedBox(width: 5,),
+                      SizedBox(
+                        width: 5,
+                      ),
                       SizedBox(
                         width: 50,
                         child: Text(
                           item!.name,
                           textAlign: TextAlign.left,
-                          
                           style: TextStyle(fontSize: 10, color: Colors.black),
                         ),
                       ),
@@ -71,12 +72,25 @@ class TableRow extends StatelessWidget {
           Flexible(
             fit: FlexFit.tight,
             flex: 2,
-            child: Text(
-              isHeader ? 'Price' : item!.price.toPrice(),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 10,
-                  color: isHeader ? Colors.black38 : Colors.black),
+            child: Row(
+              children: [
+                 !isHeader ?
+                Text(
+                  '₱',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontFamily: 'Roboto',
+                    color: isHeader ? Colors.black38 : Colors.black,
+                  ),
+                ) : SizedBox(),
+                Text(
+                  isHeader ? 'Price' : item!.price.toPriceNoSymbol(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 10,
+                      color: isHeader ? Colors.black38 : Colors.black),
+                ),
+              ],
             ),
           ),
           Flexible(

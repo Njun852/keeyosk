@@ -2,20 +2,30 @@ import 'package:keeyosk/data/models/option_item.dart';
 
 class OptionState {
   final double additionalPrice;
-  OptionState({this.additionalPrice = 0});
+  final int quantity;
+  final bool allRequiredFilled;
+  OptionState({
+    required this.additionalPrice,
+    required this.quantity,
+    required this.allRequiredFilled,
+  });
 }
 
 class InitialOptions extends OptionState {
-  InitialOptions();
+  InitialOptions({
+    required super.additionalPrice,
+    required super.quantity,
+    required super.allRequiredFilled,
+  });
 }
 
 class OptionModified extends OptionState {
-  final int quantity;
   final List<OptionItem> options;
 
   OptionModified({
-    required this.quantity,
+    required super.quantity,
     required this.options,
-    super.additionalPrice,
+    required super.additionalPrice,
+    required super.allRequiredFilled,
   });
 }

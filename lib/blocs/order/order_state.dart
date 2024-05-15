@@ -1,13 +1,12 @@
 import 'package:keeyosk/data/models/menu_item.dart';
+import 'package:keeyosk/data/models/order.dart';
 
 abstract class OrderState {
-  final MenuItem value;
+  final List<Order> orders;
 
-  const OrderState({required this.value});
+  const OrderState({required this.orders});
 }
 
-class OpenedOptions extends OrderState {
-  const OpenedOptions({required super.value});
+class Initial extends OrderState {
+  Initial({required super.orders});
 }
-
-

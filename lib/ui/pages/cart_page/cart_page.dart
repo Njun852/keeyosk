@@ -8,6 +8,7 @@ import 'package:keeyosk/blocs/cart/cart_bloc.dart';
 import 'package:keeyosk/blocs/cart/cart_event.dart';
 import 'package:keeyosk/blocs/cart/cart_state.dart';
 import 'package:keeyosk/constants/colors.dart';
+import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/constants/styles.dart';
 import 'package:keeyosk/data/repositories/cart_repo.dart';
 import 'package:keeyosk/data/repositories/order_repo.dart';
@@ -31,9 +32,17 @@ class CartPage extends StatelessWidget {
         orderRepo: OrderRepo(),
         cartRepo: CartRepo(),
         selectedItems: [],
-        mode: OrderMode.dineIn,
+        orderMode: "Dine in",
       ),
-      child: BlocBuilder<CartBloc, CartState>(
+      child: BlocConsumer<CartBloc, CartState>(
+        listener: (context, state) {
+          if (state is HasCheckout) {
+            Navigator.of(context).pushNamed(
+              qrCodeScanner,
+              arguments: state.order,
+            );
+          }
+        },
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
@@ -148,7 +157,39 @@ class CartPage extends StatelessWidget {
                                       child: Transform.scale(
                                         scale: 1.3,
                                         child: Radio(
-                                          value: OrderMode.takeOut,
+                                          fillColor: MaterialStatePropertyAll(
+                                              secondary),
+                                          focusColor: secondary,
+                                          activeColor: secondary,
+                                          value: "Dine in",
+                                          groupValue: state.mode,
+                                          visualDensity: VisualDensity.compact,
+                                          onChanged: (val) {
+                                            context
+                                                .read<CartBloc>()
+                                                .add(SwitchedMode(mode: val!));
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      'Dine in',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    SizedBox(width: 15),
+                                    SizedBox(
+                                      width: 23,
+                                      height: 23,
+                                      child: Transform.scale(
+                                        scale: 1.3,
+                                        child: Radio(
+                                          value: "Take Out",
                                           fillColor: MaterialStatePropertyAll(
                                               secondary),
                                           groupValue: state.mode,
@@ -168,38 +209,6 @@ class CartPage extends StatelessWidget {
                                     ),
                                     Text(
                                       'Take out',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    SizedBox(width: 15),
-                                    SizedBox(
-                                      width: 23,
-                                      height: 23,
-                                      child: Transform.scale(
-                                        scale: 1.3,
-                                        child: Radio(
-                                          fillColor: MaterialStatePropertyAll(
-                                              secondary),
-                                          focusColor: secondary,
-                                          activeColor: secondary,
-                                          value: OrderMode.dineIn,
-                                          groupValue: state.mode,
-                                          visualDensity: VisualDensity.compact,
-                                          onChanged: (val) {
-                                            context
-                                                .read<CartBloc>()
-                                                .add(SwitchedMode(mode: val!));
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      'Dine in',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 14,
@@ -340,7 +349,7 @@ class CartPage extends StatelessWidget {
                                 style: ButtonStyle(
                                     visualDensity: VisualDensity.compact,
                                     backgroundColor: MaterialStatePropertyAll(
-                                        state.items.isEmpty
+                                        state.selectedItems.isEmpty
                                             ? Colors.black54
                                             : secondary),
                                     shape: MaterialStatePropertyAll(
@@ -348,7 +357,11 @@ class CartPage extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                     )),
-                                onPressed: () {},
+                                onPressed: () {
+                                  if (state.selectedItems.isNotEmpty) {
+                                    context.read<CartBloc>().add(Checkout());
+                                  }
+                                },
                                 child: Text(
                                   'CHECKOUT',
                                   style: TextStyle(

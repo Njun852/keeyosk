@@ -11,6 +11,7 @@ import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/data/models/cart.dart';
 import 'package:keeyosk/ui/widgets/number_adjuster.dart';
 import 'package:keeyosk/ui/widgets/price_display.dart';
+import 'package:keeyosk/utils/extensions/with_selected_items.dart';
 
 class CartItem extends StatelessWidget {
   final Cart cart;
@@ -55,9 +56,19 @@ class CartItem extends StatelessWidget {
                         ),
                       ),
                       PriceDisplay(
-                        price: cart.item.price,
+                        price: withSelectedOptions(
+                          cart.item,
+                          cart.selectedOptions,
+                          true,
+                          cart.quantity,
+                        ),
                         fontSize: 12,
-                        discount: cart.item.discount,
+                        discount: withSelectedOptions(
+                          cart.item,
+                          cart.selectedOptions,
+                          false,
+                          cart.quantity,
+                        ),
                         color: Colors.black38,
                       ),
                       Expanded(child: Container()),
@@ -75,12 +86,14 @@ class CartItem extends StatelessWidget {
                         },
                         quantity: cart.quantity,
                         onSub: () {
-                          context.read<CartBloc>().add(
-                                ChangedQuantity(
-                                  id: cart.id,
-                                  quantity: cart.quantity - 1,
-                                ),
-                              );
+                          if (cart.quantity > 1) {
+                            context.read<CartBloc>().add(
+                                  ChangedQuantity(
+                                    id: cart.id,
+                                    quantity: cart.quantity - 1,
+                                  ),
+                                );
+                          }
                         },
                       )
                     ],

@@ -16,6 +16,7 @@ import 'package:keeyosk/ui/pages/product/option_selector.dart';
 import 'package:keeyosk/ui/widgets/number_adjuster.dart';
 import 'package:keeyosk/ui/widgets/price_display.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:keeyosk/utils/toast.dart';
 
 class OptionsModal extends StatefulWidget {
   final MenuItem item;
@@ -29,35 +30,11 @@ class OptionsModal extends StatefulWidget {
 }
 
 class _OptionsModalState extends State<OptionsModal> {
-  late final FToast fToast;
+  late final ToastView toast;
   @override
   void initState() {
     super.initState();
-    fToast = FToast();
-    fToast.init(context);
-  }
-
-  Widget _showToast() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25.0),
-        color: primary,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.check),
-          SizedBox(
-            width: 12.0,
-          ),
-          Text(
-            "Added to cart",
-            style: TextStyle(color: Colors.white),
-          ),
-        ],
-      ),
-    );
+    toast = ToastView.init(context);
   }
 
   @override
@@ -113,7 +90,7 @@ class _OptionsModalState extends State<OptionsModal> {
                                     ? (widget.item.discount! +
                                             state.additionalPrice) *
                                         context.read<OptionBloc>().quantity
-                                    : null,
+                                    : 0,
                                 fontSize: 20,
                                 color: Colors.black45,
                               )
@@ -208,16 +185,23 @@ class _OptionsModalState extends State<OptionsModal> {
                   padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
                   child: TextButton(
                     onPressed: () {
-                      fToast.showToast(
-                        child: _showToast(),
-                        gravity: ToastGravity.BOTTOM,
-                        toastDuration: Duration(seconds: 2),
-                      );
-                      context.read<OptionBloc>().add(Apply(item: widget.item));
-                      Navigator.of(context).pop();
+                      if (state.allRequiredFilled) {
+                        context
+                            .read<OptionBloc>()
+                            .add(Apply(item: widget.item));
+                        Navigator.of(context).pop();
+                        toast.showToast('Added to cart.', Icons.check);
+                      } else {
+                        toast.showToast(
+                          'Please provide the required options',
+                          Icons.warning_amber,
+                        );
+                      }
                     },
                     style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(secondary),
+                        backgroundColor: MaterialStatePropertyAll(
+                          state.allRequiredFilled ? secondary : Colors.black54,
+                        ),
                         shape: MaterialStatePropertyAll(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),

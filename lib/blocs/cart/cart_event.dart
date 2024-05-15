@@ -13,7 +13,7 @@ class ToggledCartItem extends CartEvent {
 }
 
 class SwitchedMode extends CartEvent {
-  final OrderMode mode;
+  final String mode;
 
   SwitchedMode({required this.mode});
 }

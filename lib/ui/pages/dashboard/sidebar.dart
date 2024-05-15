@@ -1,10 +1,12 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
+import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/constants/routes.dart';
+import 'package:keeyosk/data/models/user.dart';
 import 'package:keeyosk/ui/widgets/sidebar_item.dart';
 
 class Sidebar extends StatelessWidget {
@@ -50,12 +52,12 @@ class Sidebar extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const Positioned(
+                          Positioned(
                             bottom: 0,
                             child: Column(
                               children: [
                                 Text(
-                                  'Prince Duran',
+                                  '${currentUser.firstName} ${currentUser.lastName}',
                                   style: TextStyle(
                                     color: primary,
                                     fontSize: 22,
@@ -109,7 +111,9 @@ class Sidebar extends StatelessWidget {
             SizedBox(
               height: 32,
             ),
+            currentUser.role == Role.admin ?
             Container(
+              
               padding: EdgeInsets.all(12),
               alignment: Alignment.center,
               width: double.infinity,
@@ -124,7 +128,7 @@ class Sidebar extends StatelessWidget {
                 'Admin Panel',
                 style: TextStyle(color: primary, fontSize: 16),
               ),
-            ),
+            ) : SizedBox(),
             SizedBox(height: 16),
             Expanded(
               child: Container(
@@ -132,13 +136,14 @@ class Sidebar extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    currentUser.role == Role.admin ?
                     SidebarItem(
                       onClick: () {
                         Navigator.of(context).pushNamed(adminPanel);
                       },
                       imgUrl: './lib/ui/assets/images/user.png',
                       label: 'Admin Panel',
-                    ),
+                    ) : SizedBox(),
                     SidebarItem(
                       imgUrl: './lib/ui/assets/images/exit.png',
                       label: 'Log Out',

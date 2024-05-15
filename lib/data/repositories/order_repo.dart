@@ -3,13 +3,20 @@ import 'package:keeyosk/data/repositories/repo.dart';
 
 class OrderRepo implements Repo<Order> {
   final List<Order> _orders = [];
+  static final _repo = OrderRepo._sharedInstance();
+  factory OrderRepo() => _repo;
+  OrderRepo._sharedInstance();
   @override
-  void add(Order data) {
-    _orders.add(data);
+  void add(dat) {
+    _orders.add(dat);
   }
 
   @override
-  void apply() {}
+  void apply() {
+    // temp = null;
+
+    //TODO: add whats on db
+  }
 
   @override
   void delete(int index) {

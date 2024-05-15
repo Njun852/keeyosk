@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,12 +29,28 @@ class OptionSelector extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
-              Text(
-                option.name,
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+              Row(
+                children: [
+                  Text(
+                    option.name,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    option.isRequired ? ' (Required)' : ' (Optional)',
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 11,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  )
+                ],
               ),
               Row(
                 children: List.generate(option.items.length, (index) {

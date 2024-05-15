@@ -3,7 +3,7 @@ import 'package:keeyosk/utils/extensions/price_format.dart';
 
 class PriceDisplay extends StatelessWidget {
   final double price;
-  final double? discount;
+  final double discount;
   final double scale;
   final Color color;
   final double fontSize;
@@ -13,7 +13,7 @@ class PriceDisplay extends StatelessWidget {
     this.scale = 1,
     required this.fontSize,
     required this.color,
-    this.discount,
+    this.discount = 0,
   });
 
   @override
@@ -24,7 +24,7 @@ class PriceDisplay extends StatelessWidget {
         color: color,
         fontFamily: 'Roboto');
 
-    if (discount == null) {
+    if (discount  == 0) {
       return Text(
         price.toPrice(),
         style: bigText,
@@ -33,7 +33,7 @@ class PriceDisplay extends StatelessWidget {
     return Row(
       children: [
         Text(
-          discount!.toPrice(),
+          discount.toPrice(),
           style: bigText,
         ),
         SizedBox(

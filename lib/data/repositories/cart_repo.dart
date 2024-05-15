@@ -1,20 +1,34 @@
+import 'package:http/http.dart';
+import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/data/models/cart.dart';
 import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/data/repositories/repo.dart';
+import 'package:keeyosk/data/services/http_service.dart';
 
 class CartRepo {
   static final _repo = CartRepo._sharedInstance();
   final List<Cart> _cartList = [];
   factory CartRepo() => _repo;
 
+  Future<void> init() async {
+    // service = HttpService();
+    // final res =
+    //     await service.read(route: "cart", data: currentUser.userId) as List;
+    // _cartList.addAll(res.map((e) => Cart.fromJSON(e)).toList());
+    // for (var i = 0; i < res.length; i++) {
+    //   _cartList.add(Cart.fromJSON(res[i]));
+    // }
+    // print(res);
+  }
+
   CartRepo._sharedInstance();
   void apply(Cart cart) {
     _cartList.add(cart);
+    // service.write(route: "cart", data: cart.toJSON());
   }
 
-  void deleteFromId(int id) {
-    int index = _cartList.indexWhere((element) => element.id == id);
-    delete(index);
+  void deleteFromId(String id) {
+    delete(getIndexFromId(id));
   }
 
   void delete(int index) {
@@ -34,7 +48,11 @@ class CartRepo {
     _cartList.addAll(data);
   }
 
-  void update(int index, Cart data) {
-    _cartList[index] = data;
+  int getIndexFromId(String id) {
+    return _cartList.indexWhere((element) => element.id == id);
+  }
+
+  void update(String id, Cart data) {
+    _cartList[getIndexFromId(id)] = data;
   }
 }

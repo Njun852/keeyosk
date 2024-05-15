@@ -100,7 +100,7 @@ class _ProductPageState extends State<ProductPage> {
                         price: item.price,
                         fontSize: 20,
                         color: Color.fromRGBO(96, 96, 96, 1),
-                        discount: item.discount,
+                        discount: item.discount ?? 0,
                       ),
                     ],
                   ),

@@ -1,28 +1,33 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keeyosk/blocs/cart/cart_event.dart';
 import 'package:keeyosk/blocs/cart/cart_state.dart';
+import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/data/models/cart.dart';
+import 'package:keeyosk/data/models/option_item.dart';
 import 'package:keeyosk/data/models/order.dart';
 import 'package:keeyosk/data/models/user.dart';
 import 'package:keeyosk/data/repositories/cart_repo.dart';
 import 'package:keeyosk/data/repositories/order_repo.dart';
+import 'package:keeyosk/data/services/socket_service.dart';
+import 'package:keeyosk/utils/get_total_price.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 import 'package:uuid/uuid.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
   final CartRepo cartRepo;
   final List<Cart> selectedItems;
   final OrderRepo orderRepo;
-  OrderMode mode;
+  final String orderMode;
 
   CartBloc({
     required this.cartRepo,
     required this.selectedItems,
-    required this.mode,
+    required this.orderMode,
     required this.orderRepo,
   }) : super(
           CartState(
             items: cartRepo.getAll(),
-            mode: mode,
+            mode: orderMode,
             subtotal: 0,
             selectedItems: selectedItems,
           ),
@@ -39,21 +44,20 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         emit(
           CartState(
             items: cartRepo.getAll(),
-            mode: mode,
+            mode: orderMode,
             selectedItems: selectedItems,
-            subtotal: getSubTotal(),
+            subtotal: getSubTotal(selectedItems),
           ),
         );
       },
     );
     on<SwitchedMode>((event, emit) {
-      mode = event.mode;
       emit(
         CartState(
           items: cartRepo.getAll(),
-          mode: mode,
+          mode: event.mode,
           selectedItems: selectedItems,
-          subtotal: getSubTotal(),
+          subtotal: getSubTotal(selectedItems),
         ),
       );
     });
@@ -61,14 +65,23 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       for (Cart item in cartRepo.getAll()) {
         if (item.id == event.id) {
           item.quantity = event.quantity;
+          cartRepo.update(
+            event.id,
+            Cart(
+                ownerId: item.ownerId,
+                id: event.id,
+                item: item.item,
+                selectedOptions: item.selectedOptions,
+                quantity: event.quantity),
+          );
         }
       }
       emit(
         CartState(
           items: cartRepo.getAll(),
-          mode: mode,
+          mode: orderMode,
           selectedItems: selectedItems,
-          subtotal: getSubTotal(),
+          subtotal: getSubTotal(selectedItems),
         ),
       );
     }));
@@ -78,37 +91,52 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       emit(
         CartState(
           items: cartRepo.getAll(),
-          mode: mode,
+          mode: orderMode,
           selectedItems: selectedItems,
-          subtotal: getSubTotal(),
+          subtotal: getSubTotal(selectedItems),
         ),
       );
     });
 
     on<Checkout>(
       (event, emit) {
-        orderRepo.add(Order(
-          time: DateTime.now(),
-          customer: User(
-              userId: '123',
-              firstName: 'John',
-              lastName: 'Doe',
-              middleName: '',
-              phoneNumber: '09123456789'),
-          orderId: const Uuid().v1(),
+        final DateTime t = DateTime.now();
+        int day = t.day;
+        int month = t.month;
+        int year = t.year;
+        int hour = t.hour;
+        int minute = t.minute;
+        String suffix = 'AM';
+
+        if (12 % hour == 12) {
+          suffix = 'PM';
+          hour = hour % 12;
+        }
+        String prefix = '';
+        if (minute < 10) {
+          prefix = '0';
+        }
+        String date = '$month/$day/$year';
+        String time = '$hour:$prefix$minute$suffix';
+        final Order order = Order(
+          orderMode: orderMode,
+          date: date,
+          hour: time,
+          customer: currentUser,
           carts: selectedItems,
           vouchersApplied: [],
           status: OrderStatus.pending,
-        ));
+        );
+        emit(
+          HasCheckout(
+            order: order,
+            items: cartRepo.getAll(),
+            mode: orderMode,
+            selectedItems: selectedItems,
+            subtotal: getSubTotal(selectedItems),
+          ),
+        );
       },
     );
-  }
-
-  double getSubTotal() {
-    double sum = 0;
-    for (Cart cart in selectedItems) {
-      sum += cart.item.discount ?? cart.item.price;
-    }
-    return sum;
   }
 }
