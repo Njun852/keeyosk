@@ -1,7 +1,7 @@
 import 'package:keeyosk/data/models/cart.dart';
 import 'package:keeyosk/data/models/option_item.dart';
 
-double getSubTotal(List<Cart> carts) {
+double getSubTotalFromCartList(List<Cart> carts) {
   double sum = 0;
   for (Cart cart in carts) {
     double itemPrice = (cart.item.discount ?? cart.item.price);

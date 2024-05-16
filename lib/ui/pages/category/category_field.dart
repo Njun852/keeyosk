@@ -8,6 +8,7 @@ import 'package:keeyosk/blocs/category/category_bloc.dart';
 import 'package:keeyosk/blocs/category/category_event.dart';
 import 'package:keeyosk/blocs/category/category_state.dart';
 import 'package:keeyosk/constants/colors.dart';
+import 'package:keeyosk/data/models/category.dart';
 
 class CategoryField extends StatefulWidget {
   final String initalTxt;
@@ -52,7 +53,7 @@ class _CategoryFieldState extends State<CategoryField> {
                         context.read<CategoryBloc>().add(
                               EditingField(
                                 label: widget.initalTxt,
-                                updated: value,
+                                updated: Category(label: value),
                               ),
                             );
                       },

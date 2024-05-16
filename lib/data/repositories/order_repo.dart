@@ -7,20 +7,13 @@ class OrderRepo implements Repo<Order> {
   factory OrderRepo() => _repo;
   OrderRepo._sharedInstance();
   @override
-  void add(dat) {
-    _orders.add(dat);
+  void add(data) {
+    _orders.add(data);
   }
 
   @override
-  void apply() {
-    // temp = null;
-
-    //TODO: add whats on db
-  }
-
-  @override
-  void delete(int index) {
-    _orders.removeAt(index);
+  void delete(String id) {
+    _orders.removeWhere((element) => element.id == id);
   }
 
   @override
@@ -29,17 +22,7 @@ class OrderRepo implements Repo<Order> {
   }
 
   @override
-  void deleteAllFinal() {
-    _orders.clear();
-  }
-
-  @override
   List<Order> getAll() {
-    return _orders;
-  }
-
-  @override
-  List<Order> getAllFinal() {
     return _orders;
   }
 
@@ -55,7 +38,20 @@ class OrderRepo implements Repo<Order> {
   }
 
   @override
-  void update(int index, Order data) {
-    _orders[index] = data;
+  void update(String id, Order data) {
+    _orders.map((e) {
+      if (e.id == id) {
+        return Order(
+          id: id,
+          orderMode: data.orderMode,
+          hour: data.hour,
+          date: data.date,
+          customer: data.customer,
+          carts: data.carts,
+          vouchersApplied: data.vouchersApplied,
+          status: data.status,
+        );
+      }
+    });
   }
 }

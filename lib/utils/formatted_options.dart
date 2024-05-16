@@ -1,6 +1,6 @@
 import 'package:keeyosk/data/models/option_item.dart';
 
-String toStringOptions(List<OptionItem> options) {
+String getFormattedOptions(List<OptionItem> options) {
   if (options.isEmpty) return 'Default Options';
   if (options.length == 1) return options.first.name;
   String details = '';

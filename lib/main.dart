@@ -29,7 +29,6 @@ void main() {
 
   if (currentUser.role == Role.admin) {
     OrderRepo repo = OrderRepo();
-    repo.apply();
     socketService.socket.on("recieve order", (data) {
       notificationService.showNotification(data["tableId"]);
       repo.add(Order.fromJSON(data));

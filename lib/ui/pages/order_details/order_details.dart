@@ -7,11 +7,12 @@ import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/constants/styles.dart';
 import 'package:keeyosk/data/models/order.dart';
+import 'package:keeyosk/ui/widgets/format_price.dart';
 import 'package:keeyosk/ui/widgets/table_row.dart';
 import 'package:keeyosk/utils/extensions/price_format.dart';
-import 'package:keeyosk/utils/extensions/with_selected_items.dart';
-import 'package:keeyosk/utils/get_total_price.dart';
-import 'package:keeyosk/utils/to_string_options.dart';
+import 'package:keeyosk/utils/with_selected.dart';
+import 'package:keeyosk/utils/cart_list_subtotal.dart';
+import 'package:keeyosk/utils/formatted_options.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OrderDetails extends StatelessWidget {
@@ -21,7 +22,6 @@ class OrderDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     RouteSettings rs = ModalRoute.of(context)!.settings;
     final order = rs.arguments as Order;
-    print('yoooooooo: ' + order.carts.length.toString());
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -60,16 +60,8 @@ class OrderDetails extends StatelessWidget {
                             fontSize: 14,
                           ),
                         ),
-                        Text(
-                          '₱',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              height: 1.8,
-                              fontFamily: 'Roboto'),
-                        ),
-                        Text(
-                          getSubTotal(order.carts).toPriceNoSymbol(),
+                        FormatPrice(
+                          price: getSubTotalFromCartList(order.carts),
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
@@ -78,7 +70,7 @@ class OrderDetails extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      order.orderMode,
+                      '(${order.orderMode})',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 14,
@@ -227,7 +219,8 @@ class OrderDetails extends StatelessWidget {
                         TableItem(
                           flex: 1,
                           widget: Text(
-                            toStringOptions(order.carts[index].selectedOptions),
+                            getFormattedOptions(
+                                order.carts[index].selectedOptions),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
@@ -238,32 +231,18 @@ class OrderDetails extends StatelessWidget {
                         ),
                         TableItem(
                           flex: 1,
-                          widget: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '₱',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 8,
-                                    height: 1.2,
-                                    fontFamily: 'Roboto'),
-                              ),
-                              Text(
-                                withSelectedOptions(
-                                  order.carts[index].item,
-                                  order.carts[index].selectedOptions,
-                                  order.carts[index].item.discount == null,
-                                  order.carts[index].quantity,
-                                ).toPriceNoSymbol(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 8,
-                                  height: 1.2,
-                                ),
-                              ),
-                            ],
+                          widget: FormatPrice(
+                            price: getItemPriceWithSelected(
+                              order.carts[index].item,
+                              order.carts[index].selectedOptions,
+                              order.carts[index].item.discount == null,
+                              order.carts[index].quantity,
+                            ),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 8,
+                              height: 1.2,
+                            ),
                           ),
                         ),
                         TableItem(

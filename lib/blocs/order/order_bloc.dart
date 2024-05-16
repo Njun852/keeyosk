@@ -10,18 +10,12 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       : super(Initial(orders: orders)) {
     on<AcceptedOrder>(
       (event, emit) {
-        final orderIndex = orderRepo.getAll().indexWhere(
-              (element) => element.tableId == event.orderId,
-            );
-        orderRepo.delete(orderIndex);
+        orderRepo.delete(event.orderId);
       },
     );
     on<RejectedOrder>(
       (event, emit) {
-        final orderIndex = orderRepo.getAll().indexWhere(
-              (element) => element.tableId == event.orderId,
-            );
-        orderRepo.delete(orderIndex);
+        orderRepo.delete(event.orderId);
       },
     );
   }

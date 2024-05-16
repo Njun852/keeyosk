@@ -42,7 +42,6 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
   Widget build(BuildContext context) {
     if (_order == null) {
       RouteSettings rs = ModalRoute.of(context)!.settings;
-
       setState(() {
         _order = rs.arguments as Order;
       });
@@ -127,26 +126,17 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
       });
       if (tables.contains(_result!.code) && _order != null) {
         SocketService socket = SocketService();
-        final repo = OrderRepo();
         final cartRepo = CartRepo();
         final carts = cartRepo.getAll();
-
         for (Cart selected in _order!.carts) {
-          for (Cart cartItems in carts) {
-            if (selected.id == cartItems.id) {
-              cartRepo.delete(cartRepo.getIndexFromId(selected.id));
-            }
-          }
+          carts.removeWhere((element) => element.id == selected.id);
         }
         _order!.tableId = _result!.code;
         _controller?.pauseCamera();
-
         socket.emit("send order", _order!.toJSON());
-
-        repo.apply();
-
-        Navigator.of(context).pushReplacementNamed(
+        Navigator.of(context).pushNamedAndRemoveUntil(
           orderSuccess,
+          (route) => false,
           arguments: _order!,
         );
       }

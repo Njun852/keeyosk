@@ -10,9 +10,10 @@ import 'package:keeyosk/constants/styles.dart';
 import 'package:keeyosk/data/models/cart.dart';
 import 'package:keeyosk/data/models/order.dart';
 import 'package:keeyosk/ui/pages/order_success/label.dart';
+import 'package:keeyosk/ui/widgets/format_price.dart';
 import 'package:keeyosk/utils/extensions/price_format.dart';
-import 'package:keeyosk/utils/extensions/with_selected_items.dart';
-import 'package:keeyosk/utils/get_total_price.dart';
+import 'package:keeyosk/utils/with_selected.dart';
+import 'package:keeyosk/utils/cart_list_subtotal.dart';
 
 class OrderSuccess extends StatelessWidget {
   const OrderSuccess({super.key});
@@ -84,12 +85,12 @@ class OrderSuccess extends StatelessWidget {
                                   Cart cart = order.carts[index];
                                   return Label(
                                     left: cart.item.name,
-                                    right: withSelectedOptions(
+                                    right: getItemPriceWithSelected(
                                             cart.item,
                                             cart.selectedOptions,
                                             cart.item.discount == null,
                                             cart.quantity)
-                                        .toPriceNoSymbol(),
+                                        .toPrice(),
                                   );
                                 }),
                               ),
@@ -101,8 +102,8 @@ class OrderSuccess extends StatelessWidget {
                           Column(
                             children: [
                               Label(
-                                left: 'Order Id',
-                                right: 'Table: ${order.tableId}',
+                                left: 'Table Number',
+                                right: '${order.tableId}',
                                 includesPrice: false,
                               ),
                               SizedBox(
@@ -143,18 +144,9 @@ class OrderSuccess extends StatelessWidget {
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
-                                        Text(
-                                          '₱',
-                                          style: TextStyle(
-                                            fontFamily: 'Roboto',
-                                            fontSize: 16,
-                                            color: primary,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                        Text(
-                                            getSubTotal(order.carts)
-                                                .toPriceNoSymbol(),
+                                        FormatPrice(
+                                            price: getSubTotalFromCartList(
+                                                order.carts),
                                             style: TextStyle(
                                               fontSize: 16,
                                               color: primary,
@@ -177,7 +169,8 @@ class OrderSuccess extends StatelessWidget {
                     width: double.infinity,
                     child: TextButton(
                         onPressed: () {
-                          Navigator.of(context).pushReplacementNamed(dashboard);
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              dashboard, (route) => false);
                         },
                         style: ButtonStyle(
                           backgroundColor: WidgetStatePropertyAll(secondary),

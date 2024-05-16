@@ -7,72 +7,47 @@ class CategoryRepo implements Repo<Category> {
   factory CategoryRepo() => repo;
   CategoryRepo._sharedInstance();
 
-  final List<Category> _editableCategories = [];
   final List<Category> _categories = [];
 
   @override
-  List<Category> getAllFinal() {
+  List<Category> getAll() {
     return _categories;
   }
 
   @override
-  List<Category> getAll() {
-    return _editableCategories;
-  }
-
-  @override
   void deleteAll() {
-    _editableCategories.clear();
+    _categories.clear();
   }
 
   @override
   void replaceAll(List<Category> cat) {
-    _editableCategories.clear();
-    _editableCategories.addAll(cat);
-  }
-
-  @override
-  void deleteAllFinal() {
-    _editableCategories.clear();
     _categories.clear();
+    _categories.addAll(cat);
   }
 
   @override
   void init() {
-    _editableCategories.clear();
-    _editableCategories.addAll(_categories);
+    // _editableCategories.clear();
+    // _editableCategories.addAll(_categories);
   }
 
   @override
-  void apply() {
-    _categories.clear();
-    _categories.addAll(_editableCategories);
-    _editableCategories.clear();
-  }
-
-  @override
-  void update(int index, Category cat) {
-    _editableCategories[index] = cat;
-  }
-
-  void updateCategoryByLabel(String label, String updated) {
-    int index = getCategoryByLabel(label);
-    update(index, Category(label: updated));
+  void update(String id, Category cat) {
+    _categories.map((element) {
+      if (element.label == id) {
+        return Category(label: cat.label);
+      }
+      return element;
+    });
   }
 
   @override
   void add(Category cat) {
-    _editableCategories.add(cat);
+    _categories.add(cat);
   }
 
   @override
-  void delete(int index) {}
-  void removeCategoryByLabel(String label) {
-    final index = getCategoryByLabel(label);
-    _editableCategories.remove(_editableCategories[index]);
-  }
-
-  int getCategoryByLabel(String label) {
-    return _editableCategories.indexWhere((element) => element.label == label);
+  void delete(String id) {
+    _categories.removeWhere((element) => element.label == id);
   }
 }

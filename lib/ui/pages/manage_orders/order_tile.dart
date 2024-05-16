@@ -5,8 +5,9 @@ import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/data/models/order.dart';
+import 'package:keeyosk/ui/widgets/format_price.dart';
 import 'package:keeyosk/utils/extensions/price_format.dart';
-import 'package:keeyosk/utils/get_total_price.dart';
+import 'package:keeyosk/utils/cart_list_subtotal.dart';
 
 class OrderTile extends StatelessWidget {
   final Order order;
@@ -115,16 +116,10 @@ class OrderTile extends StatelessWidget {
                                   './lib/ui/assets/images/triangle.png')),
                         ),
                         Expanded(child: Container()),
-                        Text('₱',
-                            style: TextStyle(
-                              color: primary,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
-                            )),
-                        Text(
-                          getSubTotal(order.carts).toPriceNoSymbol(),
-                          textAlign: TextAlign.end,
+                      
+                        FormatPrice(
+                          price: getSubTotalFromCartList(order.carts),
+                          align: TextAlign.end,
                           style: TextStyle(
                             color: primary,
                             fontWeight: FontWeight.w600,
@@ -152,7 +147,8 @@ class OrderTile extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.of(context).pushNamed(orderDetails, arguments: order);
+                        Navigator.of(context)
+                            .pushNamed(orderDetails, arguments: order);
                       },
                       icon: Icon(
                         Icons.arrow_forward_ios,

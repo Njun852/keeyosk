@@ -9,7 +9,7 @@ import 'package:keeyosk/data/models/user.dart';
 import 'package:keeyosk/data/repositories/cart_repo.dart';
 import 'package:keeyosk/data/repositories/order_repo.dart';
 import 'package:keeyosk/data/services/socket_service.dart';
-import 'package:keeyosk/utils/get_total_price.dart';
+import 'package:keeyosk/utils/cart_list_subtotal.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:uuid/uuid.dart';
 
@@ -46,21 +46,23 @@ class CartBloc extends Bloc<CartEvent, CartState> {
             items: cartRepo.getAll(),
             mode: orderMode,
             selectedItems: selectedItems,
-            subtotal: getSubTotal(selectedItems),
+            subtotal: getSubTotalFromCartList(selectedItems),
           ),
         );
       },
     );
+
     on<SwitchedMode>((event, emit) {
       emit(
         CartState(
           items: cartRepo.getAll(),
           mode: event.mode,
           selectedItems: selectedItems,
-          subtotal: getSubTotal(selectedItems),
+          subtotal: getSubTotalFromCartList(selectedItems),
         ),
       );
     });
+
     on<ChangedQuantity>(((event, emit) {
       for (Cart item in cartRepo.getAll()) {
         if (item.id == event.id) {
@@ -81,10 +83,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           items: cartRepo.getAll(),
           mode: orderMode,
           selectedItems: selectedItems,
-          subtotal: getSubTotal(selectedItems),
+          subtotal: getSubTotalFromCartList(selectedItems),
         ),
       );
     }));
+
     on<RemovedItem>((event, emit) {
       cartRepo.getAll().removeWhere((element) => element.id == event.id);
       selectedItems.removeWhere((element) => element.id == event.id);
@@ -93,7 +96,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           items: cartRepo.getAll(),
           mode: orderMode,
           selectedItems: selectedItems,
-          subtotal: getSubTotal(selectedItems),
+          subtotal: getSubTotalFromCartList(selectedItems),
         ),
       );
     });
@@ -107,9 +110,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         int hour = t.hour;
         int minute = t.minute;
         String suffix = 'AM';
-        if (hour % 13 == 12) {
+        if (hour > 12) {
           suffix = 'PM';
-          hour = hour % 13;
+          hour = hour - 12;
         }
         String hPrefix = '';
         if (hour < 10) {
@@ -122,6 +125,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         String date = '$month/$day/$year';
         String time = '$hPrefix$hour:$prefix$minute$suffix';
         final Order order = Order(
+          id: const Uuid().v1(),
           orderMode: orderMode,
           date: date,
           hour: time,
@@ -136,7 +140,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
             items: cartRepo.getAll(),
             mode: orderMode,
             selectedItems: selectedItems,
-            subtotal: getSubTotal(selectedItems),
+            subtotal: getSubTotalFromCartList(selectedItems),
           ),
         );
       },

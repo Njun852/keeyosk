@@ -10,7 +10,7 @@ import 'package:keeyosk/data/models/order.dart';
 import 'package:keeyosk/data/repositories/order_repo.dart';
 import 'package:keeyosk/ui/pages/manage_orders/order_tile.dart';
 import 'package:keeyosk/utils/extensions/price_format.dart';
-import 'package:keeyosk/utils/get_total_price.dart';
+import 'package:keeyosk/utils/cart_list_subtotal.dart';
 
 class ManageOrders extends StatelessWidget {
   final OrderRepo orderRepo = OrderRepo();
@@ -57,14 +57,17 @@ class ManageOrders extends StatelessWidget {
             body: Container(
               color: lightblue,
               width: double.infinity,
+              height: double.infinity,
               padding: EdgeInsets.all(8),
-              child: Column(
-                  children: List.generate(state.orders.length, (index) {
-                final Order order = state.orders[index];
-                return OrderTile(
-                  order: order,
-                );
-              })),
+              child: SingleChildScrollView(
+                child: Column(
+                    children: List.generate(state.orders.length, (index) {
+                  final Order order = state.orders[index];
+                  return OrderTile(
+                    order: order,
+                  );
+                })),
+              ),
             ),
           );
         },

@@ -6,7 +6,6 @@ class MenuItemRepo implements Repo<MenuItem> {
   factory MenuItemRepo() => _repo;
   MenuItemRepo._sharedInstance();
   final List<MenuItem> _items = [];
-  final List<MenuItem> _final = [];
 
   @override
   void add(MenuItem data) {
@@ -14,19 +13,7 @@ class MenuItemRepo implements Repo<MenuItem> {
   }
 
   @override
-  void apply() {
-    _final.clear();
-    _final.addAll(_items);
-  }
-
-  @override
   void deleteAll() {
-    _items.clear();
-  }
-
-  @override
-  void deleteAllFinal() {
-    _final.clear();
     _items.clear();
   }
 
@@ -36,15 +23,7 @@ class MenuItemRepo implements Repo<MenuItem> {
   }
 
   @override
-  List<MenuItem> getAllFinal() {
-    return _final;
-  }
-
-  @override
-  void init() {
-    _items.clear();
-    _items.addAll(_final);
-  }
+  void init() {}
 
   @override
   void replaceAll(List<MenuItem> data) {
@@ -53,12 +32,22 @@ class MenuItemRepo implements Repo<MenuItem> {
   }
 
   @override
-  void update(int index, MenuItem data) {
-    _items[index] = data;
+  void update(String id, MenuItem data) {
+    _items.map((e) {
+      if (e.id == id) {
+        return MenuItem(
+          name: data.name,
+          id: id,
+          imageUrl: data.imageUrl,
+          price: data.price,
+          category: data.category,
+        );
+      }
+    });
   }
 
   @override
-  void delete(int index) {
-    _items.remove(_items[index]);
+  void delete(String id) {
+    _items.removeWhere((element) => element.id == id);
   }
 }

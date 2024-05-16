@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:keeyosk/constants/colors.dart';
+import 'package:keeyosk/ui/widgets/format_price.dart';
 
 class Label extends StatelessWidget {
   final String right;
@@ -29,24 +30,23 @@ class Label extends StatelessWidget {
         Expanded(
           child: Container(),
         ),
-        includesPrice ?
-        Text(
-          '₱',
-          style: TextStyle(
-            fontFamily: 'Roboto',
-            fontSize: 15,
-            color: primary,
-            fontWeight: FontWeight.w600,
-          ),
-        ) : SizedBox(), 
-        Text(
-          right,
-          style: TextStyle(
-            fontSize: 15,
-            color: primary,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        includesPrice
+            ? FormatPrice(
+                price: double.parse(right),
+                style: TextStyle(
+                  fontSize: 15,
+                  color: primary,
+                  fontWeight: FontWeight.w600,
+                ),
+              )
+            : Text(
+                right,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: primary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
       ],
     );
   }

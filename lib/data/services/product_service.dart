@@ -8,11 +8,11 @@ class ProductService {
   final CategoryRepo categoryRepo = CategoryRepo();
 
   List<Category> getAllCategories() {
-    return categoryRepo.getAllFinal();
+    return categoryRepo.getAll();
   }
 
   List<MenuItem> getAllMenuItem() {
-    return menuItemRepo.getAllFinal();
+    return menuItemRepo.getAll();
   }
 
   Map<String, MenuItem> groupItems() {
@@ -29,8 +29,6 @@ class ProductService {
   }
 
   void removeMenuItem(String id) {
-    final List<MenuItem> menuItems = getAllMenuItem();
-    int index = menuItems.indexWhere((element) => element.id == id);
-    menuItemRepo.delete(index);
+    menuItemRepo.delete(id);
   }
 }

@@ -21,21 +21,20 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
     on<EditingField>(
       (event, emit) {
-        repo.updateCategoryByLabel(event.label, event.updated);
+        repo.update(event.label, event.updated);
         emit(CategoryState(categories: repo.getAll()));
       },
     );
 
     on<DeletedField>(
       (event, emit) {
-        repo.removeCategoryByLabel(event.label);
+        repo.delete(event.label);
         emit(CategoryState(categories: repo.getAll()));
       },
     );
 
     on<Apply>(
       (event, emit) {
-        repo.apply();
         emit(state);
       },
     );

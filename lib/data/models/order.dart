@@ -9,11 +9,9 @@ import 'package:keeyosk/data/models/voucher.dart';
 
 enum OrderStatus { completed, cancelled, pending }
 
-class OrderId {
-  static String id = '000001';
-}
 
 class Order {
+  final String id;
   String? tableId;
   final List<Cart> carts;
   final List<Voucher> vouchersApplied;
@@ -24,6 +22,7 @@ class Order {
   final String date;
 
   Order({
+    required this.id,
     required this.orderMode,
     required this.hour,
     required this.date,
@@ -36,6 +35,7 @@ class Order {
 
   Map<String, dynamic> toJSON() {
     return {
+      "id": id,
       "tableId": tableId,
       "hour": hour,
       "date": date,
@@ -57,6 +57,7 @@ class Order {
       carts.add(Cart.fromJSON(cartItem));
     }
     return Order(
+      id: data["id"],
       orderMode: data["orderMode"],
       hour: data["hour"],
       date: data["date"],

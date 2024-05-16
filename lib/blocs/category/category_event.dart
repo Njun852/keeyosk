@@ -8,7 +8,7 @@ class Setup extends CategoryEvent {}
 class Apply extends CategoryEvent {}
 class EditingField extends CategoryEvent {
   final String label;
-  final String updated;
+  final Category updated;
   EditingField({
     required this.label,
     required this.updated,

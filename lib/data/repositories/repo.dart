@@ -1,12 +1,9 @@
 abstract class Repo<T> {
   void init();
-  void apply();
-  void deleteAllFinal();
-  List<T> getAllFinal();
+  void deleteAll();
+  List<T> getAll();
   void add(T data);
   void replaceAll(List<T> data);
-  List<T> getAll();
-  void deleteAll();
-  void delete(int index);
-  void update(int index, T data);
+  void delete(String id);
+  void update(String id, T data);
 }

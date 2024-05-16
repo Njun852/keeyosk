@@ -11,7 +11,7 @@ import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/data/models/cart.dart';
 import 'package:keeyosk/ui/widgets/number_adjuster.dart';
 import 'package:keeyosk/ui/widgets/price_display.dart';
-import 'package:keeyosk/utils/extensions/with_selected_items.dart';
+import 'package:keeyosk/utils/with_selected.dart';
 
 class CartItem extends StatelessWidget {
   final Cart cart;
@@ -56,14 +56,14 @@ class CartItem extends StatelessWidget {
                         ),
                       ),
                       PriceDisplay(
-                        price: withSelectedOptions(
+                        price: getItemPriceWithSelected(
                           cart.item,
                           cart.selectedOptions,
                           true,
                           cart.quantity,
                         ),
                         fontSize: 12,
-                        discount: withSelectedOptions(
+                        discount: getItemPriceWithSelected(
                           cart.item,
                           cart.selectedOptions,
                           false,
@@ -122,8 +122,7 @@ class CartItem extends StatelessWidget {
                                 secondary,
                               ),
                               visualDensity: VisualDensity.compact,
-                              padding:
-                                  WidgetStatePropertyAll(EdgeInsets.zero),
+                              padding: WidgetStatePropertyAll(EdgeInsets.zero),
                               shape: WidgetStatePropertyAll(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),

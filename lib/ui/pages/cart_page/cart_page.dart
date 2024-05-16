@@ -12,6 +12,7 @@ import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/constants/styles.dart';
 import 'package:keeyosk/data/repositories/cart_repo.dart';
 import 'package:keeyosk/data/repositories/order_repo.dart';
+import 'package:keeyosk/ui/widgets/format_price.dart';
 import 'package:keeyosk/utils/extensions/price_format.dart';
 import 'package:keeyosk/ui/pages/cart_page/cart_item.dart';
 
@@ -157,8 +158,8 @@ class CartPage extends StatelessWidget {
                                       child: Transform.scale(
                                         scale: 1.3,
                                         child: Radio(
-                                          fillColor: WidgetStatePropertyAll(
-                                              secondary),
+                                          fillColor:
+                                              WidgetStatePropertyAll(secondary),
                                           focusColor: secondary,
                                           activeColor: secondary,
                                           value: "Dine in",
@@ -190,8 +191,8 @@ class CartPage extends StatelessWidget {
                                         scale: 1.3,
                                         child: Radio(
                                           value: "Take Out",
-                                          fillColor: WidgetStatePropertyAll(
-                                              secondary),
+                                          fillColor:
+                                              WidgetStatePropertyAll(secondary),
                                           groupValue: state.mode,
                                           focusColor: secondary,
                                           activeColor: secondary,
@@ -228,17 +229,8 @@ class CartPage extends StatelessWidget {
                                       ),
                                     ),
                                     Expanded(child: Container()),
-                                    Text(
-                                      '₱',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14,
-                                          color:
-                                              Color.fromRGBO(120, 120, 120, 1),
-                                          fontFamily: 'Roboto'),
-                                    ),
-                                    Text(
-                                      state.subtotal.toPriceNoSymbol(),
+                                    FormatPrice(
+                                      price: state.subtotal,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: Color.fromRGBO(120, 120, 120, 1),
@@ -259,17 +251,8 @@ class CartPage extends StatelessWidget {
                                       ),
                                     ),
                                     Expanded(child: Container()),
-                                    Text(
-                                      '₱',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14,
-                                          color:
-                                              Color.fromRGBO(120, 120, 120, 1),
-                                          fontFamily: 'Roboto'),
-                                    ),
-                                    Text(
-                                      '0.00',
+                                    FormatPrice(
+                                      price: 0,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: Color.fromRGBO(120, 120, 120, 1),
@@ -290,17 +273,8 @@ class CartPage extends StatelessWidget {
                                       ),
                                     ),
                                     Expanded(child: Container()),
-                                    Text(
-                                      '₱',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14,
-                                          color:
-                                              Color.fromRGBO(120, 120, 120, 1),
-                                          fontFamily: 'Roboto'),
-                                    ),
-                                    Text(
-                                      '0.00',
+                                    FormatPrice(
+                                      price: 0,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: Color.fromRGBO(120, 120, 120, 1),
@@ -320,15 +294,8 @@ class CartPage extends StatelessWidget {
                                       ),
                                     ),
                                     Expanded(child: Container()),
-                                    Text(
-                                      '₱',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 20,
-                                          fontFamily: 'Roboto'),
-                                    ),
-                                    Text(
-                                      state.subtotal.toPriceNoSymbol(),
+                                    FormatPrice(
+                                      price: state.subtotal,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 20,

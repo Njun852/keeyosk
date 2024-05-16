@@ -54,123 +54,207 @@ class _OptionsModalState extends State<OptionsModal> {
             ),
             child: Column(
               children: [
-                Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.asset(
-                              widget.item.imageUrl,
-                              height: 70,
-                              width: 70,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(widget.item.name,
-                                  style: TextStyle(
-                                    fontSize: 24,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                  )),
-                              PriceDisplay(
-                                price: (widget.item.price +
-                                        state.additionalPrice) *
-                                    context.read<OptionBloc>().quantity,
-                                discount: widget.item.discount != null
-                                    ? (widget.item.discount! +
-                                            state.additionalPrice) *
-                                        context.read<OptionBloc>().quantity
-                                    : 0,
-                                fontSize: 20,
-                                color: Colors.black45,
-                              )
-                            ],
-                          ),
-                          Expanded(child: Container()),
-                          Transform.translate(
-                            offset: Offset(18, -34),
-                            child: IconButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                icon: Icon(
-                                  Icons.close,
-                                  size: 32,
-                                  color: Colors.black,
-                                )),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Divider(),
-                      Column(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: List.generate(widget.item.options.length,
-                                (index) {
-                              return OptionSelector(
-                                option: widget.item.options[index],
-                                item: widget.item,
-                              );
-                            }),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(child: Container()),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    children: [
-                      Divider(),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(0),
-                        child: Row(
+                // Padding(
+                //   padding: EdgeInsets.all(20),
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       Row(
+                //         children: [
+                //           ClipRRect(
+                //             borderRadius: BorderRadius.circular(8),
+                //             child: Image.asset(
+                //               widget.item.imageUrl,
+                //               height: 70,
+                //               width: 70,
+                //               fit: BoxFit.cover,
+                //             ),
+                //           ),
+                //           SizedBox(
+                //             width: 15,
+                //           ),
+                //           Column(
+                //             crossAxisAlignment: CrossAxisAlignment.start,
+                //             children: [
+                //               Text(widget.item.name,
+                //                   style: TextStyle(
+                //                     fontSize: 24,
+                //                     color: Colors.black,
+                //                     fontWeight: FontWeight.w600,
+                //                   )),
+                //               PriceDisplay(
+                //                 price: (widget.item.price +
+                //                         state.additionalPrice) *
+                //                     context.read<OptionBloc>().quantity,
+                //                 discount: widget.item.discount != null
+                //                     ? (widget.item.discount! +
+                //                             state.additionalPrice) *
+                //                         context.read<OptionBloc>().quantity
+                //                     : 0,
+                //                 fontSize: 20,
+                //                 color: Colors.black45,
+                //               )
+                //             ],
+                //           ),
+                //           Expanded(child: Container()),
+                //           Transform.translate(
+                //             offset: Offset(18, -34),
+                //             child: IconButton(
+                //                 onPressed: () {
+                //                   Navigator.of(context).pop();
+                //                 },
+                //                 icon: Icon(
+                //                   Icons.close,
+                //                   size: 32,
+                //                   color: Colors.black,
+                //                 )),
+                //           )
+                //         ],
+                //       ),
+                //       SizedBox(
+                //         height: 12,
+                //       ),
+                //       Divider(),
+                //       Expanded(
+                //         flex: 1,
+                //         child: SingleChildScrollView(
+                //           child: Column(
+                //             crossAxisAlignment: CrossAxisAlignment.start,
+                //             children: List.generate(widget.item.options.length,
+                //                 (index) {
+                //               return OptionSelector(
+                //                 option: widget.item.options[index],
+                //                 item: widget.item,
+                //               );
+                //             }),
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        Row(
                           children: [
-                            Text(
-                              'Quantity',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.asset(
+                                widget.item.imageUrl,
+                                height: 70,
+                                width: 70,
+                                fit: BoxFit.cover,
                               ),
                             ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(widget.item.name,
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    )),
+                                PriceDisplay(
+                                  price: (widget.item.price +
+                                          state.additionalPrice) *
+                                      context.read<OptionBloc>().quantity,
+                                  discount: widget.item.discount != null
+                                      ? (widget.item.discount! +
+                                              state.additionalPrice) *
+                                          context.read<OptionBloc>().quantity
+                                      : 0,
+                                  fontSize: 20,
+                                  color: Colors.black45,
+                                )
+                              ],
+                            ),
                             Expanded(child: Container()),
-                            NumberAdjuster(
-                                btnColor: secondary,
-                                onAdd: () {
-                                  context
-                                      .read<OptionBloc>()
-                                      .add(ChangedQuantity(updatedQuantity: 1));
-                                },
-                                quantity: context.read<OptionBloc>().quantity,
-                                onSub: () {
-                                  final bloc = context.read<OptionBloc>();
-                                  if (bloc.quantity > 1) {
-                                    bloc.add(
-                                        ChangedQuantity(updatedQuantity: -1));
-                                  }
-                                })
+                            Transform.translate(
+                              offset: Offset(18, -34),
+                              child: IconButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  icon: Icon(
+                                    Icons.close,
+                                    size: 32,
+                                    color: Colors.black,
+                                  )),
+                            )
                           ],
                         ),
-                      )
-                    ],
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Divider(),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: List.generate(
+                                  widget.item.options.length, (index) {
+                                return Column(
+                                  children: [
+                                    OptionSelector(
+                                      option: widget.item.options[index],
+                                      item: widget.item,
+                                    ),
+                                    index != widget.item.options.length - 1
+                                        ? Divider()
+                                        : SizedBox()
+                                  ],
+                                );
+                              }),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Divider(),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(0),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Quantity',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Expanded(child: Container()),
+                        NumberAdjuster(
+                            btnColor: secondary,
+                            onAdd: () {
+                              context
+                                  .read<OptionBloc>()
+                                  .add(ChangedQuantity(updatedQuantity: 1));
+                            },
+                            quantity: context.read<OptionBloc>().quantity,
+                            onSub: () {
+                              final bloc = context.read<OptionBloc>();
+                              if (bloc.quantity > 1) {
+                                bloc.add(ChangedQuantity(updatedQuantity: -1));
+                              }
+                            })
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -182,6 +266,7 @@ class _OptionsModalState extends State<OptionsModal> {
                 ),
                 Container(
                   width: double.infinity,
+                  height: 54,
                   padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
                   child: TextButton(
                     onPressed: () {
@@ -202,6 +287,7 @@ class _OptionsModalState extends State<OptionsModal> {
                         backgroundColor: WidgetStatePropertyAll(
                           state.allRequiredFilled ? secondary : Colors.black54,
                         ),
+                        visualDensity: VisualDensity.compact,
                         shape: WidgetStatePropertyAll(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),

@@ -63,7 +63,7 @@ class OptionBloc extends Bloc<OptionEvent, OptionState> {
     );
 
     on<Apply>((event, emit) {
-      repo.apply(
+      repo.add(
         Cart(
           ownerId: currentUser.userId,
           id: const Uuid().v1(),

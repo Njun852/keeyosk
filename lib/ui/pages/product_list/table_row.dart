@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/data/models/menu_item.dart';
+import 'package:keeyosk/ui/widgets/format_price.dart';
 import 'package:keeyosk/utils/extensions/price_format.dart';
 
 class TableRow extends StatelessWidget {
@@ -74,22 +75,22 @@ class TableRow extends StatelessWidget {
             flex: 2,
             child: Row(
               children: [
-                 !isHeader ?
-                Text(
-                  '₱',
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontFamily: 'Roboto',
-                    color: isHeader ? Colors.black38 : Colors.black,
-                  ),
-                ) : SizedBox(),
-                Text(
-                  isHeader ? 'Price' : item!.price.toPriceNoSymbol(),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 10,
-                      color: isHeader ? Colors.black38 : Colors.black),
-                ),
+                !isHeader
+                    ? FormatPrice(
+                        price: item!.price,
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontFamily: 'Roboto',
+                          color: isHeader ? Colors.black38 : Colors.black,
+                        ),
+                      )
+                    : Text(
+                        'Price',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 10,
+                            color: isHeader ? Colors.black38 : Colors.black),
+                      ),
               ],
             ),
           ),
