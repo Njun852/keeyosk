@@ -199,10 +199,10 @@ class _OptionsModalState extends State<OptionsModal> {
                       }
                     },
                     style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(
+                        backgroundColor: WidgetStatePropertyAll(
                           state.allRequiredFilled ? secondary : Colors.black54,
                         ),
-                        shape: MaterialStatePropertyAll(
+                        shape: WidgetStatePropertyAll(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),

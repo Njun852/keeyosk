@@ -80,10 +80,10 @@ class ProductList extends StatelessWidget {
                                 ),
                               ),
                               style: ButtonStyle(
-                                  backgroundColor: MaterialStatePropertyAll(
+                                  backgroundColor: WidgetStatePropertyAll(
                                     secondary,
                                   ),
-                                  shape: MaterialStatePropertyAll(
+                                  shape: WidgetStatePropertyAll(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(3),
                                     ),

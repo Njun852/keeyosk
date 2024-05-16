@@ -24,7 +24,6 @@ class CartRepo {
   CartRepo._sharedInstance();
   void apply(Cart cart) {
     _cartList.add(cart);
-    // service.write(route: "cart", data: cart.toJSON());
   }
 
   void deleteFromId(String id) {
@@ -38,7 +37,7 @@ class CartRepo {
   void deleteAll() {
     _cartList.clear();
   }
-
+  
   List<Cart> getAll() {
     return _cartList;
   }

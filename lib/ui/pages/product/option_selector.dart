@@ -58,10 +58,10 @@ class OptionSelector extends StatelessWidget {
                     children: [
                       TextButton(
                         style: ButtonStyle(
-                          backgroundColor: const MaterialStatePropertyAll(
+                          backgroundColor: const WidgetStatePropertyAll(
                             lightblue,
                           ),
-                          shape: MaterialStatePropertyAll(
+                          shape: WidgetStatePropertyAll(
                             RoundedRectangleBorder(
                               side: BorderSide(
                                   color: (state is OptionModified &&

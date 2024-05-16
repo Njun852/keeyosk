@@ -142,10 +142,10 @@ class OrderTile extends StatelessWidget {
                     child: IconButton(
                       iconSize: 18,
                       style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(Colors.white),
+                        backgroundColor: WidgetStatePropertyAll(Colors.white),
                         visualDensity: VisualDensity.compact,
-                        padding: MaterialStatePropertyAll(EdgeInsets.zero),
-                        shape: MaterialStatePropertyAll(
+                        padding: WidgetStatePropertyAll(EdgeInsets.zero),
+                        shape: WidgetStatePropertyAll(
                           RoundedRectangleBorder(
                             side: BorderSide(color: secondary),
                           ),

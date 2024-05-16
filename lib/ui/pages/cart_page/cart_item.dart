@@ -118,13 +118,13 @@ class CartItem extends StatelessWidget {
                         height: 20,
                         child: TextButton(
                           style: ButtonStyle(
-                              backgroundColor: MaterialStatePropertyAll(
+                              backgroundColor: WidgetStatePropertyAll(
                                 secondary,
                               ),
                               visualDensity: VisualDensity.compact,
                               padding:
-                                  MaterialStatePropertyAll(EdgeInsets.zero),
-                              shape: MaterialStatePropertyAll(
+                                  WidgetStatePropertyAll(EdgeInsets.zero),
+                              shape: WidgetStatePropertyAll(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),

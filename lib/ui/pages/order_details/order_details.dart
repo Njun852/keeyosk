@@ -12,6 +12,7 @@ import 'package:keeyosk/utils/extensions/price_format.dart';
 import 'package:keeyosk/utils/extensions/with_selected_items.dart';
 import 'package:keeyosk/utils/get_total_price.dart';
 import 'package:keeyosk/utils/to_string_options.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrderDetails extends StatelessWidget {
   const OrderDetails({super.key});
@@ -426,7 +427,7 @@ class OrderDetails extends StatelessWidget {
                           ),
                           Expanded(child: Container()),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: openSMS,
                             icon: Icon(
                               Icons.message,
                               color: primary,
@@ -436,7 +437,7 @@ class OrderDetails extends StatelessWidget {
                             width: 5,
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: openPhone,
                             icon: Icon(
                               Icons.phone,
                               color: primary,
@@ -458,10 +459,10 @@ class OrderDetails extends StatelessWidget {
                     children: [
                       TextButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(
+                          backgroundColor: WidgetStatePropertyAll(
                             Color.fromRGBO(255, 78, 78, 1),
                           ),
-                          shape: MaterialStatePropertyAll(
+                          shape: WidgetStatePropertyAll(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
                             ),
@@ -480,12 +481,12 @@ class OrderDetails extends StatelessWidget {
                       TextButton(
                         onPressed: () {},
                         style: ButtonStyle(
-                          shape: MaterialStatePropertyAll(
+                          shape: WidgetStatePropertyAll(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
                             ),
                           ),
-                          backgroundColor: MaterialStatePropertyAll(
+                          backgroundColor: WidgetStatePropertyAll(
                             Color.fromRGBO(56, 165, 97, 1),
                           ),
                         ),
@@ -507,5 +508,16 @@ class OrderDetails extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  //TODO: REMOVE THIS LATER
+  Future<void> openPhone() async {
+    final url = Uri.parse('tel:${currentUser.phoneNumber}');
+    launchUrl(url);
+  }
+
+  Future<void> openSMS() async {
+    final url = Uri.parse('sms:${currentUser.phoneNumber}');
+    launchUrl(url);
   }
 }

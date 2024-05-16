@@ -21,7 +21,6 @@ class OrderSuccess extends StatelessWidget {
   Widget build(BuildContext context) {
     RouteSettings rs = ModalRoute.of(context)!.settings;
     final order = rs.arguments as Order;
-    print('aaaa: ' + order.toJSON().toString());
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -122,13 +121,13 @@ class OrderSuccess extends StatelessWidget {
                                     onPressed: () {},
                                     style: ButtonStyle(
                                       visualDensity: VisualDensity.comfortable,
-                                      padding: MaterialStatePropertyAll(
+                                      padding: WidgetStatePropertyAll(
                                           EdgeInsets.zero),
-                                      shape: MaterialStatePropertyAll(
+                                      shape: WidgetStatePropertyAll(
                                           RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(5))),
-                                      backgroundColor: MaterialStatePropertyAll(
+                                      backgroundColor: WidgetStatePropertyAll(
                                         Color.fromRGBO(239, 243, 249, 1),
                                       ),
                                     ),
@@ -181,8 +180,8 @@ class OrderSuccess extends StatelessWidget {
                           Navigator.of(context).pushReplacementNamed(dashboard);
                         },
                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(secondary),
-                          shape: MaterialStatePropertyAll(
+                          backgroundColor: WidgetStatePropertyAll(secondary),
+                          shape: WidgetStatePropertyAll(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),

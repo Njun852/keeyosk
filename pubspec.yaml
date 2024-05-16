@@ -51,6 +51,7 @@ dependencies:
   socket_io_client: ^2.0.3+1
   http: ^1.2.1
   flutter_local_notifications: ^17.1.2
+  url_launcher: ^6.2.6
 
 dev_dependencies:
   flutter_test:
@@ -87,7 +88,7 @@ flutter:
         - asset: lib/ui/assets/fonts/Poppins-BlackItalic.ttf
         - asset: lib/ui/assets/fonts/Poppins-Bold.ttf
         - asset: lib/ui/assets/fonts/Poppins-BoldItalic.ttf
-        - asset: lib/ui/assets/fonts/Poppins-ExtraBold.ttf
+        - asset: lib/ui/assets/fonts/Poppins-ExtraBold.ttf             
         - asset: lib/ui/assets/fonts/Poppins-ExtraBoldItalic.ttf
         - asset: lib/ui/assets/fonts/Poppins-ExtraLight.ttf
         - asset: lib/ui/assets/fonts/Poppins-ExtraLightItalic.ttf

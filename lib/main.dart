@@ -31,7 +31,7 @@ void main() {
     OrderRepo repo = OrderRepo();
     repo.apply();
     socketService.socket.on("recieve order", (data) {
-      notificationService.showNotification();
+      notificationService.showNotification(data["tableId"]);
       repo.add(Order.fromJSON(data));
     });
   }

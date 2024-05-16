@@ -98,10 +98,10 @@ class _CategoryState extends State<Category> with WidgetsBindingObserver {
                             height: 25,
                             child: IconButton.outlined(
                               style: ButtonStyle(
-                                  side: MaterialStatePropertyAll(
+                                  side: WidgetStatePropertyAll(
                                     BorderSide(color: primary),
                                   ),
-                                  padding: MaterialStatePropertyAll(
+                                  padding: WidgetStatePropertyAll(
                                       EdgeInsets.zero)),
                               onPressed: () {
                                 context
@@ -132,11 +132,11 @@ class _CategoryState extends State<Category> with WidgetsBindingObserver {
                       width: double.infinity,
                       child: TextButton(
                           style: ButtonStyle(
-                            shape: MaterialStatePropertyAll(
+                            shape: WidgetStatePropertyAll(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8))),
                             backgroundColor:
-                                MaterialStatePropertyAll(secondary),
+                                WidgetStatePropertyAll(secondary),
                           ),
                           onPressed: () {
                             context.read<CategoryBloc>().add(Apply());

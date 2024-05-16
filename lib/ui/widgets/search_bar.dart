@@ -48,7 +48,7 @@ class _SearchBarViewState extends State<SearchBarView> {
                 iconSize: 24,
                 onPressed: () {},
                 style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.yellow)),
+                    backgroundColor: WidgetStatePropertyAll(Colors.yellow)),
                 icon: Icon(
                   Icons.search,
                   color: Colors.white,

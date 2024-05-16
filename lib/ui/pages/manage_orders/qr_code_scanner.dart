@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/constants/routes.dart';
+import 'package:keeyosk/data/models/cart.dart';
 import 'package:keeyosk/data/models/order.dart';
+import 'package:keeyosk/data/repositories/cart_repo.dart';
 import 'package:keeyosk/data/repositories/order_repo.dart';
 import 'package:keeyosk/data/services/socket_service.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -126,11 +128,23 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
       if (tables.contains(_result!.code) && _order != null) {
         SocketService socket = SocketService();
         final repo = OrderRepo();
+        final cartRepo = CartRepo();
+        final carts = cartRepo.getAll();
+
+        for (Cart selected in _order!.carts) {
+          for (Cart cartItems in carts) {
+            if (selected.id == cartItems.id) {
+              cartRepo.delete(cartRepo.getIndexFromId(selected.id));
+            }
+          }
+        }
         _order!.tableId = _result!.code;
         _controller?.pauseCamera();
 
         socket.emit("send order", _order!.toJSON());
+
         repo.apply();
+
         Navigator.of(context).pushReplacementNamed(
           orderSuccess,
           arguments: _order!,

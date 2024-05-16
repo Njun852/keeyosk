@@ -39,15 +39,18 @@ class NotificationService {
     navigatorKey.currentState!.pushNamed(manageOrders);
   }
 
-  Future<void> showNotification() async {
-    const AndroidNotificationDetails notification = AndroidNotificationDetails(
-        'test', 'testing',
-        priority: Priority.max, visibility: NotificationVisibility.public);
+  Future<void> showNotification(String tblNumber) async {
+    AndroidNotificationDetails notification = AndroidNotificationDetails(
+        fullScreenIntent: true,
+        tblNumber,
+        'testing',
+        priority: Priority.max,
+        visibility: NotificationVisibility.public);
     await _flutterLocalNotificationsPlugin.show(
       1,
       'Recieved New Order!',
-      null,
-      const NotificationDetails(android: notification),
+      'A new order from table #$tblNumber has been made.',
+      NotificationDetails(android: notification),
     );
   }
 }

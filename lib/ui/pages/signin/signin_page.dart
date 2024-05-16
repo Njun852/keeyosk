@@ -118,11 +118,11 @@ class _SignInPageState extends State<SignInPage> {
                   width: 200,
                   child: TextButton(
                     style: ButtonStyle(
-                      elevation: MaterialStatePropertyAll(1),
-                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                      elevation: WidgetStatePropertyAll(1),
+                      shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40),
                       )),
-                      backgroundColor: MaterialStatePropertyAll(secondary),
+                      backgroundColor: WidgetStatePropertyAll(secondary),
                     ),
                     child: Text(
                       'Sign In',

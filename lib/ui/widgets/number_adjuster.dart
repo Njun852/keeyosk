@@ -51,7 +51,7 @@ class NumberAdjuster extends StatelessWidget {
           child: IconButton(
             style: ButtonStyle(
               visualDensity: VisualDensity.compact,
-              padding: MaterialStatePropertyAll(EdgeInsets.zero),
+              padding: WidgetStatePropertyAll(EdgeInsets.zero),
             ),
             onPressed: onSub,
             icon: Icon(
@@ -97,7 +97,7 @@ class NumberAdjuster extends StatelessWidget {
           child: IconButton(
             style: ButtonStyle(
               visualDensity: VisualDensity.compact,
-              padding: MaterialStatePropertyAll(EdgeInsets.zero),
+              padding: WidgetStatePropertyAll(EdgeInsets.zero),
             ),
             onPressed: onAdd,
             icon: Icon(

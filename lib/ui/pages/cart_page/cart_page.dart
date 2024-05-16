@@ -123,14 +123,14 @@ class CartPage extends StatelessWidget {
                                   child: TextButton(
                                     style: ButtonStyle(
                                         backgroundColor:
-                                            MaterialStatePropertyAll(secondary),
-                                        shape: MaterialStatePropertyAll(
+                                            WidgetStatePropertyAll(secondary),
+                                        shape: WidgetStatePropertyAll(
                                           RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                           ),
                                         ),
-                                        padding: MaterialStatePropertyAll(
+                                        padding: WidgetStatePropertyAll(
                                             EdgeInsets.zero),
                                         visualDensity: VisualDensity.compact),
                                     onPressed: () {},
@@ -157,7 +157,7 @@ class CartPage extends StatelessWidget {
                                       child: Transform.scale(
                                         scale: 1.3,
                                         child: Radio(
-                                          fillColor: MaterialStatePropertyAll(
+                                          fillColor: WidgetStatePropertyAll(
                                               secondary),
                                           focusColor: secondary,
                                           activeColor: secondary,
@@ -190,7 +190,7 @@ class CartPage extends StatelessWidget {
                                         scale: 1.3,
                                         child: Radio(
                                           value: "Take Out",
-                                          fillColor: MaterialStatePropertyAll(
+                                          fillColor: WidgetStatePropertyAll(
                                               secondary),
                                           groupValue: state.mode,
                                           focusColor: secondary,
@@ -348,11 +348,11 @@ class CartPage extends StatelessWidget {
                             child: TextButton(
                                 style: ButtonStyle(
                                     visualDensity: VisualDensity.compact,
-                                    backgroundColor: MaterialStatePropertyAll(
+                                    backgroundColor: WidgetStatePropertyAll(
                                         state.selectedItems.isEmpty
                                             ? Colors.black54
                                             : secondary),
-                                    shape: MaterialStatePropertyAll(
+                                    shape: WidgetStatePropertyAll(
                                       RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(8),
                                       ),
