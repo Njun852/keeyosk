@@ -5,6 +5,7 @@ import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/data/models/order.dart';
 import 'package:keeyosk/data/models/user.dart';
 import 'package:keeyosk/data/repositories/order_repo.dart';
+import 'package:keeyosk/data/services/notification_service.dart';
 import 'package:keeyosk/data/services/socket_service.dart';
 import 'package:keeyosk/ui/pages/admin_panel/admin_panel.dart';
 import 'package:keeyosk/ui/pages/cart_page/cart_page.dart';
@@ -17,16 +18,20 @@ import 'package:keeyosk/ui/pages/order_success/order_success.dart';
 import 'package:keeyosk/ui/pages/product/product_page.dart';
 import 'package:keeyosk/ui/pages/product_list/product_list.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   currentUser = users[1];
   final SocketService socketService = SocketService();
+  final NotificationService notificationService = NotificationService();
   socketService.init();
+  notificationService.init();
 
   if (currentUser.role == Role.admin) {
     OrderRepo repo = OrderRepo();
     repo.apply();
     socketService.socket.on("recieve order", (data) {
+      notificationService.showNotification();
       repo.add(Order.fromJSON(data));
     });
   }
@@ -38,14 +43,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         iconButtonTheme: const IconButtonThemeData(
             style: ButtonStyle(
-          iconColor: MaterialStatePropertyAll(
-            Colors.white,
-          ),
+          iconColor: WidgetStatePropertyAll(Colors.white),
         )),
         fontFamily: 'Poppins',
         appBarTheme: const AppBarTheme(

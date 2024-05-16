@@ -107,9 +107,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         int hour = t.hour;
         int minute = t.minute;
         String suffix = 'AM';
-        if (hour % 12 == 12) {
+        if (hour % 13 == 12) {
           suffix = 'PM';
-          hour = hour % 12;
+          hour = hour % 13;
         }
         String hPrefix = '';
         if (hour < 10) {
