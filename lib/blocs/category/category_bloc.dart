@@ -7,9 +7,10 @@ import 'package:keeyosk/data/repositories/category_repo.dart';
 
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   late CategoryRepo repo = CategoryRepo.repo;
+  String _currentLabel = '';
+
   CategoryBloc() : super(Empty(categories: [])) {
     on<Setup>((event, emit) {
-      repo.init();
       emit(CategoryState(categories: repo.getAll()));
     });
 
@@ -25,6 +26,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     on<EditingField>(
       (event, emit) {
         repo.update(event.id, Category(id: event.id, label: event.newLabel));
+
         emit(CategoryState(categories: repo.getAll()));
       },
     );
@@ -38,7 +40,11 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
     on<Apply>(
       (event, emit) {
-        emit(state);
+        repo.getAll().forEach((element) {
+          if (element.label.isEmpty) {
+            repo.delete(element.id);
+          }
+        });
       },
     );
   }

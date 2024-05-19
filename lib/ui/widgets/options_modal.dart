@@ -17,7 +17,7 @@ import 'package:keeyosk/ui/pages/product/option_selector.dart';
 import 'package:keeyosk/ui/widgets/number_adjuster.dart';
 import 'package:keeyosk/ui/widgets/price_display.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:keeyosk/utils/toast.dart';
+import 'package:keeyosk/ui/widgets/toast.dart';
 
 class OptionsModal extends StatefulWidget {
   final MenuItem item;

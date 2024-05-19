@@ -8,7 +8,6 @@ import 'package:keeyosk/blocs/category/category_bloc.dart';
 import 'package:keeyosk/blocs/category/category_event.dart';
 import 'package:keeyosk/blocs/category/category_state.dart';
 import 'package:keeyosk/constants/colors.dart';
-import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/constants/styles.dart';
 import 'package:keeyosk/ui/pages/category/category_field.dart';
 
@@ -40,6 +39,8 @@ class _CategoryState extends State<Category> with WidgetsBindingObserver {
       _keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     });
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -140,9 +141,6 @@ class _CategoryState extends State<Category> with WidgetsBindingObserver {
                           ),
                           onPressed: () {
                             context.read<CategoryBloc>().add(Apply());
-                            if (state.categories.last.label.isNotEmpty) {
-                              Navigator.of(context).pop();
-                            }
                           },
                           child: Text(
                             'Save Changes',

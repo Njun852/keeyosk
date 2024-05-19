@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/data/models/order.dart';
 import 'package:keeyosk/data/models/user.dart';
+import 'package:keeyosk/data/repositories/category_repo.dart';
 import 'package:keeyosk/data/repositories/order_repo.dart';
+import 'package:keeyosk/data/services/http_service.dart';
 import 'package:keeyosk/data/services/notification_service.dart';
 import 'package:keeyosk/data/services/socket_service.dart';
 import 'package:keeyosk/ui/pages/admin_panel/admin_panel.dart';
@@ -21,9 +25,13 @@ import 'package:keeyosk/ui/pages/product_list/product_list.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+
   currentUser = users[1];
   final SocketService socketService = SocketService();
   final NotificationService notificationService = NotificationService();
+  final HttpService httpService = HttpService();
+  httpService.init();
+  CategoryRepo().init();
   socketService.init();
   notificationService.init();
 

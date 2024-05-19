@@ -16,39 +16,39 @@ class HttpService {
   }
 
   Future<void> write({required String route, required Map data}) async {
-    print(data);
     await client?.post(
-      Uri.parse('http://$url:8080/$route'),
+      Uri.parse('$url$route'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(data),
     );
   }
 
-  Future<dynamic> read({required String route, dynamic data}) async {
-    print(data + " fdfdsfsd ");
+  Future<dynamic> read({required String route, String id = ''}) async {
     var response = await client?.get(
-      Uri.parse('http://$url:8080/$route/$data'),
+      headers: {'Content-Type': 'application/json'},
+      Uri.parse('$url$route/$id'),
     );
     return json.decode(response!.body);
-    
   }
 
-  Future<void> update({required route, required Map data}) async {
+  Future<void> update({
+    required route,
+    required String id,
+    required Map data,
+  }) async {
     await client?.put(
       Uri.parse(
-        'http://$url:8080/$route',
+        '$url$route/$id',
       ),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(data),
     );
-    client?.close();
   }
 
-  Future<void> delete({required String route, required Map data}) async {
+  Future<void> delete({required String route, required String id}) async {
     await client?.delete(
-      Uri.parse('http://$url:8080/$route'),
+      Uri.parse('$url$route/$id'),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(data),
     );
   }
 }
