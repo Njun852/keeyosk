@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -75,11 +76,31 @@ class _DashboardState extends State<Dashboard> {
                           tabAlignment: _length > 3
                               ? TabAlignment.center
                               : TabAlignment.fill,
-                          isScrollable: _length > 3 ? true : false,
+                          isScrollable: _length > 3,
                           tabs: [
-                            Tab(text: 'Meals'),
-                            Tab(text: 'Desserts'),
-                            Tab(text: 'Drinks'),
+                            Tab(
+                                child: AutoSizeText(
+                              'Meals',
+                              maxLines: 1,
+                              minFontSize: 5,
+                              textAlign: TextAlign.center,
+                            )),
+                            Tab(
+                              child: AutoSizeText(
+                                'Holiday Special',
+                                maxLines: 1,
+                                minFontSize: 5,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Tab(
+                              child: AutoSizeText(
+                                'Drinks',
+                                maxLines: 1,
+                                minFontSize: 5,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                           ],
                           dividerHeight: 0,
                           indicatorSize: TabBarIndicatorSize.tab,

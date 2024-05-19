@@ -20,14 +20,15 @@ class TableRowWidget extends StatelessWidget {
   final List<TableItem> items;
   final Color backgroundColor;
   final bool shouldHaveDivider;
-  final double height;
-  const TableRowWidget({
-    super.key,
-    required this.items,
-    this.shouldHaveDivider = true,
-    required this.backgroundColor,
-    required this.height,
-  });
+  final double? height;
+  final EdgeInsets padding;
+  const TableRowWidget(
+      {super.key,
+      required this.items,
+      this.shouldHaveDivider = true,
+      required this.backgroundColor,
+      this.height,
+      required this.padding});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class TableRowWidget extends StatelessWidget {
         children: [
           Expanded(child: Container()),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: padding,
             child: Row(
               children: List.generate(items.length, (index) {
                 return Flexible(

@@ -8,6 +8,7 @@ class OrderRepo implements Repo<Order> {
   OrderRepo._sharedInstance();
   @override
   void add(data) {
+    print(data.carts.first.item.price);
     _orders.add(data);
   }
 
@@ -39,19 +40,12 @@ class OrderRepo implements Repo<Order> {
 
   @override
   void update(String id, Order data) {
-    _orders.map((e) {
-      if (e.id == id) {
-        return Order(
-          id: id,
-          orderMode: data.orderMode,
-          hour: data.hour,
-          date: data.date,
-          customer: data.customer,
-          carts: data.carts,
-          vouchersApplied: data.vouchersApplied,
-          status: data.status,
-        );
-      }
-    });
+    final index = _orders.indexWhere((e) => e.id == id);
+    _orders[index] = data;
+  }
+
+  @override
+  Order get(String id) {
+    return _orders[_orders.indexWhere((element) => element.id == id)];
   }
 }

@@ -33,21 +33,17 @@ class MenuItemRepo implements Repo<MenuItem> {
 
   @override
   void update(String id, MenuItem data) {
-    _items.map((e) {
-      if (e.id == id) {
-        return MenuItem(
-          name: data.name,
-          id: id,
-          imageUrl: data.imageUrl,
-          price: data.price,
-          category: data.category,
-        );
-      }
-    });
+    final index = _items.indexWhere((e) => e.id == id);
+    _items[index] = data;
   }
 
   @override
   void delete(String id) {
     _items.removeWhere((element) => element.id == id);
+  }
+
+  @override
+  MenuItem get(String id) {
+    return _items[_items.indexWhere((element) => element.id == id)];
   }
 }

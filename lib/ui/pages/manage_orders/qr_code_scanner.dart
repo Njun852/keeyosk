@@ -133,7 +133,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
         }
         _order!.tableId = _result!.code;
         _controller?.pauseCamera();
-        socket.emit("send order", _order!.toJSON());
+        socket.emit("request order", _order!.toJSON());
         Navigator.of(context).pushNamedAndRemoveUntil(
           orderSuccess,
           (route) => false,

@@ -297,6 +297,7 @@ class CartPage extends StatelessWidget {
                                     FormatPrice(
                                       price: state.subtotal,
                                       style: TextStyle(
+                                        color: Colors.black,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 20,
                                       ),

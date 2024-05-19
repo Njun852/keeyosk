@@ -83,22 +83,23 @@ class OrderSuccess extends StatelessWidget {
                                 children:
                                     List.generate(order.carts.length, (index) {
                                   Cart cart = order.carts[index];
-                                  return Label(
-                                    left: cart.item.name,
-                                    right: getItemPriceWithSelected(
-                                            cart.item,
-                                            cart.selectedOptions,
-                                            cart.item.discount == null,
-                                            cart.quantity)
-                                        .toPrice(),
+                                  return Padding(
+                                    padding: EdgeInsets.only(bottom: 5),
+                                    child: Label(
+                                      left: cart.item.name,
+                                      right: getItemPriceWithSelected(
+                                              cart.item,
+                                              cart.selectedOptions,
+                                              cart.item.discount == null,
+                                              cart.quantity)
+                                          .toPrice(),
+                                    ),
                                   );
                                 }),
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: 12,
-                          ),
+                          Expanded(child: SizedBox()),
                           Column(
                             children: [
                               Label(
@@ -106,31 +107,23 @@ class OrderSuccess extends StatelessWidget {
                                 right: '${order.tableId}',
                                 includesPrice: false,
                               ),
-                              SizedBox(
-                                height: 10,
-                              ),
+                              // SizedBox(
+                              //   height: 10,
+                              // ),
                               Label(
                                 left: 'Date',
                                 right: order.date,
                                 includesPrice: false,
                               ),
                               SizedBox(
-                                height: 40,
+                                height: 25,
                               ),
                               SizedBox(
-                                child: TextButton(
-                                    onPressed: () {},
-                                    style: ButtonStyle(
-                                      visualDensity: VisualDensity.comfortable,
-                                      padding: WidgetStatePropertyAll(
-                                          EdgeInsets.zero),
-                                      shape: WidgetStatePropertyAll(
-                                          RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5))),
-                                      backgroundColor: WidgetStatePropertyAll(
-                                        Color.fromRGBO(239, 243, 249, 1),
-                                      ),
+                                child: Container(
+                                    padding: EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Color.fromRGBO(239, 243, 249, 1),
                                     ),
                                     child: Row(
                                       mainAxisAlignment:

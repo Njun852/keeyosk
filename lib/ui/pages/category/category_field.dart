@@ -11,9 +11,10 @@ import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/data/models/category.dart';
 
 class CategoryField extends StatefulWidget {
-  final String initalTxt;
+  final String label;
+  final String id;
 
-  const CategoryField({super.key, required this.initalTxt});
+  const CategoryField({super.key, required this.label, required this.id});
 
   @override
   State<CategoryField> createState() => _CategoryFieldState();
@@ -21,11 +22,11 @@ class CategoryField extends StatefulWidget {
 
 class _CategoryFieldState extends State<CategoryField> {
   final TextEditingController _controller = TextEditingController();
-
+  late String _id;
   @override
   Widget build(BuildContext context) {
-    _controller.text = widget.initalTxt;
-
+    _controller.text = widget.label;
+    _id = widget.id;
     return BlocProvider.value(
       value: context.read<CategoryBloc>(),
       child: Padding(
@@ -52,8 +53,8 @@ class _CategoryFieldState extends State<CategoryField> {
                       onChanged: (value) {
                         context.read<CategoryBloc>().add(
                               EditingField(
-                                label: widget.initalTxt,
-                                updated: Category(label: value),
+                                newLabel: value,
+                                id: _id,
                               ),
                             );
                       },
@@ -79,7 +80,7 @@ class _CategoryFieldState extends State<CategoryField> {
                   onTap: () {
                     context
                         .read<CategoryBloc>()
-                        .add(DeletedField(label: widget.initalTxt));
+                        .add(DeletedField(id: widget.id));
                   },
                   child: Container(
                     width: 45,

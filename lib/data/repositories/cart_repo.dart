@@ -1,4 +1,3 @@
-
 import 'package:http/http.dart';
 import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/data/models/cart.dart';
@@ -43,17 +42,12 @@ class CartRepo implements Repo<Cart> {
 
   @override
   void update(String id, data) {
-    _cartList.map((element) {
-      if (element.id == id) {
-        return Cart(
-          ownerId: data.ownerId,
-          id: id,
-          item: data.item,
-          selectedOptions: data.selectedOptions,
-          quantity: data.quantity,
-        );
-      }
-      return element;
-    });
+    final index = _cartList.indexWhere((e) => e.id == id);
+    _cartList[index] = data;
+  }
+
+  @override
+  Cart get(String id) {
+    return _cartList[_cartList.indexWhere((element) => element.id == id)];
   }
 }

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/ui/widgets/format_price.dart';
@@ -19,34 +20,30 @@ class Label extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          left,
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 15,
-            color: Color.fromRGBO(120, 120, 120, 1),
+        Expanded(
+          flex: 3,
+          child: AutoSizeText(
+            left,
+            maxLines: 2,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 15,
+              color: Color.fromRGBO(120, 120, 120, 1),
+            ),
           ),
         ),
         Expanded(
+          flex: 1,
           child: Container(),
         ),
-        includesPrice
-            ? FormatPrice(
-                price: double.parse(right),
-                style: TextStyle(
-                  fontSize: 15,
-                  color: primary,
-                  fontWeight: FontWeight.w600,
-                ),
-              )
-            : Text(
-                right,
-                style: TextStyle(
-                  fontSize: 15,
-                  color: primary,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+        Text(
+          right,
+          style: TextStyle(
+            fontSize: 15,
+            color: primary,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ],
     );
   }

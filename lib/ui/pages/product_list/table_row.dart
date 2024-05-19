@@ -30,7 +30,10 @@ class TableRow extends StatelessWidget {
                   child: Text(
                     'Product Name',
                     textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 10, color: Colors.black38),
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.black38,
+                    ),
                   ),
                 )
               : Flexible(

@@ -9,6 +9,7 @@ class MenuItem {
   //TODO: make this a list of binary files
   final String imageUrl;
   final List<Option> options;
+  final bool isAvailable;
   final double price;
   double? discount;
 
@@ -20,6 +21,7 @@ class MenuItem {
     required this.imageUrl,
     required this.price,
     required this.category,
-    this.options = const []
+    required this.isAvailable,
+    this.options = const [],
   });
 }

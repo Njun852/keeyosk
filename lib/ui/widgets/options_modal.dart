@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -135,7 +136,7 @@ class _OptionsModalState extends State<OptionsModal> {
                 // ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.only(top: 20, left: 20, right: 20),
                     child: Column(
                       children: [
                         Row(
@@ -153,14 +154,21 @@ class _OptionsModalState extends State<OptionsModal> {
                               width: 15,
                             ),
                             Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(widget.item.name,
+                                SizedBox(
+                                  width: 200,
+                                  child: AutoSizeText(
+                                    widget.item.name,
+                                    maxLines: 2,
                                     style: TextStyle(
                                       fontSize: 24,
                                       color: Colors.black,
                                       fontWeight: FontWeight.w600,
-                                    )),
+                                    ),
+                                  ),
+                                ),
                                 PriceDisplay(
                                   price: (widget.item.price +
                                           state.additionalPrice) *
@@ -221,42 +229,45 @@ class _OptionsModalState extends State<OptionsModal> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Divider(),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(0),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Quantity',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                          ),
+                  child: Column(
+                    children: [
+                      Divider(),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(0),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Quantity',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Expanded(child: Container()),
+                            NumberAdjuster(
+                                btnColor: secondary,
+                                onAdd: () {
+                                  context
+                                      .read<OptionBloc>()
+                                      .add(ChangedQuantity(updatedQuantity: 1));
+                                },
+                                quantity: context.read<OptionBloc>().quantity,
+                                onSub: () {
+                                  final bloc = context.read<OptionBloc>();
+                                  if (bloc.quantity > 1) {
+                                    bloc.add(
+                                        ChangedQuantity(updatedQuantity: -1));
+                                  }
+                                })
+                          ],
                         ),
-                        Expanded(child: Container()),
-                        NumberAdjuster(
-                            btnColor: secondary,
-                            onAdd: () {
-                              context
-                                  .read<OptionBloc>()
-                                  .add(ChangedQuantity(updatedQuantity: 1));
-                            },
-                            quantity: context.read<OptionBloc>().quantity,
-                            onSub: () {
-                              final bloc = context.read<OptionBloc>();
-                              if (bloc.quantity > 1) {
-                                bloc.add(ChangedQuantity(updatedQuantity: -1));
-                              }
-                            })
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
+
                 SizedBox(
                   height: 8,
                 ),

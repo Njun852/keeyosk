@@ -33,12 +33,8 @@ class CategoryRepo implements Repo<Category> {
 
   @override
   void update(String id, Category cat) {
-    _categories.map((element) {
-      if (element.label == id) {
-        return Category(label: cat.label);
-      }
-      return element;
-    });
+    final index = _categories.indexWhere((e) => e.id == id);
+    _categories[index] = cat;
   }
 
   @override
@@ -49,5 +45,10 @@ class CategoryRepo implements Repo<Category> {
   @override
   void delete(String id) {
     _categories.removeWhere((element) => element.label == id);
+  }
+
+  @override
+  Category get(String id) {
+    return _categories[_categories.indexWhere((element) => element.id == id)];
   }
 }

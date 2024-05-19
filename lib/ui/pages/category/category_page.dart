@@ -80,7 +80,8 @@ class _CategoryState extends State<Category> with WidgetsBindingObserver {
                           children:
                               List.generate(state.categories.length, (index) {
                             return CategoryField(
-                              initalTxt: state.categories[index].label,
+                              id: state.categories[index].id,
+                              label: state.categories[index].label,
                             );
                           }),
                         ),
@@ -101,8 +102,8 @@ class _CategoryState extends State<Category> with WidgetsBindingObserver {
                                   side: WidgetStatePropertyAll(
                                     BorderSide(color: primary),
                                   ),
-                                  padding: WidgetStatePropertyAll(
-                                      EdgeInsets.zero)),
+                                  padding:
+                                      WidgetStatePropertyAll(EdgeInsets.zero)),
                               onPressed: () {
                                 context
                                     .read<CategoryBloc>()
@@ -135,12 +136,13 @@ class _CategoryState extends State<Category> with WidgetsBindingObserver {
                             shape: WidgetStatePropertyAll(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8))),
-                            backgroundColor:
-                                WidgetStatePropertyAll(secondary),
+                            backgroundColor: WidgetStatePropertyAll(secondary),
                           ),
                           onPressed: () {
                             context.read<CategoryBloc>().add(Apply());
-                            Navigator.of(context).pop();
+                            if (state.categories.last.label.isNotEmpty) {
+                              Navigator.of(context).pop();
+                            }
                           },
                           child: Text(
                             'Save Changes',

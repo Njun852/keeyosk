@@ -52,49 +52,43 @@ class OptionSelector extends StatelessWidget {
                   )
                 ],
               ),
-              Row(
+              Wrap(
+                spacing: 5,
+                runSpacing: 5,
                 children: List.generate(option.items.length, (index) {
-                  return Row(
-                    children: [
-                      TextButton(
-                        style: ButtonStyle(
-                          backgroundColor: const WidgetStatePropertyAll(
-                            lightblue,
-                          ),
-                          shape: WidgetStatePropertyAll(
-                            RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: (state is OptionModified &&
-                                          (state.options.indexWhere((element) =>
-                                                  element.name ==
-                                                  option.items[index].name)) !=
-                                              -1)
-                                      ? Colors.red
-                                      : Colors.transparent),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                          ),
+                  return TextButton(
+                    style: ButtonStyle(
+                      backgroundColor: const WidgetStatePropertyAll(
+                        lightblue,
+                      ),
+                      shape: WidgetStatePropertyAll(
+                        RoundedRectangleBorder(
+                          side: BorderSide(
+                              color: (state is OptionModified &&
+                                      (state.options.indexWhere((element) =>
+                                              element.name ==
+                                              option.items[index].name)) !=
+                                          -1)
+                                  ? Colors.red
+                                  : Colors.transparent),
+                          borderRadius: BorderRadius.circular(4),
                         ),
-                        onPressed: () {
-                          final bloc = context.read<OptionBloc>();
+                      ),
+                    ),
+                    onPressed: () {
+                      final bloc = context.read<OptionBloc>();
 
-                          bloc.add(SelectedOption(
-                              itemId: option.items[index].id,
-                              optionId: option.id));
-                        },
-                        child: Text(
-                          option.items[index].name,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                      bloc.add(SelectedOption(
+                          itemId: option.items[index].id, optionId: option.id));
+                    },
+                    child: Text(
+                      option.items[index].name,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
                       ),
-                      SizedBox(
-                        width: index != option.items.length - 1 ? 8 : 0,
-                      ),
-                    ],
+                    ),
                   );
                 }),
               ),

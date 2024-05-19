@@ -72,6 +72,7 @@ class OrderDetails extends StatelessWidget {
                     Text(
                       '(${order.orderMode})',
                       style: TextStyle(
+                        color: Colors.black,
                         fontWeight: FontWeight.w500,
                         fontSize: 14,
                       ),
@@ -128,6 +129,7 @@ class OrderDetails extends StatelessWidget {
             color: Colors.grey[200],
           ),
           TableRowWidget(
+            padding: EdgeInsets.symmetric(horizontal: 16),
             shouldHaveDivider: false,
             backgroundColor: Colors.white,
             height: 23,
@@ -188,6 +190,7 @@ class OrderDetails extends StatelessWidget {
               child: Column(
                 children: List.generate(order.carts.length, (index) {
                   return TableRowWidget(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
                       backgroundColor: lightblue,
                       height: 74,
                       items: [
@@ -213,6 +216,7 @@ class OrderDetails extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                               fontSize: 8,
                               height: 1.2,
+                              color: Colors.black,
                             ),
                           ),
                         ),
@@ -223,6 +227,7 @@ class OrderDetails extends StatelessWidget {
                                 order.carts[index].selectedOptions),
                             textAlign: TextAlign.center,
                             style: TextStyle(
+                              color: Colors.black,
                               fontWeight: FontWeight.w400,
                               fontSize: 8,
                               height: 1.2,
@@ -242,6 +247,7 @@ class OrderDetails extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                               fontSize: 8,
                               height: 1.2,
+                              color: Colors.black,
                             ),
                           ),
                         ),
@@ -251,6 +257,7 @@ class OrderDetails extends StatelessWidget {
                             order.carts[index].quantity.toString(),
                             textAlign: TextAlign.center,
                             style: TextStyle(
+                              color: Colors.black,
                               fontWeight: FontWeight.w400,
                               fontSize: 8,
                               height: 1.2,

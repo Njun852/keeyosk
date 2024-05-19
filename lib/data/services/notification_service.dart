@@ -40,11 +40,12 @@ class NotificationService {
   }
 
   Future<void> showNotification(String tblNumber) async {
-    AndroidNotificationDetails notification = AndroidNotificationDetails(
-        fullScreenIntent: true,
-        tblNumber,
-        'testing',
-        priority: Priority.max,
+    // FlutterLocalNotificationsPlugin.
+    AndroidNotificationDetails notification = const AndroidNotificationDetails(
+        'id',
+        'keeyosk channel',
+        priority: Priority.high,
+        importance: Importance.max,
         visibility: NotificationVisibility.public);
     await _flutterLocalNotificationsPlugin.show(
       1,

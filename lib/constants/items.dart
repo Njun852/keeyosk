@@ -7,17 +7,21 @@ import 'package:keeyosk/data/models/user.dart';
 import 'package:uuid/uuid.dart';
 
 Uuid uuid = Uuid();
+final List<String> tabs = ["Meals", "Holiday Special", "Drinks"];
 List<MenuItem> items = [
   MenuItem(
       id: 'fdsfdsfewfs',
+      description:
+          'The best burger in the world. Buy me please, test test test test',
+      isAvailable: false,
       name: 'Burger',
       imageUrl: './lib/ui/assets/images/food1.png',
-      price: 20,
+      price: 8000,
       options: [
         Option(
           id: 'dsfdskjf234dsfdkfj',
           isRequired: true,
-          isMultiSelect: false,
+          isMultiSelect: true,
           name: 'Size',
           items: [
             OptionItem(
@@ -28,6 +32,16 @@ List<MenuItem> items = [
             OptionItem(
               id: 'dskfjsdkgffgrfjdksf',
               name: 'Medium',
+              additionalPrice: 5,
+            ),
+            OptionItem(
+              id: 'dskfjsdkgffdksf',
+              name: 'thing',
+              additionalPrice: 5,
+            ),
+            OptionItem(
+              id: 'dskfjsdkgffgrfjdksffdsfds',
+              name: 'things of thing with thing',
               additionalPrice: 5,
             ),
             OptionItem(
@@ -61,21 +75,23 @@ List<MenuItem> items = [
           ],
         ),
       ],
-      discount: 15,
-      category: Category(label: 'afd')),
+      discount: 1000,
+      category: Category(label: 'afd', id: '')),
   MenuItem(
+      isAvailable: true,
       id: 'fdsfsdfs434df',
       name: 'Fries',
       imageUrl: './lib/ui/assets/images/food2.png',
       price: 10,
-      category: Category(label: 'afd')),
+      category: Category(label: 'afd', id: '')),
   MenuItem(
+      isAvailable: true,
       id: 'fdsfsdccfsd',
-      name: 'Fried Chicken',
+      name: 'Fried Chicken Ultimate Extreme',
       imageUrl: './lib/ui/assets/images/food3.png',
       price: 50,
       discount: 30,
-      category: Category(label: 'afd')),
+      category: Category(label: 'Super Premuim Special Thing for Vip', id: '')),
 ];
 final List<String> tables = ['0001', '0002', '0003'];
 late User currentUser;

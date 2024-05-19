@@ -64,6 +64,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     });
 
     on<ChangedQuantity>(((event, emit) {
+      final int index =
+          selectedItems.indexWhere((element) => element.id == event.id);
       for (Cart item in cartRepo.getAll()) {
         if (item.id == event.id) {
           item.quantity = event.quantity;
@@ -76,8 +78,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
                 selectedOptions: item.selectedOptions,
                 quantity: event.quantity),
           );
+          if (index != -1) {
+            selectedItems[index] = cartRepo.get(item.id);
+          }
+          break;
         }
       }
+
       emit(
         CartState(
           items: cartRepo.getAll(),

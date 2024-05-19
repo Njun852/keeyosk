@@ -5,19 +5,19 @@ class CategoryEvent {}
 class AddedNewField extends CategoryEvent {}
 
 class Setup extends CategoryEvent {}
+
 class Apply extends CategoryEvent {}
+
 class EditingField extends CategoryEvent {
-  final String label;
-  final Category updated;
+  final String id;
+  final String newLabel;
   EditingField({
-    required this.label,
-    required this.updated,
+    required this.id,
+    required this.newLabel,
   });
 }
 
 class DeletedField extends CategoryEvent {
-  final String label;
-  DeletedField({required this.label});
+  final String id;
+  DeletedField({required this.id});
 }
-
-

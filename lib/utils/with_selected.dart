@@ -7,6 +7,7 @@ double getItemPriceWithSelected(
   bool isOriginal,
   int quantity,
 ) {
+  print('discount: ' + item.discount.toString());
   double sum = isOriginal ? item.price : item.discount ?? 0;
 
   for (OptionItem option in optionItems) {

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -7,7 +8,10 @@ import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/constants/styles.dart';
 import 'package:keeyosk/ui/pages/product_list/table_row.dart' as tb;
+import 'package:keeyosk/ui/widgets/format_price.dart';
+import 'package:keeyosk/ui/widgets/price_display.dart';
 import 'package:keeyosk/ui/widgets/search_bar.dart';
+import 'package:keeyosk/ui/widgets/table_row.dart';
 
 class ProductList extends StatelessWidget {
   const ProductList({super.key});
@@ -66,20 +70,15 @@ class ProductList extends StatelessWidget {
                               child: SearchBarView(
                             padding: 12,
                           )),
-                          SizedBox(width: 50),
+                          SizedBox(width: 15),
                           SizedBox(
-                            width: 77,
+                            width: 100,
                             child: TextButton(
                               onPressed: () {},
-                              child: Text(
-                                'New product',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 9,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
                               style: ButtonStyle(
+                                  visualDensity: VisualDensity.comfortable,
+                                  padding:
+                                      WidgetStatePropertyAll(EdgeInsets.all(2)),
                                   backgroundColor: WidgetStatePropertyAll(
                                     secondary,
                                   ),
@@ -88,37 +87,209 @@ class ProductList extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(3),
                                     ),
                                   )),
+                              child: Text(
+                                'New product',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                             ),
                           )
                         ],
                       ),
                     ),
-                    Container(
-                      // height: 35,
-                      padding: EdgeInsets.all(8),
-                      width: double.infinity,
-                      // padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                      decoration: BoxDecoration(
-                          color: lightblue,
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(5))),
-                      child: tb.TableRow(
-                        isHeader: true,
-                      ),
-                    ),
+                    // Container(
+                    //   // height: 35,
+                    //   padding: EdgeInsets.all(8),
+                    //   width: double.infinity,
+                    //   // padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                    //   decoration: BoxDecoration(
+                    //       color: lightblue,
+                    //       borderRadius:
+                    //           BorderRadius.vertical(top: Radius.circular(5))),
+                    //   child: tb.TableRow(
+                    //     isHeader: true,
+                    //   ),
+                    // ),
                     SizedBox(
-                      height: height*0.7,
+                      height: height * 0.7,
                       child: SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Column(
-                            children: List.generate(
-                                items.length,
-                                (index) => tb.TableRow(
-                                      item: items[index],
+                        child: Column(children: [
+                          TableRowWidget(
+                              shouldHaveDivider: false,
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              items: [
+                                TableItem(
+                                  flex: 2,
+                                  alignment: Alignment.centerLeft,
+                                  widget: Text(
+                                    'Product Name',
+                                    style: TextStyle(
+                                      fontSize: 9,
+                                      color: Colors.black38,
+                                    ),
+                                  ),
+                                ),
+                                TableItem(
+                                  flex: 1,
+                                  alignment: Alignment.centerLeft,
+                                  widget: Text(
+                                    'Category',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 9,
+                                      color: Colors.black38,
+                                    ),
+                                  ),
+                                ),
+                                TableItem(
+                                  flex: 2,
+                                  alignment: Alignment.center,
+                                  widget: Text(
+                                    'Price',
+                                    style: TextStyle(
+                                      fontSize: 9,
+                                      color: Colors.black38,
+                                    ),
+                                  ),
+                                ),
+                                TableItem(
+                                  flex: 2,
+                                  alignment: Alignment.center,
+                                  widget: Text(
+                                    'Status',
+                                    style: TextStyle(
+                                      fontSize: 9,
+                                      color: Colors.black38,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                              backgroundColor: lightblue,
+                              height: 30),
+                          ...List.generate(items.length, (index) {
+                            // return tb.TableRow(
+                            //   item: items[index],
+                            // );
+                            return TableRowWidget(
+                              shouldHaveDivider: false,
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              items: [
+                                TableItem(
+                                    flex: 2,
+                                    widget: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          child: Image.asset(
+                                            items[index].imageUrl,
+                                            height: 30,
+                                            width: 30,
+                                            fit: BoxFit.fitHeight,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        SizedBox(
+                                          width: 50,
+                                          child: AutoSizeText(
+                                            items[index].name,
+                                            minFontSize: 5,
+                                            maxLines: 3,
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                                fontSize: 10,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                      ],
                                     )),
-                          ),
-                        ),
+                                TableItem(
+                                  flex: 1,
+                                  alignment: Alignment.center,
+                                  widget: AutoSizeText(
+                                    maxLines: 3,
+                                    minFontSize: 5,
+                                    items[index].category.label,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                TableItem(
+                                  flex: 2,
+                                  alignment: Alignment.center,
+                                  widget: PriceDisplay(
+                                    shouldStack: true,
+                                    price: items[index].price,
+                                    fontSize: 10,
+                                    color: Colors.black,
+                                    discount: items[index].price,
+                                  ),
+                                ),
+                                TableItem(
+                                  flex: 2,
+                                  alignment: Alignment.centerRight,
+                                  widget: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        items[index].isAvailable
+                                            ? 'Available'
+                                            : 'Not Available',
+                                        style: TextStyle(
+                                            fontSize: 10,
+                                            color: items[index].isAvailable
+                                                ? Color.fromRGBO(56, 165, 97, 1)
+                                                : Color.fromRGBO(
+                                                    255, 78, 78, 1)),
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      SizedBox(
+                                        height: 30,
+                                        width: 15,
+                                        child: PopupMenuButton(
+                                          padding: EdgeInsets.zero,
+                                          itemBuilder: (context) {
+                                            return [
+                                              PopupMenuItem(
+                                                value: 'Disable',
+                                                child: Text('Disable'),
+                                              ),
+                                              PopupMenuItem(
+                                                value: 'Edit',
+                                                child: Text('Edit'),
+                                              ),
+                                              PopupMenuItem(
+                                                value: 'Delete',
+                                                child: Text('Delete'),
+                                              )
+                                            ];
+                                          },
+                                          icon: Icon(
+                                            Icons.more_vert_rounded,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                              backgroundColor: Colors.white,
+                              height: 52,
+                            );
+                          }),
+                        ]),
                       ),
                     ),
                   ],

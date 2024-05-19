@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -58,24 +59,45 @@ class ItemCard extends StatelessWidget {
                           height: constraints.maxHeight / 2,
                         ),
                         Padding(
-                          padding:
-                              EdgeInsets.only(top: 8 * scale, left: 8 * scale),
+                          padding: EdgeInsets.only(
+                              top: 8 * scale,
+                              left: 8 * scale,
+                              right: 8 * scale),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                item.name,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 20 * scale,
+                              ConstrainedBox(
+                                constraints:
+                                    BoxConstraints(maxHeight: 40 * scale),
+                                child: AutoSizeText(
+                                  item.name,
+                                  maxLines: 2,
+                                  minFontSize: 5 * scale,
+                                  style: TextStyle(
+                                    fontSize: 15 * scale,
+                                    fontWeight: FontWeight.w600,
+                                    // fontSize: 20 * scale,
+                                    // overflow: TextOverflow.ellipsis
+                                  ),
                                 ),
                               ),
-                              Text(
-                                item.description,
-                                style: TextStyle(
-                                  fontSize: 10 * scale,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black.withOpacity(0.47),
+                              SizedBox(
+                                height: 5 * scale,
+                              ),
+                              ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  maxHeight: 20 * scale,
+                                ),
+                                child: AutoSizeText(
+                                  item.description,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 3,
+                                  minFontSize: 5,
+                                  style: TextStyle(
+                                    fontSize: 8 * scale,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black.withOpacity(0.47),
+                                  ),
                                 ),
                               ),
                             ],
@@ -88,11 +110,13 @@ class ItemCard extends StatelessWidget {
                       children: [
                         Padding(
                             padding: EdgeInsets.only(left: 8 * scale),
-                            child: PriceDisplay(
-                              price: item.price,
-                              fontSize: 15 * scale,
-                              discount: item.discount ?? 0,
-                              color: Colors.black,
+                            child: FittedBox(
+                              child: PriceDisplay(
+                                price: item.price,
+                                fontSize: 15 * scale,
+                                discount: item.discount ?? 0,
+                                color: Colors.black,
+                              ),
                             )),
                         GestureDetector(
                           onTap: () {

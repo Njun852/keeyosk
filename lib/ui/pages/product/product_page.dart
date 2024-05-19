@@ -121,8 +121,18 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                   ),
                   SizedBox(height: 12),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Container(),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 34, right: 34, bottom: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Divider(),
-                  SizedBox(height: 12),
                   Text(
                     'Recommended',
                     style: TextStyle(
@@ -134,13 +144,14 @@ class _ProductPageState extends State<ProductPage> {
               ),
             ),
             Expanded(
+              flex: 3,
               child: GridView.count(
                 padding: EdgeInsets.symmetric(horizontal: 32),
                 crossAxisCount: 3,
                 mainAxisSpacing: 5,
                 shrinkWrap: true,
                 crossAxisSpacing: 5,
-                childAspectRatio: 0.9,
+                childAspectRatio: 0.8,
                 children: List.generate(items.length, (index) {
                   return ItemCard(
                     scale: 0.6,

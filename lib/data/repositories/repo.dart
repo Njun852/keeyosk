@@ -2,6 +2,7 @@ abstract class Repo<T> {
   void init();
   void deleteAll();
   List<T> getAll();
+  T get(String id);
   void add(T data);
   void replaceAll(List<T> data);
   void delete(String id);
