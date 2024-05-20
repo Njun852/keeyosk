@@ -50,44 +50,50 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: navigatorKey,
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        iconButtonTheme: const IconButtonThemeData(
-            style: ButtonStyle(
-          iconColor: WidgetStatePropertyAll(Colors.white),
-        )),
-        fontFamily: 'Poppins',
-        appBarTheme: const AppBarTheme(
-          backgroundColor: primary,
-          titleTextStyle: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
-        ),
-        tabBarTheme: const TabBarTheme(
-            labelColor: secondary,
-            indicatorColor: secondary,
-            unselectedLabelColor: Colors.white),
-        iconTheme: const IconThemeData(color: Colors.white),
-        floatingActionButtonTheme: const FloatingActionButtonThemeData(
-            backgroundColor: secondary, elevation: 2),
-        primaryColor: primary,
-        useMaterial3: true,
-      ),
-      home: const CreateProduct(),
-      routes: {
-        productPage: (context) => const ProductPage(),
-        cartPage: (context) => const CartPage(),
-        adminPanel: (context) => AdminPanel(),
-        category: (context) => const Category(),
-        dashboard: (context) => const Dashboard(),
-        productList: (context) => const ProductList(),
-        qrCodeScanner: (context) => const QRCodeScanner(),
-        manageOrders: (context) => ManageOrders(),
-        orderSuccess: (context) => const OrderSuccess(),
-        orderDetails: (context) => const OrderDetails()
+    return GestureDetector(
+      onTap: () {
+        WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
       },
+      child: MaterialApp(
+        navigatorKey: navigatorKey,
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          iconButtonTheme: const IconButtonThemeData(
+              style: ButtonStyle(
+            iconColor: WidgetStatePropertyAll(Colors.white),
+          )),
+          fontFamily: 'Poppins',
+          appBarTheme: const AppBarTheme(
+            backgroundColor: primary,
+            titleTextStyle: TextStyle(
+                color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
+          ),
+          tabBarTheme: const TabBarTheme(
+              labelColor: secondary,
+              indicatorColor: secondary,
+              unselectedLabelColor: Colors.white),
+          iconTheme: const IconThemeData(color: Colors.white),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+              backgroundColor: secondary, elevation: 2),
+          primaryColor: primary,
+          useMaterial3: true,
+        ),
+        home: const Dashboard(),
+        routes: {
+          productPage: (context) => const ProductPage(),
+          cartPage: (context) => const CartPage(),
+          adminPanel: (context) => AdminPanel(),
+          category: (context) => const Category(),
+          dashboard: (context) => const Dashboard(),
+          productList: (context) => const ProductList(),
+          qrCodeScanner: (context) => const QRCodeScanner(),
+          manageOrders: (context) => ManageOrders(),
+          orderSuccess: (context) => const OrderSuccess(),
+          orderDetails: (context) => const OrderDetails(),
+          addProduct: (context) => const CreateProduct()
+        },
+      ),
     );
   }
 }

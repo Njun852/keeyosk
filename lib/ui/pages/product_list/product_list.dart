@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/items.dart';
+import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/constants/styles.dart';
 import 'package:keeyosk/ui/pages/product_list/table_row.dart' as tb;
 import 'package:keeyosk/ui/widgets/format_price.dart';
@@ -74,7 +75,9 @@ class ProductList extends StatelessWidget {
                           SizedBox(
                             width: 100,
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).pushNamed(addProduct);
+                              },
                               style: ButtonStyle(
                                   visualDensity: VisualDensity.comfortable,
                                   padding:
