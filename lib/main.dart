@@ -14,6 +14,7 @@ import 'package:keeyosk/data/services/socket_service.dart';
 import 'package:keeyosk/ui/pages/admin_panel/admin_panel.dart';
 import 'package:keeyosk/ui/pages/cart_page/cart_page.dart';
 import 'package:keeyosk/ui/pages/category/category_page.dart';
+import 'package:keeyosk/ui/pages/create_product/create_product.dart';
 import 'package:keeyosk/ui/pages/dashboard/dashboard.dart';
 import 'package:keeyosk/ui/pages/manage_orders/manage_orders.dart';
 import 'package:keeyosk/ui/pages/manage_orders/qr_code_scanner.dart';
@@ -74,7 +75,7 @@ class MyApp extends StatelessWidget {
         primaryColor: primary,
         useMaterial3: true,
       ),
-      home: const Dashboard(),
+      home: const CreateProduct(),
       routes: {
         productPage: (context) => const ProductPage(),
         cartPage: (context) => const CartPage(),
