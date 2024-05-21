@@ -8,10 +8,16 @@ class CreateProductState {
   final double discountedPrice;
   final double price;
   final List<Option> options;
+  final String productName;
+  final String? description;
+  final String categoryId;
   CreateProductState({
     required this.options,
     required this.discountedPrice,
     required this.price,
+    required this.productName,
+    this.description,
+    required this.categoryId,
     required this.images,
   });
 }
@@ -22,14 +28,32 @@ class Initial extends CreateProductState {
     required super.discountedPrice,
     required super.price,
     required super.options,
+    required super.productName,
+    super.description,
+    required super.categoryId,
   });
 }
 
-class AddedImages extends CreateProductState {
-  AddedImages({
+class AddedImagesState extends CreateProductState {
+  AddedImagesState({
     required super.discountedPrice,
     required super.price,
     required super.images,
     required super.options,
+    required super.productName,
+    super.description,
+    required super.categoryId,
+  });
+}
+
+class RemovedImageState extends CreateProductState {
+  RemovedImageState({
+    required super.options,
+    required super.discountedPrice,
+    required super.price,
+    required super.images,
+    required super.productName,
+    super.description,
+    required super.categoryId,
   });
 }

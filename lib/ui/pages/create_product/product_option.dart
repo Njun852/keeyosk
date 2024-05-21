@@ -37,6 +37,21 @@ class ProductOption extends StatelessWidget {
               Expanded(
                 child: TextFormField(
                   initialValue: option.name,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  onChanged: (value) {
+                    context.read<CreateProductBloc>().add(UpdatedOption(
+                          optionId: option.id,
+                          optionName: value,
+                          isMultiSelect: option.isMultiSelect,
+                          isRequired: option.isRequired,
+                        ));
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a name';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     suffixIcon: Container(
                       width: 30,
@@ -88,11 +103,11 @@ class ProductOption extends StatelessWidget {
                         child: Checkbox(
                           value: option.isRequired,
                           onChanged: (val) {
-                            context.read<CreateProductBloc>().add(
-                                  ToggledCheckbox(option.id,
-                                      isMultiSelect: option.isMultiSelect,
-                                      isRequired: val!),
-                                );
+                            context.read<CreateProductBloc>().add(UpdatedOption(
+                                optionId: option.id,
+                                optionName: option.name,
+                                isMultiSelect: option.isMultiSelect,
+                                isRequired: val!));
                           },
                         ),
                       ),
@@ -110,13 +125,11 @@ class ProductOption extends StatelessWidget {
                         child: Checkbox(
                           value: option.isMultiSelect,
                           onChanged: (val) {
-                            context.read<CreateProductBloc>().add(
-                                  ToggledCheckbox(
-                                    option.id,
-                                    isMultiSelect: val!,
-                                    isRequired: option.isRequired,
-                                  ),
-                                );
+                            context.read<CreateProductBloc>().add(UpdatedOption(
+                                optionId: option.id,
+                                optionName: option.name,
+                                isMultiSelect: val!,
+                                isRequired: option.isRequired));
                           },
                         ),
                       ),
@@ -142,7 +155,7 @@ class ProductOption extends StatelessWidget {
           GestureDetector(
             onTap: () {
               context.read<CreateProductBloc>().add(
-                    AddOptionItem(optionId: option.id),
+                    AddedOptionItem(optionId: option.id),
                   );
             },
             child: Row(
@@ -151,7 +164,11 @@ class ProductOption extends StatelessWidget {
                   width: 30,
                   height: 30,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.read<CreateProductBloc>().add(
+                            AddedOptionItem(optionId: option.id),
+                          );
+                    },
                     style: ButtonStyle(
                         visualDensity: VisualDensity.compact,
                         padding: WidgetStatePropertyAll(
@@ -177,6 +194,9 @@ class ProductOption extends StatelessWidget {
                 )
               ],
             ),
+          ),
+          Divider(
+            height: 25,
           ),
         ],
       ),

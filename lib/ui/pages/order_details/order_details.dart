@@ -199,8 +199,8 @@ class OrderDetails extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                           widget: ClipRRect(
                             borderRadius: BorderRadius.circular(5),
-                            child: Image.asset(
-                              order.carts[index].item.imageUrl,
+                            child: Image.file(
+                              order.carts[index].item.images.first,
                               width: 50,
                               height: 50,
                               fit: BoxFit.cover,

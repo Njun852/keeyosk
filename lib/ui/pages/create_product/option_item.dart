@@ -33,6 +33,19 @@ class OptionItemView extends StatelessWidget {
                   ),
                 ),
                 TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  onChanged: (value) {
+                    context.read<CreateProductBloc>().add(UpdatedOptionItem(
+                        optionItemId: item.id,
+                        itemName: value,
+                        extraCharge: item.additionalPrice));
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a name';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     suffixIcon: Container(
                       width: 30,
@@ -49,7 +62,7 @@ class OptionItemView extends StatelessWidget {
                               onPressed: () {
                                 context
                                     .read<CreateProductBloc>()
-                                    .add(RemovedItem(id: item.id));
+                                    .add(RemovedOptionItem(id: item.id));
                               },
                               icon: Icon(
                                 Icons.delete,
@@ -89,6 +102,17 @@ class OptionItemView extends StatelessWidget {
                 ),
                 TextFormField(
                   initialValue: _priceFormatter.formatDouble(0),
+                  onChanged: (value) {
+                    context.read<CreateProductBloc>().add(
+                          UpdatedOptionItem(
+                            optionItemId: item.id,
+                            itemName: item.name,
+                            extraCharge: _priceFormatter
+                                .getUnformattedValue()
+                                .toDouble(),
+                          ),
+                        );
+                  },
                   inputFormatters: [_priceFormatter],
                   style: TextStyle(fontFamily: 'Roboto'),
                   keyboardType: TextInputType.number,

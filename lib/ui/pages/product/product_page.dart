@@ -13,6 +13,7 @@ import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/constants/styles.dart';
+import 'package:keeyosk/data/repositories/menu_item_repo.dart';
 import 'package:keeyosk/utils/extensions/price_format.dart';
 import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/ui/pages/dashboard/item_card.dart';
@@ -28,7 +29,7 @@ class ProductPage extends StatefulWidget {
 
 class _ProductPageState extends State<ProductPage> {
   int _index = 0;
-
+  final List<MenuItem> items = MenuItemRepo().getAll();
   @override
   Widget build(BuildContext context) {
     RouteSettings rs = ModalRoute.of(context)!.settings;
@@ -60,7 +61,12 @@ class _ProductPageState extends State<ProductPage> {
           children: [
             Stack(alignment: Alignment.center, children: [
               CarouselSlider(
-                items: imgs,
+                items: List.generate(item.images.length, (index) {
+                  return Image.file(
+                    item.images[index],
+                    fit: BoxFit.fitHeight,
+                  );
+                }),
                 options: CarouselOptions(
                     viewportFraction: 1,
                     onPageChanged: (index, reason) {
@@ -71,14 +77,18 @@ class _ProductPageState extends State<ProductPage> {
               ),
               Positioned(
                 bottom: 0,
-                child: DotsIndicator(
-                  decorator: DotsDecorator(
-                    size: Size(5, 5),
-                    color: Color.fromRGBO(244, 203, 26, 1),
-                    activeColor: Color.fromRGBO(244, 203, 26, 0.5),
+                child: Visibility(
+                  visible: item.images.length > 1,
+                  child: DotsIndicator(
+                    decorator: DotsDecorator(
+                      size: Size(4, 4),
+                      activeSize: Size(4, 4),
+                      color: grey,
+                      activeColor: Color.fromRGBO(244, 203, 26, 0.5),
+                    ),
+                    dotsCount: item.images.length,
+                    position: _index,
                   ),
-                  dotsCount: imgs.length,
-                  position: _index,
                 ),
               )
             ]),
@@ -127,6 +137,8 @@ class _ProductPageState extends State<ProductPage> {
             Expanded(
               child: Container(),
             ),
+
+            //TODO: Implement recommendation
             Container(
               padding: EdgeInsets.only(left: 34, right: 34, bottom: 16),
               child: Column(
@@ -181,13 +193,13 @@ class _ProductPageState extends State<ProductPage> {
             );
           },
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(secondary),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            backgroundColor: WidgetStatePropertyAll<Color>(secondary),
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            minimumSize: MaterialStateProperty.all(Size(double.infinity, 32)),
+            minimumSize: WidgetStateProperty.all(Size(double.infinity, 32)),
           ),
           child: Text(
             'ADD TO ORDER',

@@ -3,6 +3,7 @@ import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/data/models/option.dart';
 import 'package:keeyosk/data/models/option_item.dart';
+import 'package:keeyosk/data/repositories/menu_item_repo.dart';
 
 class Cart {
   final String id;
@@ -35,8 +36,8 @@ class Cart {
     String cartId = data["cartId"];
     String itemId = data["itemId"];
     List<dynamic> selectedOptionsId = data["selectedOptionsId"];
-    int itemIndex = items.indexWhere((element) => element.id == itemId);
-    MenuItem item = items[itemIndex];
+    final MenuItemRepo menuItemRepo = MenuItemRepo();
+    MenuItem item = menuItemRepo.get(itemId);
 
     List<OptionItem> selectedOptions = [];
     for (Option option in item.options) {

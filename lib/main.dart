@@ -7,6 +7,7 @@ import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/data/models/order.dart';
 import 'package:keeyosk/data/models/user.dart';
 import 'package:keeyosk/data/repositories/category_repo.dart';
+import 'package:keeyosk/data/repositories/menu_item_repo.dart';
 import 'package:keeyosk/data/repositories/order_repo.dart';
 import 'package:keeyosk/data/services/http_service.dart';
 import 'package:keeyosk/data/services/notification_service.dart';
@@ -24,16 +25,22 @@ import 'package:keeyosk/ui/pages/product/product_page.dart';
 import 'package:keeyosk/ui/pages/product_list/product_list.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
-void main() {
+final RouteObserver<ModalRoute<void>> routeObserver =
+    RouteObserver<ModalRoute<void>>();
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   currentUser = users[1];
   final SocketService socketService = SocketService();
   final NotificationService notificationService = NotificationService();
   final HttpService httpService = HttpService();
+  final CategoryRepo categoryRepo = CategoryRepo();
+  final MenuItemRepo menuItemRepo = MenuItemRepo();
   httpService.init();
-  CategoryRepo().init();
   socketService.init();
+  await categoryRepo.init();
+
+  menuItemRepo.init();
   notificationService.init();
 
   if (currentUser.role == Role.admin) {
@@ -55,6 +62,7 @@ class MyApp extends StatelessWidget {
         WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
       },
       child: MaterialApp(
+        navigatorObservers: [routeObserver],
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
@@ -86,7 +94,7 @@ class MyApp extends StatelessWidget {
           adminPanel: (context) => AdminPanel(),
           category: (context) => const Category(),
           dashboard: (context) => const Dashboard(),
-          productList: (context) => const ProductList(),
+          productList: (context) => ProductList(),
           qrCodeScanner: (context) => const QRCodeScanner(),
           manageOrders: (context) => ManageOrders(),
           orderSuccess: (context) => const OrderSuccess(),

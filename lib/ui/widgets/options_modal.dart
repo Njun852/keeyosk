@@ -143,8 +143,8 @@ class _OptionsModalState extends State<OptionsModal> {
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(8),
-                              child: Image.asset(
-                                widget.item.imageUrl,
+                              child: Image.file(
+                                widget.item.images.first,
                                 height: 70,
                                 width: 70,
                                 fit: BoxFit.cover,

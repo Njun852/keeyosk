@@ -14,8 +14,12 @@ import 'package:keeyosk/blocs/create_product/create_product_bloc.dart';
 import 'package:keeyosk/blocs/create_product/create_product_event.dart';
 import 'package:keeyosk/blocs/create_product/create_product_state.dart';
 import 'package:keeyosk/constants/colors.dart';
+import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/constants/styles.dart';
+import 'package:keeyosk/data/models/category.dart';
+import 'package:keeyosk/data/repositories/category_repo.dart';
 import 'package:keeyosk/ui/pages/create_product/product_option.dart';
+import 'package:keeyosk/ui/widgets/toast.dart';
 import 'package:keeyosk/utils/extensions/price_format.dart';
 
 class CreateProduct extends StatefulWidget {
@@ -27,6 +31,8 @@ class CreateProduct extends StatefulWidget {
 
 class _CreateProductState extends State<CreateProduct> {
   int _index = 0;
+  final _formKey = GlobalKey<FormState>();
+  final List<Category> categories = CategoryRepo().getAll();
   final CurrencyTextInputFormatter _priceFormatter =
       CurrencyTextInputFormatter.currency(symbol: '₱');
   final _carouselController = CarouselController();
@@ -38,10 +44,8 @@ class _CreateProductState extends State<CreateProduct> {
       child: BlocConsumer<CreateProductBloc, CreateProductState>(
         listener: (context, state) {
           _carouselController.jumpToPage(state.images.length);
+
           if (state is AddedImages) {
-            setState(() {
-              _index = state.images.length;
-            });
             Future.delayed(Duration(milliseconds: 800), () {
               _carouselController.animateToPage(0,
                   duration: Duration(seconds: 1), curve: Curves.ease);
@@ -153,6 +157,7 @@ class _CreateProductState extends State<CreateProduct> {
                               ],
                               options: CarouselOptions(
                                 animateToClosest: false,
+                                enableInfiniteScroll: false,
                                 viewportFraction: 1,
                                 onPageChanged: (val, _) {
                                   setState(() {
@@ -182,17 +187,35 @@ class _CreateProductState extends State<CreateProduct> {
                     ),
                     SizedBox(height: 18),
                     Form(
+                      key: _formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Product Name *',
+                            'Product Name*',
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 14,
                                 color: Color.fromRGBO(120, 120, 120, 1)),
                           ),
                           TextFormField(
+                            onChanged: (value) {
+                              context.read<CreateProductBloc>().add(
+                                  UpdatedProduct(
+                                      name: value,
+                                      price: state.price,
+                                      categoryId: state.categoryId,
+                                      discount: state.discountedPrice,
+                                      description: state.description));
+                            },
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter a name';
+                              }
+                              return null;
+                            },
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
@@ -216,7 +239,7 @@ class _CreateProductState extends State<CreateProduct> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Price *',
+                                      'Price*',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 14,
@@ -225,11 +248,32 @@ class _CreateProductState extends State<CreateProduct> {
                                     ),
                                     SizedBox(
                                       child: TextFormField(
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        validator: (value) {
+                                          if (state.price <= 0) {
+                                            return 'Invalid price value';
+                                          }
+                                          return null;
+                                        },
+                                        onChanged: (value) {
+                                          context.read<CreateProductBloc>().add(
+                                              UpdatedProduct(
+                                                  name: state.productName,
+                                                  price: _priceFormatter
+                                                      .getUnformattedValue()
+                                                      .toDouble(),
+                                                  categoryId: state.categoryId,
+                                                  discount:
+                                                      state.discountedPrice,
+                                                  description:
+                                                      state.description));
+                                        },
                                         textInputAction: TextInputAction.next,
                                         inputFormatters: [_priceFormatter],
                                         keyboardType: TextInputType.number,
-                                        initialValue:
-                                            _priceFormatter.formatDouble(0),
+                                        initialValue: _priceFormatter
+                                            .formatDouble(state.price),
                                         style: TextStyle(fontFamily: 'Roboto'),
                                         decoration: InputDecoration(
                                           enabledBorder: OutlineInputBorder(
@@ -263,10 +307,31 @@ class _CreateProductState extends State<CreateProduct> {
                                       ),
                                     ),
                                     TextFormField(
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      validator: (value) {
+                                        print(state.discountedPrice);
+                                        print(state.price);
+                                        if (state.discountedPrice >
+                                            state.price) {
+                                          return 'Invalid discount';
+                                        }
+                                        return null;
+                                      },
+                                      onChanged: (value) {
+                                        UpdatedProduct(
+                                            name: state.productName,
+                                            discount: _priceFormatter
+                                                .getUnformattedValue()
+                                                .toDouble(),
+                                            categoryId: state.categoryId,
+                                            price: state.price,
+                                            description: state.description);
+                                      },
                                       inputFormatters: [_priceFormatter],
                                       keyboardType: TextInputType.number,
-                                      initialValue:
-                                          _priceFormatter.formatDouble(0),
+                                      initialValue: _priceFormatter
+                                          .formatDouble(state.discountedPrice),
                                       style: TextStyle(fontFamily: 'Roboto'),
                                       textInputAction: TextInputAction.next,
                                       decoration: InputDecoration(
@@ -299,6 +364,9 @@ class _CreateProductState extends State<CreateProduct> {
                           TextFormField(
                             maxLines: 5,
                             maxLength: 150,
+                            onChanged: (value) {
+                              
+                            },
                             style: TextStyle(fontSize: 15),
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
@@ -323,6 +391,14 @@ class _CreateProductState extends State<CreateProduct> {
                                 color: Color.fromRGBO(120, 120, 120, 1)),
                           ),
                           DropdownButtonFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value == null) {
+                                return 'Please select a category';
+                              }
+                              return null;
+                            },
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: grey),
@@ -336,34 +412,37 @@ class _CreateProductState extends State<CreateProduct> {
                               filled: true,
                               fillColor: Colors.white,
                             ),
-                            items: [
-                              DropdownMenuItem(
-                                value: 'Meals',
-                                child: Text('Meals'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'Drinks',
-                                child: Text('Drinks'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'Dessert',
-                                child: Text('Dessert'),
-                              )
-                            ],
-                            onChanged: (_) {},
+                            items: List.generate(categories.length, (index) {
+                              return DropdownMenuItem(
+                                value: categories[index].id,
+                                child: Text(categories[index].label),
+                              );
+                            }),
+                            onChanged: (categoryId) {
+                              context.read<CreateProductBloc>().add(
+                                  UpdatedProduct(
+                                      name: state.productName,
+                                      price: state.price,
+                                      categoryId: categoryId!,
+                                      discount: state.discountedPrice,
+                                      description: state.description));
+                            },
                           ),
                           // CreateOption(),
                           ...List.generate(state.options.length, (index) {
                             return ProductOption(option: state.options[index]);
                           }),
-                          Divider(
-                            height: 25,
+                          Visibility(
+                            visible: state.options.isEmpty,
+                            child: Divider(
+                              height: 25,
+                            ),
                           ),
                           GestureDetector(
                             onTap: () {
                               context
                                   .read<CreateProductBloc>()
-                                  .add(AddOption());
+                                  .add(AddedOption());
                             },
                             child: Row(
                               children: [
@@ -371,7 +450,11 @@ class _CreateProductState extends State<CreateProduct> {
                                   width: 30,
                                   height: 30,
                                   child: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      context
+                                          .read<CreateProductBloc>()
+                                          .add(AddedOption());
+                                    },
                                     style: ButtonStyle(
                                         visualDensity: VisualDensity.compact,
                                         padding: WidgetStatePropertyAll(
@@ -410,7 +493,18 @@ class _CreateProductState extends State<CreateProduct> {
                                       borderRadius: BorderRadius.circular(8)),
                                 ),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  context
+                                      .read<CreateProductBloc>()
+                                      .add(AddProduct());
+                                  Navigator.of(context).pop();
+                                  return ToastView.init(context).showToast(
+                                    'Created new product!',
+                                    Icons.check,
+                                  );
+                                }
+                              },
                               child: Text(
                                 'Add Product',
                                 style: TextStyle(
@@ -440,7 +534,7 @@ class _CreateProductState extends State<CreateProduct> {
     final List<XFile> images = await picker.pickMultiImage();
     if (!context.mounted) return;
     context.read<CreateProductBloc>().add(
-          PickedImages(
+          AddedImages(
             images: images.map((element) => File(element.path)).toList(),
           ),
         );

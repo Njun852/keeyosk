@@ -2,6 +2,7 @@ import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/data/repositories/repo.dart';
 
 class MenuItemRepo implements Repo<MenuItem> {
+  //TODO REFACTOR THIS
   static final MenuItemRepo _repo = MenuItemRepo._sharedInstance();
   factory MenuItemRepo() => _repo;
   MenuItemRepo._sharedInstance();
@@ -46,6 +47,4 @@ class MenuItemRepo implements Repo<MenuItem> {
   MenuItem get(String id) {
     return _items[_items.indexWhere((element) => element.id == id)];
   }
-  
-
 }

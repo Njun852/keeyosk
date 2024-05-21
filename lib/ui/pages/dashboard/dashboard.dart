@@ -8,6 +8,10 @@ import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/constants/styles.dart';
+import 'package:keeyosk/data/models/category.dart';
+import 'package:keeyosk/data/models/menu_item.dart';
+import 'package:keeyosk/data/repositories/category_repo.dart';
+import 'package:keeyosk/data/repositories/menu_item_repo.dart';
 
 import 'package:keeyosk/ui/pages/dashboard/item_card.dart';
 import 'package:keeyosk/ui/widgets/search_bar.dart';
@@ -21,14 +25,16 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  final int _length = 3;
+  final List<Category> categories = CategoryRepo().getAll();
+  List<MenuItem> _products = MenuItemRepo().getAll();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       body: DefaultTabController(
-        length: _length,
+        length: categories.length,
         child: CustomScrollView(
           physics: NeverScrollableScrollPhysics(),
           slivers: [
@@ -73,35 +79,20 @@ class _DashboardState extends State<Dashboard> {
                         borderRadius: BorderRadius.circular(10),
                         color: Color.fromRGBO(227, 234, 246, 1),
                         child: TabBar(
-                          tabAlignment: _length > 3
+                          tabAlignment: categories.length > 3
                               ? TabAlignment.center
                               : TabAlignment.fill,
-                          isScrollable: _length > 3,
-                          tabs: [
-                            Tab(
-                                child: AutoSizeText(
-                              'Meals',
-                              maxLines: 1,
-                              minFontSize: 5,
-                              textAlign: TextAlign.center,
-                            )),
-                            Tab(
+                          isScrollable: categories.length > 3,
+                          tabs: List.generate(categories.length, (index) {
+                            return Tab(
                               child: AutoSizeText(
-                                'Holiday Special',
+                                categories[index].label,
                                 maxLines: 1,
                                 minFontSize: 5,
                                 textAlign: TextAlign.center,
                               ),
-                            ),
-                            Tab(
-                              child: AutoSizeText(
-                                'Drinks',
-                                maxLines: 1,
-                                minFontSize: 5,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
+                            );
+                          }),
                           dividerHeight: 0,
                           indicatorSize: TabBarIndicatorSize.tab,
                           labelColor: Colors.white,
@@ -119,18 +110,25 @@ class _DashboardState extends State<Dashboard> {
             SliverFillRemaining(
               child: TabBarView(
                   children: List.generate(
-                _length,
-                (index) => GridView.count(
-                  padding: EdgeInsets.all(18),
-                  childAspectRatio: 0.75,
-                  mainAxisSpacing: 15,
-                  crossAxisSpacing: 15,
-                  crossAxisCount: 2,
-                  children: List.generate(items.length, (index) {
-                    return ItemCard(
-                      item: items[index],
-                    );
-                  }),
+                categories.length,
+                (index) => RefreshIndicator(
+                  onRefresh: () async {
+                    setState(() {
+                      _products = MenuItemRepo().getAll();
+                    });
+                  },
+                  child: GridView.count(
+                    padding: EdgeInsets.all(18),
+                    childAspectRatio: 0.75,
+                    mainAxisSpacing: 15,
+                    crossAxisSpacing: 15,
+                    crossAxisCount: 2,
+                    children: List.generate(_products.length, (index) {
+                      return ItemCard(
+                        item: _products[index],
+                      );
+                    }),
+                  ),
                 ),
               )),
             )

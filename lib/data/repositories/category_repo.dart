@@ -5,8 +5,8 @@ import 'package:keeyosk/data/services/http_service.dart';
 import 'package:keeyosk/utils/status.dart';
 
 class CategoryRepo implements Repo<Category> {
-  static final CategoryRepo repo = CategoryRepo._sharedInstance();
-  factory CategoryRepo() => repo;
+  static final CategoryRepo _repo = CategoryRepo._sharedInstance();
+  factory CategoryRepo() => _repo;
   CategoryRepo._sharedInstance();
 
   final List<Category> _categories = [];

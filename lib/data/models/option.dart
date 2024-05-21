@@ -3,10 +3,10 @@ import 'package:keeyosk/data/models/option_item.dart';
 class Option {
   final String id;
   final String menuItemId = 'test';
-  bool isRequired;
-  bool isMultiSelect;
+  final bool isRequired;
+  final bool isMultiSelect;
   final String name;
-  List<OptionItem> items;
+  final List<OptionItem> items;
 
   Option({
     required this.isRequired,
