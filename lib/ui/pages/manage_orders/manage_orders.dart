@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keeyosk/blocs/order/order_bloc.dart';
 import 'package:keeyosk/blocs/order/order_state.dart';
 import 'package:keeyosk/constants/colors.dart';
+import 'package:keeyosk/constants/globals.dart';
 import 'package:keeyosk/constants/styles.dart';
 import 'package:keeyosk/data/models/order.dart';
 import 'package:keeyosk/data/repositories/order_repo.dart';
@@ -14,17 +15,14 @@ import 'package:keeyosk/utils/cart_list_subtotal.dart';
 
 class ManageOrders extends StatelessWidget {
   final OrderRepo orderRepo = OrderRepo();
+
   ManageOrders({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => OrderBloc(
-        orderRepo: orderRepo,
-        orders: orderRepo.getAll(),
-      ),
-      child: BlocBuilder<OrderBloc, OrderState>(
-        builder: (context, state) {
+    return StreamBuilder<List<Order>>(
+        stream: OrderStream().stream(),
+        builder: (context, snapshot) {
           return Scaffold(
             appBar: AppBar(
               centerTitle: true,
@@ -61,8 +59,9 @@ class ManageOrders extends StatelessWidget {
               padding: EdgeInsets.all(8),
               child: SingleChildScrollView(
                 child: Column(
-                    children: List.generate(state.orders.length, (index) {
-                  final Order order = state.orders[index];
+                    children:
+                        List.generate(snapshot.data?.length ?? 0, (index) {
+                  final Order order = snapshot.data![index];
                   return OrderTile(
                     order: order,
                   );
@@ -70,8 +69,6 @@ class ManageOrders extends StatelessWidget {
               ),
             ),
           );
-        },
-      ),
-    );
+        });
   }
 }

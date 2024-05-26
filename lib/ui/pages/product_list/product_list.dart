@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
+import 'package:keeyosk/constants/globals.dart';
 import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/constants/styles.dart';
@@ -23,8 +24,14 @@ class ProductList extends StatefulWidget {
   State<ProductList> createState() => _ProductListState();
 }
 
-class _ProductListState extends State<ProductList> {
+class _ProductListState extends State<ProductList> with RouteAware {
   List<MenuItem> _items = MenuItemRepo().getAll();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +57,7 @@ class _ProductListState extends State<ProductList> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
+          //TODO: query from db
           setState(() {
             _items = MenuItemRepo().getAll();
           });
@@ -118,19 +126,6 @@ class _ProductListState extends State<ProductList> {
                           ],
                         ),
                       ),
-                      // Container(
-                      //   // height: 35,
-                      //   padding: EdgeInsets.all(8),
-                      //   width: double.infinity,
-                      //   // padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                      //   decoration: BoxDecoration(
-                      //       color: lightblue,
-                      //       borderRadius:
-                      //           BorderRadius.vertical(top: Radius.circular(5))),
-                      //   child: tb.TableRow(
-                      //     isHeader: true,
-                      //   ),
-                      // ),
                       SizedBox(
                         height: height * 0.7,
                         child: SingleChildScrollView(
@@ -320,5 +315,19 @@ class _ProductListState extends State<ProductList> {
         ),
       ),
     );
+  }
+
+  @override
+  void didPopNext() {
+    super.didPopNext();
+    setState(() {
+      _items = MenuItemRepo().getAll();
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    routeObserver.unsubscribe(this);
   }
 }

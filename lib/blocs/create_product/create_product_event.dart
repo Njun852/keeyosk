@@ -65,7 +65,7 @@ class RemovedOptionItem extends CreateProductEvent {
 class UpdatedProduct extends CreateProductEvent {
   final String name;
   final double price;
-  final double discount;
+  final double? discount;
   final String? description;
   final String categoryId;
 
@@ -73,7 +73,7 @@ class UpdatedProduct extends CreateProductEvent {
     required this.name,
     required this.price,
     required this.categoryId,
-    required this.discount,
+    this.discount,
     this.description,
   });
 }

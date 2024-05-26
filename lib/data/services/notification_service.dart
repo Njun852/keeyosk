@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:keeyosk/constants/globals.dart';
 import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/main.dart';
 
@@ -35,15 +36,16 @@ class NotificationService {
     NotificationResponse notificationResponse,
   ) async {
     final String? payload = notificationResponse.payload;
-    if (notificationResponse.payload != null) {}
-    navigatorKey.currentState!.pushNamed(manageOrders);
+    // if (notificationResponse.payload != null) {}
+    if (!isManagingOrders) {
+      navigatorKey.currentState!.pushNamed(manageOrders);
+    }
   }
 
   Future<void> showNotification(String tblNumber) async {
     // FlutterLocalNotificationsPlugin.
     AndroidNotificationDetails notification = const AndroidNotificationDetails(
-        'id',
-        'keeyosk channel',
+        'id', 'keeyosk channel',
         priority: Priority.high,
         importance: Importance.max,
         visibility: NotificationVisibility.public);

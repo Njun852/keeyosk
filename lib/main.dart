@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:keeyosk/constants/colors.dart';
+import 'package:keeyosk/constants/globals.dart';
 import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/data/models/order.dart';
@@ -24,9 +25,6 @@ import 'package:keeyosk/ui/pages/order_success/order_success.dart';
 import 'package:keeyosk/ui/pages/product/product_page.dart';
 import 'package:keeyosk/ui/pages/product_list/product_list.dart';
 
-final navigatorKey = GlobalKey<NavigatorState>();
-final RouteObserver<ModalRoute<void>> routeObserver =
-    RouteObserver<ModalRoute<void>>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -39,7 +37,6 @@ void main() async {
   httpService.init();
   socketService.init();
   await categoryRepo.init();
-
   menuItemRepo.init();
   notificationService.init();
 
@@ -48,6 +45,8 @@ void main() async {
     socketService.socket.on("recieved order request", (data) {
       notificationService.showNotification(data["tableId"]);
       repo.add(Order.fromJSON(data));
+      OrderStream orderStream = OrderStream();
+      orderStream.add(repo.getAll());
     });
   }
   runApp(const MyApp());
@@ -94,7 +93,7 @@ class MyApp extends StatelessWidget {
           adminPanel: (context) => AdminPanel(),
           category: (context) => const Category(),
           dashboard: (context) => const Dashboard(),
-          productList: (context) => ProductList(),
+          productList: (context) => const ProductList(),
           qrCodeScanner: (context) => const QRCodeScanner(),
           manageOrders: (context) => ManageOrders(),
           orderSuccess: (context) => const OrderSuccess(),

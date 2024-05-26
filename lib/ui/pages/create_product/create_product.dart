@@ -310,28 +310,30 @@ class _CreateProductState extends State<CreateProduct> {
                                       autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
                                       validator: (value) {
-                                        print(state.discountedPrice);
-                                        print(state.price);
-                                        if (state.discountedPrice >
+                                        if (_priceFormatter
+                                                .getUnformattedValue() >
                                             state.price) {
                                           return 'Invalid discount';
                                         }
                                         return null;
                                       },
                                       onChanged: (value) {
-                                        UpdatedProduct(
-                                            name: state.productName,
-                                            discount: _priceFormatter
-                                                .getUnformattedValue()
-                                                .toDouble(),
-                                            categoryId: state.categoryId,
-                                            price: state.price,
-                                            description: state.description);
+                                        context.read<CreateProductBloc>().add(
+                                            UpdatedProduct(
+                                                name: state.productName,
+                                                price: state.price,
+                                                categoryId: state.categoryId,
+                                                discount: _priceFormatter
+                                                    .getUnformattedValue()
+                                                    .toDouble(),
+                                                description:
+                                                    state.description));
                                       },
                                       inputFormatters: [_priceFormatter],
                                       keyboardType: TextInputType.number,
-                                      initialValue: _priceFormatter
-                                          .formatDouble(state.discountedPrice),
+                                      initialValue:
+                                          _priceFormatter.formatDouble(
+                                              state.discountedPrice ?? 0),
                                       style: TextStyle(fontFamily: 'Roboto'),
                                       textInputAction: TextInputAction.next,
                                       decoration: InputDecoration(
@@ -365,7 +367,13 @@ class _CreateProductState extends State<CreateProduct> {
                             maxLines: 5,
                             maxLength: 150,
                             onChanged: (value) {
-                              
+                              context.read<CreateProductBloc>().add(
+                                  UpdatedProduct(
+                                      name: state.productName,
+                                      price: state.price,
+                                      categoryId: state.categoryId,
+                                      discount: state.discountedPrice,
+                                      description: value));
                             },
                             style: TextStyle(fontSize: 15),
                             decoration: InputDecoration(

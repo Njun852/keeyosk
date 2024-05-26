@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:keeyosk/data/models/order.dart';
 import 'package:keeyosk/data/repositories/repo.dart';
 
@@ -48,6 +50,17 @@ class OrderRepo implements Repo<Order> {
   Order get(String id) {
     return _orders[_orders.indexWhere((element) => element.id == id)];
   }
-  
+}
 
+class OrderStream {
+  static final _stream = OrderStream._sharedStream();
+  OrderStream._sharedStream();
+
+  factory OrderStream() => _stream;
+  final StreamController<List<Order>> controller = StreamController.broadcast();
+  void add(List<Order> orders) {
+    controller.add(orders);
+  }
+
+  Stream<List<Order>> stream() => controller.stream;
 }

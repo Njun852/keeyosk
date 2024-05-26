@@ -5,7 +5,7 @@ import 'package:keeyosk/data/models/option.dart';
 
 class CreateProductState {
   final List<File> images;
-  final double discountedPrice;
+  final double? discountedPrice;
   final double price;
   final List<Option> options;
   final String productName;
@@ -25,7 +25,7 @@ class CreateProductState {
 class Initial extends CreateProductState {
   Initial({
     required super.images,
-    required super.discountedPrice,
+    super.discountedPrice,
     required super.price,
     required super.options,
     required super.productName,
@@ -36,7 +36,7 @@ class Initial extends CreateProductState {
 
 class AddedImagesState extends CreateProductState {
   AddedImagesState({
-    required super.discountedPrice,
+    super.discountedPrice,
     required super.price,
     required super.images,
     required super.options,
@@ -49,7 +49,7 @@ class AddedImagesState extends CreateProductState {
 class RemovedImageState extends CreateProductState {
   RemovedImageState({
     required super.options,
-    required super.discountedPrice,
+    super.discountedPrice,
     required super.price,
     required super.images,
     required super.productName,

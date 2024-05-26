@@ -17,16 +17,14 @@ class CreateProductBloc extends Bloc<CreateProductEvent, CreateProductState> {
   double price = 0;
   String productName = '';
   String? description;
-  double discountedPrice = 0;
+  double? discountedPrice;
   String categoryId = '';
 
   CreateProductBloc()
       : super(Initial(
           productName: '',
           images: [],
-          description: '',
           categoryId: '',
-          discountedPrice: 0,
           price: 0,
           options: [],
         )) {
@@ -208,6 +206,7 @@ class CreateProductBloc extends Bloc<CreateProductEvent, CreateProductState> {
       (event, emit) {
         MenuItemRepo menuItemRepo = MenuItemRepo();
         CategoryRepo categoryRepo = CategoryRepo();
+        print('discount '+discountedPrice.toString());
         menuItemRepo.add(
           MenuItem(
               name: productName.trim(),

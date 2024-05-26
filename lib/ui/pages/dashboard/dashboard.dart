@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keeyosk/constants/colors.dart';
+import 'package:keeyosk/constants/globals.dart';
 import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/constants/styles.dart';
@@ -24,17 +25,23 @@ class Dashboard extends StatefulWidget {
   State<Dashboard> createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
-  final List<Category> categories = CategoryRepo().getAll();
+class _DashboardState extends State<Dashboard> with RouteAware {
+  List<Category> _categories = CategoryRepo().getAll();
   List<MenuItem> _products = MenuItemRepo().getAll();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       body: DefaultTabController(
-        length: categories.length,
+        length: _categories.length,
         child: CustomScrollView(
           physics: NeverScrollableScrollPhysics(),
           slivers: [
@@ -79,14 +86,14 @@ class _DashboardState extends State<Dashboard> {
                         borderRadius: BorderRadius.circular(10),
                         color: Color.fromRGBO(227, 234, 246, 1),
                         child: TabBar(
-                          tabAlignment: categories.length > 3
+                          tabAlignment: _categories.length > 3
                               ? TabAlignment.center
                               : TabAlignment.fill,
-                          isScrollable: categories.length > 3,
-                          tabs: List.generate(categories.length, (index) {
+                          isScrollable: _categories.length > 3,
+                          tabs: List.generate(_categories.length, (index) {
                             return Tab(
                               child: AutoSizeText(
-                                categories[index].label,
+                                _categories[index].label,
                                 maxLines: 1,
                                 minFontSize: 5,
                                 textAlign: TextAlign.center,
@@ -110,11 +117,13 @@ class _DashboardState extends State<Dashboard> {
             SliverFillRemaining(
               child: TabBarView(
                   children: List.generate(
-                categories.length,
+                _categories.length,
                 (index) => RefreshIndicator(
                   onRefresh: () async {
+                    //TODO: fetch from db
                     setState(() {
                       _products = MenuItemRepo().getAll();
+                      _categories = CategoryRepo().getAll();
                     });
                   },
                   child: GridView.count(
@@ -137,5 +146,20 @@ class _DashboardState extends State<Dashboard> {
       ),
       drawer: Sidebar(),
     );
+  }
+
+  @override
+  void didPopNext() {
+    super.didPopNext();
+    setState(() {
+      _categories = CategoryRepo().getAll();
+      _products = MenuItemRepo().getAll();
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    routeObserver.unsubscribe(this);
   }
 }
