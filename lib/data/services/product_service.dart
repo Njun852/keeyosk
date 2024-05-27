@@ -7,6 +7,12 @@ class ProductService {
   final MenuItemRepo menuItemRepo = MenuItemRepo();
   final CategoryRepo categoryRepo = CategoryRepo();
 
+  Future<Map<String, dynamic>> init() async {
+    final items = await menuItemRepo.init();
+    final categories = await categoryRepo.init();
+    return {"products": items, "categories": categories};
+  }
+
   List<Category> getAllCategories() {
     return categoryRepo.getAll();
   }
@@ -15,7 +21,7 @@ class ProductService {
     return menuItemRepo.getAll();
   }
 
-  Map<String, MenuItem> groupItems() {
+  Future<Map<String, MenuItem>> groupItems() async {
     final List<MenuItem> menuItems = getAllMenuItem();
     final Map<String, MenuItem> groupedItems = {};
     for (MenuItem item in menuItems) {

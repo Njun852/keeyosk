@@ -10,15 +10,23 @@ import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/data/models/option.dart';
 import 'package:keeyosk/ui/pages/create_product/option_item.dart';
 
-class ProductOption extends StatelessWidget {
+class ProductOption extends StatefulWidget {
   final Option option;
   ProductOption({super.key, required this.option});
+
+  @override
+  State<ProductOption> createState() => _ProductOptionState();
+}
+
+class _ProductOptionState extends State<ProductOption> {
+  final TextEditingController _controller = TextEditingController();
 
   final CurrencyTextInputFormatter _priceFormatter =
       CurrencyTextInputFormatter.currency(symbol: '₱');
 
   @override
   Widget build(BuildContext context) {
+    _controller.text = widget.option.name;
     return BlocProvider.value(
       value: context.read<CreateProductBloc>(),
       child: Column(
@@ -36,14 +44,14 @@ class ProductOption extends StatelessWidget {
             children: [
               Expanded(
                 child: TextFormField(
-                  initialValue: option.name,
+                  controller: _controller,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   onChanged: (value) {
                     context.read<CreateProductBloc>().add(UpdatedOption(
-                          optionId: option.id,
+                          optionId: widget.option.id,
                           optionName: value,
-                          isMultiSelect: option.isMultiSelect,
-                          isRequired: option.isRequired,
+                          isMultiSelect: widget.option.isMultiSelect,
+                          isRequired: widget.option.isRequired,
                         ));
                   },
                   validator: (value) {
@@ -68,7 +76,7 @@ class ProductOption extends StatelessWidget {
                               onPressed: () {
                                 context
                                     .read<CreateProductBloc>()
-                                    .add(RemovedOption(id: option.id));
+                                    .add(RemovedOption(id: widget.option.id));
                               },
                               icon: Icon(
                                 Icons.delete,
@@ -101,12 +109,12 @@ class ProductOption extends StatelessWidget {
                         width: 35,
                         height: 25,
                         child: Checkbox(
-                          value: option.isRequired,
+                          value: widget.option.isRequired,
                           onChanged: (val) {
                             context.read<CreateProductBloc>().add(UpdatedOption(
-                                optionId: option.id,
-                                optionName: option.name,
-                                isMultiSelect: option.isMultiSelect,
+                                optionId: widget.option.id,
+                                optionName: widget.option.name,
+                                isMultiSelect: widget.option.isMultiSelect,
                                 isRequired: val!));
                           },
                         ),
@@ -123,13 +131,13 @@ class ProductOption extends StatelessWidget {
                         width: 35,
                         height: 25,
                         child: Checkbox(
-                          value: option.isMultiSelect,
+                          value: widget.option.isMultiSelect,
                           onChanged: (val) {
                             context.read<CreateProductBloc>().add(UpdatedOption(
-                                optionId: option.id,
-                                optionName: option.name,
+                                optionId: widget.option.id,
+                                optionName: widget.option.name,
                                 isMultiSelect: val!,
-                                isRequired: option.isRequired));
+                                isRequired: widget.option.isRequired));
                           },
                         ),
                       ),
@@ -146,16 +154,16 @@ class ProductOption extends StatelessWidget {
             ],
           ),
           SizedBox(height: 18),
-          ...List.generate(option.items.length, (index) {
-            print(option.items.length);
+          ...List.generate(widget.option.items.length, (index) {
+            print(widget.option.items.length);
             return OptionItemView(
-              item: option.items[index],
+              item: widget.option.items[index],
             );
           }),
           GestureDetector(
             onTap: () {
               context.read<CreateProductBloc>().add(
-                    AddedOptionItem(optionId: option.id),
+                    AddedOptionItem(optionId: widget.option.id),
                   );
             },
             child: Row(
@@ -166,7 +174,7 @@ class ProductOption extends StatelessWidget {
                   child: IconButton(
                     onPressed: () {
                       context.read<CreateProductBloc>().add(
-                            AddedOptionItem(optionId: option.id),
+                            AddedOptionItem(optionId: widget.option.id),
                           );
                     },
                     style: ButtonStyle(

@@ -12,6 +12,7 @@ import 'package:keeyosk/data/repositories/menu_item_repo.dart';
 import 'package:keeyosk/data/repositories/order_repo.dart';
 import 'package:keeyosk/data/services/http_service.dart';
 import 'package:keeyosk/data/services/notification_service.dart';
+import 'package:keeyosk/data/services/product_service.dart';
 import 'package:keeyosk/data/services/socket_service.dart';
 import 'package:keeyosk/ui/pages/admin_panel/admin_panel.dart';
 import 'package:keeyosk/ui/pages/cart_page/cart_page.dart';
@@ -32,21 +33,22 @@ void main() async {
   final SocketService socketService = SocketService();
   final NotificationService notificationService = NotificationService();
   final HttpService httpService = HttpService();
-  final CategoryRepo categoryRepo = CategoryRepo();
+  // final CategoryRepo categoryRepo = CategoryRepo();
   final MenuItemRepo menuItemRepo = MenuItemRepo();
   httpService.init();
   socketService.init();
-  await categoryRepo.init();
+  // await categoryRepo.init();
   menuItemRepo.init();
   notificationService.init();
 
   if (currentUser.role == Role.admin) {
     OrderRepo repo = OrderRepo();
-    socketService.socket.on("recieved order request", (data) {
+    socketService.socket.on("recieved order request", (data) async {
       notificationService.showNotification(data["tableId"]);
       repo.add(Order.fromJSON(data));
       OrderStream orderStream = OrderStream();
-      orderStream.add(repo.getAll());
+      final allOrders = repo.getAll();
+      orderStream.add(allOrders);
     });
   }
   runApp(const MyApp());
@@ -86,7 +88,7 @@ class MyApp extends StatelessWidget {
           primaryColor: primary,
           useMaterial3: true,
         ),
-        home: const Dashboard(),
+        home: const EntryPoint(),
         routes: {
           productPage: (context) => const ProductPage(),
           cartPage: (context) => const CartPage(),
@@ -102,5 +104,25 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class EntryPoint extends StatelessWidget {
+  const EntryPoint({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: ProductService().init(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+          return const Dashboard();
+        });
   }
 }

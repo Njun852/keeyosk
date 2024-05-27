@@ -32,7 +32,9 @@ class CartRepo implements Repo<Cart> {
   }
 
   @override
-  void init() {}
+  Future<List<Cart>> init() async {
+    return _cartList;
+  }
 
   @override
   void replaceAll(List<Cart> data) {
@@ -50,6 +52,4 @@ class CartRepo implements Repo<Cart> {
   Cart get(String id) {
     return _cartList[_cartList.indexWhere((element) => element.id == id)];
   }
-  
-
 }

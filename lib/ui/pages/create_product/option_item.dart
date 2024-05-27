@@ -8,13 +8,25 @@ import 'package:keeyosk/blocs/create_product/create_product_event.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/data/models/option_item.dart';
 
-class OptionItemView extends StatelessWidget {
+class OptionItemView extends StatefulWidget {
   final OptionItem item;
-  OptionItemView({super.key, required this.item});
+  const OptionItemView({super.key, required this.item});
+
+  @override
+  State<OptionItemView> createState() => _OptionItemViewState();
+}
+
+class _OptionItemViewState extends State<OptionItemView> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
   final CurrencyTextInputFormatter _priceFormatter =
       CurrencyTextInputFormatter.currency(symbol: '₱');
+
   @override
   Widget build(BuildContext context) {
+    _nameController.text = widget.item.name;
+    _priceController.text =
+        _priceFormatter.formatDouble(widget.item.additionalPrice);
     return BlocProvider.value(
       value: context.read<CreateProductBloc>(),
       child: Column(children: [
@@ -33,12 +45,13 @@ class OptionItemView extends StatelessWidget {
                   ),
                 ),
                 TextFormField(
+                  controller: _nameController,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   onChanged: (value) {
                     context.read<CreateProductBloc>().add(UpdatedOptionItem(
-                        optionItemId: item.id,
+                        optionItemId: widget.item.id,
                         itemName: value,
-                        extraCharge: item.additionalPrice));
+                        extraCharge: widget.item.additionalPrice));
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -62,7 +75,7 @@ class OptionItemView extends StatelessWidget {
                               onPressed: () {
                                 context
                                     .read<CreateProductBloc>()
-                                    .add(RemovedOptionItem(id: item.id));
+                                    .add(RemovedOptionItem(id: widget.item.id));
                               },
                               icon: Icon(
                                 Icons.delete,
@@ -101,12 +114,12 @@ class OptionItemView extends StatelessWidget {
                   ),
                 ),
                 TextFormField(
-                  initialValue: _priceFormatter.formatDouble(0),
+                  controller: _priceController,
                   onChanged: (value) {
                     context.read<CreateProductBloc>().add(
                           UpdatedOptionItem(
-                            optionItemId: item.id,
-                            itemName: item.name,
+                            optionItemId: widget.item.id,
+                            itemName: widget.item.name,
                             extraCharge: _priceFormatter
                                 .getUnformattedValue()
                                 .toDouble(),

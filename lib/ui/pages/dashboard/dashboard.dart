@@ -13,6 +13,7 @@ import 'package:keeyosk/data/models/category.dart';
 import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/data/repositories/category_repo.dart';
 import 'package:keeyosk/data/repositories/menu_item_repo.dart';
+import 'package:keeyosk/data/services/product_service.dart';
 
 import 'package:keeyosk/ui/pages/dashboard/item_card.dart';
 import 'package:keeyosk/ui/widgets/search_bar.dart';
@@ -122,8 +123,9 @@ class _DashboardState extends State<Dashboard> with RouteAware {
                   onRefresh: () async {
                     //TODO: fetch from db
                     setState(() {
-                      _products = MenuItemRepo().getAll();
-                      _categories = CategoryRepo().getAll();
+                      ProductService productService = ProductService();
+                      _products = productService.getAllMenuItem();
+                      _categories = productService.getAllCategories();
                     });
                   },
                   child: GridView.count(
@@ -152,8 +154,9 @@ class _DashboardState extends State<Dashboard> with RouteAware {
   void didPopNext() {
     super.didPopNext();
     setState(() {
-      _categories = CategoryRepo().getAll();
-      _products = MenuItemRepo().getAll();
+      ProductService productService = ProductService();
+      _products = productService.getAllMenuItem();
+      _categories = productService.getAllCategories();
     });
   }
 

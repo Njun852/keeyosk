@@ -1,5 +1,5 @@
 abstract class Repo<T> {
-  void init();
+  Future<List<T>> init();
   void deleteAll();
   List<T> getAll();
   T get(String id);

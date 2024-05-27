@@ -7,7 +7,7 @@ import 'package:keeyosk/data/repositories/category_repo.dart';
 
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   late CategoryRepo repo = CategoryRepo();
-  String _currentLabel = '';
+  // String _currentLabel = '';
 
   CategoryBloc() : super(Empty(categories: [])) {
     on<Setup>((event, emit) {

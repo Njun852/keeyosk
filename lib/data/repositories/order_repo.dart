@@ -10,7 +10,6 @@ class OrderRepo implements Repo<Order> {
   OrderRepo._sharedInstance();
   @override
   void add(data) {
-    print(data.carts.first.item.price);
     _orders.add(data);
   }
 
@@ -30,8 +29,8 @@ class OrderRepo implements Repo<Order> {
   }
 
   @override
-  void init() {
-    // TODO: implement init
+  Future<List<Order>> init() async {
+    return _orders;
   }
 
   @override

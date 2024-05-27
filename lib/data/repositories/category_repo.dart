@@ -10,39 +10,46 @@ class CategoryRepo implements Repo<Category> {
 
   CategoryRepo._sharedInstance();
 
-  late final List<Category> _categories = [];
+  List<Category>? _categories;
   final HttpService httpService = HttpService();
 
   @override
   List<Category> getAll() {
-    return _categories;
+    return _categories!;
   }
 
   @override
   void deleteAll() {
-    _categories.clear();
+    _categories!.clear();
   }
 
   @override
   void replaceAll(List<Category> cat) {
-    _categories.clear();
-    _categories.addAll(cat);
+    // _categories.clear();
+    // _categories.addAll(cat);
   }
 
   @override
-  Future<void> init() async {
+  Future<List<Category>> init() async {
+    if (_categories != null) {
+      return _categories!;
+    }
     final response = await httpService.read(route: '/category/all');
     final List data = response["data"];
 
     final categoriesFromDB =
         data.map((element) => Category.fromJSON(element)).toList();
-    replaceAll(categoriesFromDB);
+
+    _categories = categoriesFromDB;
+    return _categories!;
+    /*TODO: why are we doing this?*/
+    // replaceAll(categoriesFromDB);
   }
 
   @override
   void update(String id, Category cat) {
-    final index = _categories.indexWhere((e) => e.id == id);
-    _categories[index] = cat;
+    final index = _categories!.indexWhere((e) => e.id == id);
+    _categories![index] = cat;
     if (cat.label.isNotEmpty) {
       httpService.update(route: '/category', id: id, data: cat.toJSON());
     } else {
@@ -52,18 +59,18 @@ class CategoryRepo implements Repo<Category> {
 
   @override
   void add(Category cat) {
-    _categories.add(cat);
+    _categories!.add(cat);
     httpService.write(route: '/category', data: cat.toJSON());
   }
 
   @override
   void delete(String id) {
-    _categories.removeWhere((element) => element.id == id);
+    _categories!.removeWhere((element) => element.id == id);
     httpService.delete(route: '/category', id: id);
   }
 
   @override
   Category get(String id) {
-    return _categories[_categories.indexWhere((element) => element.id == id)];
+    return _categories![_categories!.indexWhere((element) => element.id == id)];
   }
 }
