@@ -62,8 +62,8 @@ class _ProductPageState extends State<ProductPage> {
             Stack(alignment: Alignment.center, children: [
               CarouselSlider(
                 items: List.generate(item.images.length, (index) {
-                  return Image.file(
-                    item.images[index],
+                  return Image.memory(
+                    item.images[index].file,
                     fit: BoxFit.fitHeight,
                   );
                 }),

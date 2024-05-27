@@ -52,8 +52,8 @@ class ItemCard extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Image.file(
-                          item.images.first,
+                        Image.memory(
+                          item.images.first.file,
                           width: double.infinity,
                           fit: BoxFit.cover,
                           height: constraints.maxHeight / 2,

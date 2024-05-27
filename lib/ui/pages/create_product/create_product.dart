@@ -6,7 +6,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,6 +16,7 @@ import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/constants/styles.dart';
 import 'package:keeyosk/data/models/category.dart';
+import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/data/repositories/category_repo.dart';
 import 'package:keeyosk/ui/pages/create_product/product_option.dart';
 import 'package:keeyosk/ui/widgets/toast.dart';
@@ -39,8 +39,10 @@ class _CreateProductState extends State<CreateProduct> {
 
   @override
   Widget build(BuildContext context) {
+    RouteSettings rs = ModalRoute.of(context)!.settings;
+    Map<String, dynamic> txts = rs.arguments as Map<String, dynamic>;
     return BlocProvider(
-      create: (context) => CreateProductBloc(),
+      create: (context) => CreateProductBloc(item: txts["item"]),
       child: BlocConsumer<CreateProductBloc, CreateProductState>(
         listener: (context, state) {
           _carouselController.jumpToPage(state.images.length);
@@ -63,7 +65,7 @@ class _CreateProductState extends State<CreateProduct> {
                   icon: Icon(
                     Icons.arrow_back_ios_new_rounded,
                   )),
-              title: Text('Add New Product'),
+              title: Text(txts["title"]!),
             ),
             body: Container(
               color: lightblue,
@@ -117,8 +119,8 @@ class _CreateProductState extends State<CreateProduct> {
                                     child: Stack(
                                         alignment: Alignment.center,
                                         children: [
-                                          Image.file(
-                                            state.images[index],
+                                          Image.memory(
+                                            state.images[index].file,
                                             fit: BoxFit.fitHeight,
                                           ),
                                           Positioned(
@@ -144,8 +146,9 @@ class _CreateProductState extends State<CreateProduct> {
                                                   context
                                                       .read<CreateProductBloc>()
                                                       .add(RemovedImage(
-                                                          image: state
-                                                              .images[index]));
+                                                        id: state
+                                                            .images[index].id,
+                                                      ));
                                                 },
                                                 icon: Icon(Icons.close),
                                               ),
@@ -199,6 +202,7 @@ class _CreateProductState extends State<CreateProduct> {
                                 color: Color.fromRGBO(120, 120, 120, 1)),
                           ),
                           TextFormField(
+                            initialValue: state.productName,
                             onChanged: (value) {
                               context.read<CreateProductBloc>().add(
                                   UpdatedProduct(
@@ -365,6 +369,7 @@ class _CreateProductState extends State<CreateProduct> {
                           ),
                           TextFormField(
                             maxLines: 5,
+                            initialValue: state.description,
                             maxLength: 150,
                             onChanged: (value) {
                               context.read<CreateProductBloc>().add(
@@ -399,6 +404,7 @@ class _CreateProductState extends State<CreateProduct> {
                                 color: Color.fromRGBO(120, 120, 120, 1)),
                           ),
                           DropdownButtonFormField(
+                            value: state.categoryId.isEmpty ? null : state.categoryId,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {
@@ -514,7 +520,7 @@ class _CreateProductState extends State<CreateProduct> {
                                 }
                               },
                               child: Text(
-                                'Add Product',
+                                txts["button"]!,
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.white,
@@ -543,7 +549,10 @@ class _CreateProductState extends State<CreateProduct> {
     if (!context.mounted) return;
     context.read<CreateProductBloc>().add(
           AddedImages(
-            images: images.map((element) => File(element.path)).toList(),
+            images: images
+                .map((element) => MenuItemImage(
+                    id: uuid.v1(), file: File(element.path).readAsBytesSync()))
+                .toList(),
           ),
         );
   }

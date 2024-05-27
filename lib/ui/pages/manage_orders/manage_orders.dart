@@ -22,6 +22,7 @@ class ManageOrders extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<List<Order>>(
         stream: OrderStream().stream(),
+        initialData: OrderRepo().getAll(),
         builder: (context, snapshot) {
           return Scaffold(
             appBar: AppBar(

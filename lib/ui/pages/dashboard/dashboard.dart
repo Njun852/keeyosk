@@ -28,7 +28,10 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> with RouteAware {
   List<Category> _categories = CategoryRepo().getAll();
-  List<MenuItem> _products = MenuItemRepo().getAll();
+  List<List<MenuItem>> _productsGroup = CategoryRepo().getAll().map((category) {
+    final products = MenuItemRepo().getAll();
+    return products.where((item) => item.category.id == category.id).toList();
+  }).toList();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -118,14 +121,18 @@ class _DashboardState extends State<Dashboard> with RouteAware {
             SliverFillRemaining(
               child: TabBarView(
                   children: List.generate(
-                _categories.length,
+                _productsGroup.length,
                 (index) => RefreshIndicator(
                   onRefresh: () async {
-                    //TODO: fetch from db
+                    await ProductService().init();
                     setState(() {
-                      ProductService productService = ProductService();
-                      _products = productService.getAllMenuItem();
-                      _categories = productService.getAllCategories();
+                      _categories = CategoryRepo().getAll();
+                      _productsGroup = CategoryRepo().getAll().map((category) {
+                        final products = MenuItemRepo().getAll();
+                        return products
+                            .where((item) => item.category.id == category.id)
+                            .toList();
+                      }).toList();
                     });
                   },
                   child: GridView.count(
@@ -134,9 +141,9 @@ class _DashboardState extends State<Dashboard> with RouteAware {
                     mainAxisSpacing: 15,
                     crossAxisSpacing: 15,
                     crossAxisCount: 2,
-                    children: List.generate(_products.length, (index) {
+                    children: List.generate(_productsGroup[index].length, (i) {
                       return ItemCard(
-                        item: _products[index],
+                        item: _productsGroup[index][i],
                       );
                     }),
                   ),
@@ -154,9 +161,13 @@ class _DashboardState extends State<Dashboard> with RouteAware {
   void didPopNext() {
     super.didPopNext();
     setState(() {
-      ProductService productService = ProductService();
-      _products = productService.getAllMenuItem();
-      _categories = productService.getAllCategories();
+      _categories = CategoryRepo().getAll();
+      _productsGroup = CategoryRepo().getAll().map((category) {
+        final products = MenuItemRepo().getAll();
+        return products
+            .where((item) => item.category.id == category.id)
+            .toList();
+      }).toList();
     });
   }
 

@@ -1,9 +1,16 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/services.dart';
 import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/data/repositories/repo.dart';
+import 'package:keeyosk/data/services/http_service.dart';
+import 'package:path_provider/path_provider.dart';
 
 class MenuItemRepo implements Repo<MenuItem> {
   static final MenuItemRepo _repo = MenuItemRepo._sharedInstance();
   factory MenuItemRepo() => _repo;
+  final HttpService service = HttpService();
   MenuItemRepo._sharedInstance();
   final List<MenuItem> _items = [];
 
@@ -24,6 +31,13 @@ class MenuItemRepo implements Repo<MenuItem> {
 
   @override
   Future<List<MenuItem>> init() async {
+    final response = await service.read(route: '/product/all');
+    final List<Map<String, dynamic>> data =
+        List<Map<String, dynamic>>.from(response["data"]);
+    final List<MenuItem> items =
+        data.map((item) => MenuItem.fromJSON(item)).toList();
+    _items.clear();
+    _items.addAll(items);
     return _items;
   }
 

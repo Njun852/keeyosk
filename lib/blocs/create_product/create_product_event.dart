@@ -7,13 +7,13 @@ import 'package:keeyosk/data/models/menu_item.dart';
 class CreateProductEvent {}
 
 class AddedImages extends CreateProductEvent {
-  final List<File> images;
+  final List<MenuItemImage> images;
   AddedImages({required this.images});
 }
 
 class RemovedImage extends CreateProductEvent {
-  final File image;
-  RemovedImage({required this.image});
+  final String id;
+  RemovedImage({required this.id});
 }
 
 class AddedOption extends CreateProductEvent {}

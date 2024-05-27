@@ -11,6 +11,8 @@ import 'package:keeyosk/constants/routes.dart';
 import 'package:keeyosk/constants/styles.dart';
 import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/data/repositories/menu_item_repo.dart';
+import 'package:keeyosk/data/services/http_service.dart';
+import 'package:keeyosk/data/services/product_service.dart';
 import 'package:keeyosk/ui/pages/product_list/table_row.dart' as tb;
 import 'package:keeyosk/ui/widgets/format_price.dart';
 import 'package:keeyosk/ui/widgets/price_display.dart';
@@ -58,6 +60,7 @@ class _ProductListState extends State<ProductList> with RouteAware {
       body: RefreshIndicator(
         onRefresh: () async {
           //TODO: query from db
+          await ProductService().init();
           setState(() {
             _items = MenuItemRepo().getAll();
           });
@@ -99,7 +102,12 @@ class _ProductListState extends State<ProductList> with RouteAware {
                               width: 100,
                               child: TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pushNamed(addProduct);
+                                  Navigator.of(context)
+                                      .pushNamed(addProduct, arguments: {
+                                    "title": "Add New Product",
+                                    "button": "Add Product",
+                                    "feedback": "Created Product!"
+                                  });
                                 },
                                 style: ButtonStyle(
                                     visualDensity: VisualDensity.comfortable,
@@ -198,8 +206,8 @@ class _ProductListState extends State<ProductList> with RouteAware {
                                           ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(5),
-                                            child: Image.file(
-                                              _items[index].images.first,
+                                            child: Image.memory(
+                                              _items[index].images.first.file,
                                               height: 30,
                                               width: 30,
                                               fit: BoxFit.fitHeight,
@@ -276,14 +284,121 @@ class _ProductListState extends State<ProductList> with RouteAware {
                                             itemBuilder: (context) {
                                               return [
                                                 PopupMenuItem(
-                                                  value: 'Disable',
-                                                  child: Text('Disable'),
+                                                  onTap: () async {
+                                                    //TODO: refactor this
+                                                    MenuItem item =
+                                                        _items[index];
+                                                    print(!item.isAvailable);
+                                                    HttpService service =
+                                                        HttpService();
+                                                    final Map<String, dynamic>
+                                                        data = {
+                                                      "product_id": item.id,
+                                                      "price": item.price,
+                                                      "options": item.options
+                                                          .map((option) {
+                                                        return {
+                                                          "option_id":
+                                                              option.id,
+                                                          "option_name":
+                                                              option.name,
+                                                          "is_required":
+                                                              option.isRequired
+                                                                  ? 1
+                                                                  : 0,
+                                                          "is_multiselect":
+                                                              option.isMultiSelect
+                                                                  ? 1
+                                                                  : 0,
+                                                          "option_items": option
+                                                              .items
+                                                              .map((item) {
+                                                            return {
+                                                              "item_id":
+                                                                  item.id,
+                                                              "option_id":
+                                                                  option.id,
+                                                              "item_name":
+                                                                  item.name,
+                                                              "additional_price":
+                                                                  item.additionalPrice
+                                                            };
+                                                          }).toList()
+                                                        };
+                                                      }).toList(),
+                                                      "product_name":
+                                                          item.name.trim(),
+                                                      "category_id":
+                                                          item.category.id,
+                                                      "discount": item.discount,
+                                                      "description": item
+                                                          .description
+                                                          .trim(),
+                                                      "is_available":
+                                                          !item.isAvailable,
+                                                      "images": item.images
+                                                          .map((image) => {
+                                                                "image_id":
+                                                                    image.id,
+                                                                "file":
+                                                                    image.file,
+                                                              })
+                                                          .toList()
+                                                    };
+
+                                                    await service.update(
+                                                        route: '/product',
+                                                        id: item.id,
+                                                        data: data);
+                                                    MenuItemRepo().update(
+                                                        _items[index].id,
+                                                        MenuItem.fromJSON(
+                                                            data));
+                                                    setState(() {
+                                                      _items = MenuItemRepo()
+                                                          .getAll();
+                                                    });
+                                                  },
+                                                  value:
+                                                      _items[index].isAvailable
+                                                          ? 'Disable'
+                                                          : 'Enable',
+                                                  child: Text(
+                                                      _items[index].isAvailable
+                                                          ? 'Disable'
+                                                          : 'Enable'),
                                                 ),
                                                 PopupMenuItem(
+                                                  onTap: () {
+                                                    Navigator.of(context)
+                                                        .pushNamed(addProduct,
+                                                            arguments: {
+                                                          "title":
+                                                              "Edit Product",
+                                                          "button": "Apply",
+                                                          "feedback":
+                                                              "Updated Product!",
+                                                          "item": _items[index]
+                                                        });
+                                                  },
                                                   value: 'Edit',
                                                   child: Text('Edit'),
                                                 ),
                                                 PopupMenuItem(
+                                                  onTap: () async {
+                                                    //TODO: refactor
+                                                    HttpService service =
+                                                        HttpService();
+                                                    await service.delete(
+                                                        route: '/product',
+                                                        id: _items[index].id);
+                                                    MenuItemRepo().delete(
+                                                        _items[index].id);
+                                                    setState(() {
+                                                      _items = MenuItemRepo()
+                                                          .getAll();
+                                                    });
+                                                  },
                                                   value: 'Delete',
                                                   child: Text('Delete'),
                                                 )

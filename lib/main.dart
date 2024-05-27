@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:keeyosk/constants/colors.dart';
@@ -25,20 +26,20 @@ import 'package:keeyosk/ui/pages/order_details/order_details.dart';
 import 'package:keeyosk/ui/pages/order_success/order_success.dart';
 import 'package:keeyosk/ui/pages/product/product_page.dart';
 import 'package:keeyosk/ui/pages/product_list/product_list.dart';
+import 'package:path_provider/path_provider.dart';
 
+late final Directory tempDir;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  tempDir = await getTemporaryDirectory();
   currentUser = users[1];
   final SocketService socketService = SocketService();
   final NotificationService notificationService = NotificationService();
   final HttpService httpService = HttpService();
   // final CategoryRepo categoryRepo = CategoryRepo();
-  final MenuItemRepo menuItemRepo = MenuItemRepo();
   httpService.init();
   socketService.init();
   // await categoryRepo.init();
-  menuItemRepo.init();
   notificationService.init();
 
   if (currentUser.role == Role.admin) {

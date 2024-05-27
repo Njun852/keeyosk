@@ -26,6 +26,7 @@ class _ProductOptionState extends State<ProductOption> {
 
   @override
   Widget build(BuildContext context) {
+    print('id ' + widget.option.id);
     _controller.text = widget.option.name;
     return BlocProvider.value(
       value: context.read<CreateProductBloc>(),
@@ -162,6 +163,7 @@ class _ProductOptionState extends State<ProductOption> {
           }),
           GestureDetector(
             onTap: () {
+              print('aaaaaaaah ' + widget.option.id);
               context.read<CreateProductBloc>().add(
                     AddedOptionItem(optionId: widget.option.id),
                   );

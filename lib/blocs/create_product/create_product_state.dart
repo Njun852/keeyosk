@@ -1,10 +1,11 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/data/models/option.dart';
 
 class CreateProductState {
-  final List<File> images;
+  final List<MenuItemImage> images;
   final double? discountedPrice;
   final double price;
   final List<Option> options;

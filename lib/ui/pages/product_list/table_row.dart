@@ -42,8 +42,8 @@ class TableRow extends StatelessWidget {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(5),
-                        child: Image.file(
-                          item!.images.first,
+                        child: Image.memory(
+                          item!.images.first.file,
                           height: 30,
                           width: 30,
                           fit: BoxFit.fitHeight,

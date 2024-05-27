@@ -8,8 +8,8 @@ class ProductService {
   final CategoryRepo categoryRepo = CategoryRepo();
 
   Future<Map<String, dynamic>> init() async {
-    final items = await menuItemRepo.init();
     final categories = await categoryRepo.init();
+    final items = await menuItemRepo.init();
     return {"products": items, "categories": categories};
   }
 
