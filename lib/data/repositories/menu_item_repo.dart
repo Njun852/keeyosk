@@ -17,6 +17,7 @@ class MenuItemRepo implements Repo<MenuItem> {
   @override
   void add(MenuItem data) {
     _items.add(data);
+    service.write(route: '/product', data: data.toJSON());
   }
 
   @override
@@ -35,14 +36,9 @@ class MenuItemRepo implements Repo<MenuItem> {
     final List<Map<String, dynamic>> data =
         List<Map<String, dynamic>>.from(response);
     _items.clear();
-    try {
-      final List<MenuItem> items =
-          data.map((item) => MenuItem.fromJSON(item)).toList();
-      print(items);
-      _items.addAll(items);
-    } catch (e) {
-      print(e);
-    }
+    final List<MenuItem> items =
+        data.map((item) => MenuItem.fromJSON(item)).toList();
+    _items.addAll(items);
 
     return _items;
   }
@@ -57,6 +53,7 @@ class MenuItemRepo implements Repo<MenuItem> {
   void update(String id, MenuItem data) {
     final index = _items.indexWhere((e) => e.id == id);
     _items[index] = data;
+    print(data.toJSON());
     service.update(route: '/product', id: id, data: data.toJSON());
   }
 

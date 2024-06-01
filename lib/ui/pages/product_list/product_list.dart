@@ -284,83 +284,27 @@ class _ProductListState extends State<ProductList> with RouteAware {
                                               return [
                                                 PopupMenuItem(
                                                   onTap: () async {
-                                                    //TODO: refactor this
                                                     MenuItem item =
                                                         _items[index];
-                                                    print(!item.isAvailable);
-                                                    HttpService service =
-                                                        HttpService();
-                                                    final Map<String, dynamic>
-                                                        data = {
-                                                      "product_id": item.id,
-                                                      "price": item.price,
-                                                      "options": item.options
-                                                          .map((option) {
-                                                        return {
-                                                          "option_id":
-                                                              option.id,
-                                                          "option_name":
-                                                              option.name,
-                                                          "is_required":
-                                                              option.isRequired
-                                                                  ? 1
-                                                                  : 0,
-                                                          "is_multiselect":
-                                                              option.isMultiSelect
-                                                                  ? 1
-                                                                  : 0,
-                                                          "option_items": option
-                                                              .items
-                                                              .map((item) {
-                                                            return {
-                                                              "item_id":
-                                                                  item.id,
-                                                              "option_id":
-                                                                  option.id,
-                                                              "item_name":
-                                                                  item.name,
-                                                              "additional_price":
-                                                                  item.additionalPrice
-                                                            };
-                                                          }).toList()
-                                                        };
-                                                      }).toList(),
-                                                      "product_name":
-                                                          item.name.trim(),
-                                                      "category_id":
-                                                          item.category.id,
-                                                      "discount": item.discount,
-                                                      "description": item
-                                                          .description
-                                                          .trim(),
-                                                      "is_available":
-                                                          !item.isAvailable,
-                                                      "images": item.images
-                                                          .map((image) => {
-                                                                "image_id":
-                                                                    image.id,
-                                                                "file":
-                                                                    image.file,
-                                                              })
-                                                          .toList()
-                                                    };
-
                                                     MenuItemRepo repo =
                                                         MenuItemRepo();
-
                                                     repo.update(
                                                         _items[index].id,
                                                         MenuItem(
-                                                            name: item.name,
-                                                            id: item.id,
-                                                            description: item
-                                                                .description,
-                                                            images: item.images,
-                                                            price: item.price,
-                                                            category:
-                                                                item.category,
-                                                            isAvailable: !item
-                                                                .isAvailable));
+                                                          options: item.options,
+                                                          name: item.name,
+                                                          id: item.id,
+                                                          description:
+                                                              item.description,
+                                                          images: item.images,
+                                                          price: item.price,
+                                                          discount:
+                                                              item.discount,
+                                                          category:
+                                                              item.category,
+                                                          isAvailable:
+                                                              !item.isAvailable,
+                                                        ));
                                                     setState(() {
                                                       _items = MenuItemRepo()
                                                           .getAll();

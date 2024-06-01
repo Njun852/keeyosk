@@ -26,6 +26,7 @@ class CartRepo implements Repo<Cart> {
   void delete(String id, {bool shouldHide = false}) {
     if (shouldHide) {
       final newData = get(id);
+      print('already exist');
       update(
           id,
           Cart(
@@ -55,15 +56,15 @@ class CartRepo implements Repo<Cart> {
   Future<List<Cart>> init() async {
     final response =
         await service.read(route: '/cart/all', id: currentUser.userId);
-    final List data = response["data"];
+    final List data = response;
     _cartList.clear();
-    // try {
-    //   final carts = data.map((e) => Cart.fromJSON(e)).toList();
-    //   _cartList.addAll(carts);
-    // } catch (e) {
-    //   print(e);
-    // }
-
+    try {
+      final carts = data.map((e) => Cart.fromJSON(e)).toList();
+      print(data);
+      _cartList.addAll(carts);
+    } catch (e) {
+      print(e);
+    }
     return _cartList;
   }
 
@@ -80,7 +81,7 @@ class CartRepo implements Repo<Cart> {
     service.update(
       route: '/cart',
       id: id,
-      data: {"quantity": data.quantity, "is_hidden": data.hidden ? 1 : 0},
+      data: data.toJSON(),
     );
   }
 

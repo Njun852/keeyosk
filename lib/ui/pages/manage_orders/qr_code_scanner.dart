@@ -142,11 +142,11 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
         // repo.add(_order!);
         // final allOrders = repo.getAll();
         // orderStream.add(allOrders);
-        // Navigator.of(context).pushNamedAndRemoveUntil(
-        //   orderSuccess,
-        //   (route) => false,
-        //   arguments: _order!,
-        // );
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          orderSuccess,
+          (route) => false,
+          arguments: _order!,
+        );
       }
     });
   }

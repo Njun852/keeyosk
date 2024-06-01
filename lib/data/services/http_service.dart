@@ -36,6 +36,7 @@ class HttpService {
     required String id,
     required Map data,
   }) async {
+    print(data);
     await client?.put(
       Uri.parse(
         '$url$route/$id',

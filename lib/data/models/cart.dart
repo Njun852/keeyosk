@@ -27,46 +27,37 @@ class Cart {
       "user_id": ownerId,
       "cart_id": id,
       "product_id": item.id,
-      "selected_options": selectedOptions.map((e) => e.id).toList(),
-      "quantity": quantity
+      "selected_options": selectedOptions.map((selected) {
+        return selected.toJSON(item.options.firstWhere((option) {
+          return option.items.indexWhere((item) {
+                return item.id == selected.id;
+              }) !=
+              -1;
+        }).id);
+      }).toList(),
+      "quantity": quantity,
+      "is_hidden": hidden ? 1 : 0
     };
   }
 
-  static Cart fromJSON(Map data) {
-    int quantity = data["quantity"];
-    String ownerId = data["user_id"];
-    String cartId = data["cart_id"];
-    String productId = data["product_id"];
-    List<dynamic> selectedOptions = data["selected_options"];
-    final MenuItemRepo menuItemRepo = MenuItemRepo();
-    MenuItem item = menuItemRepo.get(productId);
-
+  static Cart fromJSON(Map<String, dynamic> data) {
+    print('yooo');
+    print(data);
+    final String cartId = data["cart_id"];
+    final String productId = data["product_id"];
+    final int quantity = data["quantity"];
+    final String userId = data["user_id"];
+    final bool isHidden = data["is_hidden"] == 1;
+    final MenuItem item = MenuItemRepo().get(productId);
+    final List rawOptions = data["selected_options"];
+    final List<OptionItem> selectedOptions =
+        rawOptions.map((option) => OptionItem.fromJSON(option)).toList();
     return Cart(
-      id: cartId,
-      ownerId: ownerId,
-      item: item,
-      hidden: data["is_hidden"] == 1,
-      selectedOptions: selectedOptions.map((option) {
-        int index = -1;
-        int outer = -1;
-        for (var i = 0; i < item.options.length; i++) {
-          for (var j = 0; j < item.options[i].items.length; j++) {
-            if (item.options[i].items[j].id == option["item_id"]) {
-              index = j;
-              outer = i;
-              break;
-            }
-          }
-          if (outer != -1) {
-            break;
-          }
-        }
-        return OptionItem(
-            id: option["item_id"],
-            name: item.options[outer].items[index].name,
-            additionalPrice: item.options[outer].items[index].additionalPrice);
-      }).toList(),
-      quantity: quantity,
-    );
+        ownerId: userId,
+        id: cartId,
+        item: item,
+        hidden: isHidden,
+        selectedOptions: selectedOptions,
+        quantity: quantity);
   }
 }

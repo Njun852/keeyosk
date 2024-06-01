@@ -64,7 +64,8 @@ class MenuItem {
       "product_name": name,
       "category": category.toJSON(),
       "price": price,
-      "images": images.map((image) => image.toJSON(id)),
+      "options": options.map((option) => option.toJSON()).toList(),
+      "images": images.map((image) => image.toJSON(id)).toList(),
       "discount": discount,
       "description": description,
       "is_available": isAvailable

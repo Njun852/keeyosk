@@ -21,6 +21,7 @@ class CreateProductBloc extends Bloc<CreateProductEvent, CreateProductState> {
   String productName = '';
   late final String productId;
   String? description;
+  bool isAvailable = true;
   double? discountedPrice;
   String categoryId = '';
   late final bool alreadyExist;
@@ -38,6 +39,7 @@ class CreateProductBloc extends Bloc<CreateProductEvent, CreateProductState> {
       alreadyExist = true;
       images.addAll(item!.images);
       options = item.options;
+      isAvailable = item.isAvailable;
       productName = item.name;
       description = item.description;
       categoryId = item.category.id;
@@ -230,55 +232,20 @@ class CreateProductBloc extends Bloc<CreateProductEvent, CreateProductState> {
       (event, emit) {
         MenuItemRepo menuItemRepo = MenuItemRepo();
         CategoryRepo categoryRepo = CategoryRepo();
-        HttpService service = HttpService();
-        final Map<String, dynamic> data = {
-          "product_id": productId,
-          "price": price,
-          "options": options.map((option) {
-            return {
-              "option_id": option.id,
-              "option_name": option.name,
-              "is_required": option.isRequired ? 1 : 0,
-              "is_multiselect": option.isMultiSelect ? 1 : 0,
-              "option_items": option.items.map((item) {
-                return {
-                  "item_id": item.id,
-                  "option_id": option.id,
-                  "item_name": item.name,
-                  "additional_price": item.additionalPrice
-                };
-              }).toList()
-            };
-          }).toList(),
-          "product_name": productName.trim(),
-          "category_id": categoryId,
-          "discount": discountedPrice,
-          "description": description?.trim() ?? 'No description',
-          "is_available": 1,
-          "images": images
-              .map((image) => {
-                    "image_id": image.id,
-                    "file": image.file,
-                  })
-              .toList()
-        };
+        MenuItem item = MenuItem(
+            name: productName,
+            id: productId,
+            discount: discountedPrice,
+            description: description?.trim() ?? 'No Description',
+            images: images,
+            price: price,
+            options: options,
+            category: categoryRepo.get(categoryId),
+            isAvailable: isAvailable);
         if (alreadyExist) {
-          menuItemRepo.update(productId, MenuItem.fromJSON(data));
-          service.update(route: '/product', id: productId, data: data);
+          menuItemRepo.update(productId, item);
         } else {
-          menuItemRepo.add(
-            MenuItem(
-                name: productName.trim(),
-                id: productId,
-                images: images,
-                price: price,
-                options: options,
-                discount: discountedPrice,
-                description: description?.trim() ?? 'No description',
-                category: categoryRepo.get(categoryId),
-                isAvailable: true),
-          );
-          service.write(route: '/product', data: data);
+          menuItemRepo.add(item);
         }
         emit(CreateProductState(
           productName: productName,
