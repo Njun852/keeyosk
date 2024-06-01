@@ -2,15 +2,18 @@ import 'dart:async';
 
 import 'package:keeyosk/data/models/order.dart';
 import 'package:keeyosk/data/repositories/repo.dart';
+import 'package:keeyosk/data/services/http_service.dart';
 
 class OrderRepo implements Repo<Order> {
   final List<Order> _orders = [];
+  final HttpService service = HttpService();
   static final _repo = OrderRepo._sharedInstance();
   factory OrderRepo() => _repo;
   OrderRepo._sharedInstance();
   @override
   void add(data) {
     _orders.add(data);
+    // service.write(route: '/order', data: data.toJSON());
   }
 
   @override
@@ -30,6 +33,12 @@ class OrderRepo implements Repo<Order> {
 
   @override
   Future<List<Order>> init() async {
+    final response = await service.read(route: '/order/all');
+    final List data = response["data"];
+    // final List<Order> orders = data.map((e) => Order.fromJSON(e)).toList();
+    // print(orders);
+    // _orders.clear();
+    // _orders.addAll(orders);
     return _orders;
   }
 

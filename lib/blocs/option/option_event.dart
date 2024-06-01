@@ -7,7 +7,7 @@ class ChangedQuantity extends OptionEvent {
   final int updatedQuantity;
   ChangedQuantity({required this.updatedQuantity});
 }
-
+class Setup extends OptionEvent {}
 class SelectedOption extends OptionEvent {
   final String itemId;
   final String optionId;

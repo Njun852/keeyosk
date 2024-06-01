@@ -404,7 +404,9 @@ class _CreateProductState extends State<CreateProduct> {
                                 color: Color.fromRGBO(120, 120, 120, 1)),
                           ),
                           DropdownButtonFormField(
-                            value: state.categoryId.isEmpty ? null : state.categoryId,
+                            value: state.categoryId.isEmpty
+                                ? null
+                                : state.categoryId,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {
@@ -514,7 +516,7 @@ class _CreateProductState extends State<CreateProduct> {
                                       .add(AddProduct());
                                   Navigator.of(context).pop();
                                   return ToastView.init(context).showToast(
-                                    'Created new product!',
+                                    txts["feedback"],
                                     Icons.check,
                                   );
                                 }
@@ -550,8 +552,12 @@ class _CreateProductState extends State<CreateProduct> {
     context.read<CreateProductBloc>().add(
           AddedImages(
             images: images
-                .map((element) => MenuItemImage(
-                    id: uuid.v1(), file: File(element.path).readAsBytesSync()))
+                .map(
+                  (element) => MenuItemImage(
+                    id: uuid.v1(),
+                    file: File(element.path).readAsBytesSync(),
+                  ),
+                )
                 .toList(),
           ),
         );

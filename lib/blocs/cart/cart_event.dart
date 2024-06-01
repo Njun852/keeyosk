@@ -11,9 +11,9 @@ class ToggledCartItem extends CartEvent {
     required this.isAdded,
   });
 }
-
+class Setup extends CartEvent {}
 class SwitchedMode extends CartEvent {
-  final String mode;
+  final OrderMode mode;
 
   SwitchedMode({required this.mode});
 }

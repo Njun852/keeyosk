@@ -33,7 +33,7 @@ class CartPage extends StatelessWidget {
         orderRepo: OrderRepo(),
         cartRepo: CartRepo(),
         selectedItems: [],
-        orderMode: "Dine in",
+        orderMode: OrderMode.dineIn,
       ),
       child: BlocConsumer<CartBloc, CartState>(
         listener: (context, state) {
@@ -45,6 +45,14 @@ class CartPage extends StatelessWidget {
           }
         },
         builder: (context, state) {
+          if (state is Initial) {
+            context.read<CartBloc>().add(Setup());
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
           return Scaffold(
             appBar: AppBar(
               centerTitle: true,
@@ -162,7 +170,7 @@ class CartPage extends StatelessWidget {
                                               WidgetStatePropertyAll(secondary),
                                           focusColor: secondary,
                                           activeColor: secondary,
-                                          value: "Dine in",
+                                          value: OrderMode.dineIn,
                                           groupValue: state.mode,
                                           visualDensity: VisualDensity.compact,
                                           onChanged: (val) {
@@ -190,7 +198,7 @@ class CartPage extends StatelessWidget {
                                       child: Transform.scale(
                                         scale: 1.3,
                                         child: Radio(
-                                          value: "Take Out",
+                                          value: OrderMode.takeOut,
                                           fillColor:
                                               WidgetStatePropertyAll(secondary),
                                           groupValue: state.mode,

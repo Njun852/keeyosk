@@ -7,7 +7,7 @@ class CartState {
   final List<Cart> items;
   final double subtotal;
   final List<Cart> selectedItems;
-  final String mode;
+  final OrderMode mode;
 
   CartState({
     required this.items,
@@ -15,6 +15,13 @@ class CartState {
     required this.selectedItems,
     required this.subtotal,
   });
+}
+class Initial extends CartState {
+  Initial(
+      {required super.items,
+      required super.mode,
+      required super.selectedItems,
+      required super.subtotal});
 }
 
 class HasCheckout extends CartState {

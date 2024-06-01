@@ -11,6 +11,7 @@ import 'package:keeyosk/data/models/cart.dart';
 import 'package:keeyosk/data/models/order.dart';
 import 'package:keeyosk/data/repositories/cart_repo.dart';
 import 'package:keeyosk/data/repositories/order_repo.dart';
+import 'package:keeyosk/data/services/notification_service.dart';
 import 'package:keeyosk/data/services/socket_service.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -127,18 +128,25 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
       if (tables.contains(_result!.code) && _order != null) {
         SocketService socket = SocketService();
         final cartRepo = CartRepo();
-        final carts = cartRepo.getAll();
         for (Cart selected in _order!.carts) {
-          carts.removeWhere((element) => element.id == selected.id);
+          cartRepo.delete(selected.id, shouldHide: true);
         }
         _order!.tableId = _result!.code;
         _controller?.pauseCamera();
-        socket.emit("request order", _order!.toJSON());
-        Navigator.of(context).pushNamedAndRemoveUntil(
-          orderSuccess,
-          (route) => false,
-          arguments: _order!,
-        );
+        socket.emit("request order",
+            {..._order!.toJSON(), "user": currentUser.toJSON()});
+        // NotificationService notificationService = NotificationService();
+        // notificationService.showNotification(_order!.tableId!);
+        // OrderStream orderStream = OrderStream();
+        // OrderRepo repo = OrderRepo();
+        // repo.add(_order!);
+        // final allOrders = repo.getAll();
+        // orderStream.add(allOrders);
+        // Navigator.of(context).pushNamedAndRemoveUntil(
+        //   orderSuccess,
+        //   (route) => false,
+        //   arguments: _order!,
+        // );
       }
     });
   }

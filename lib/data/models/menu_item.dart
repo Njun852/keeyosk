@@ -13,7 +13,25 @@ class MenuItemImage {
   final String id;
   final Uint8List file;
 
-  MenuItemImage({required this.id, required this.file});
+  MenuItemImage({
+    required this.id,
+    required this.file,
+  });
+
+  static MenuItemImage fromJSON(Map<String, dynamic> data) {
+    return MenuItemImage(
+      id: data["image_id"],
+      file: Uint8List.fromList(List<int>.from(data["file"])),
+    );
+  }
+
+  Map<String, dynamic> toJSON(String productId) {
+    return {
+      "image_id": id,
+      "file": file,
+      "product_id": productId,
+    };
+  }
 }
 
 class MenuItem {
@@ -40,64 +58,47 @@ class MenuItem {
     this.options = const [],
   });
 
+  Map<String, dynamic> toJSON() {
+    return {
+      "product_id": id,
+      "product_name": name,
+      "category": category.toJSON(),
+      "price": price,
+      "images": images.map((image) => image.toJSON(id)),
+      "discount": discount,
+      "description": description,
+      "is_available": isAvailable
+    };
+  }
+
   static MenuItem fromJSON(Map<String, dynamic> data) {
-    final rawImages = data["images"];
-    final rawOptions = data["options"];
     final String productId = data["product_id"];
     final double price = double.parse(data["price"].toString());
+
     final double? discount = double.tryParse(data["discount"].toString());
-    final bool isAvailable = data["is_available"] is int
-        ? data["is_available"] == 1
-        : data["is_available"];
+    final bool isAvailable = data["is_available"] as int == 1;
     final String description = data["description"];
+
     final String productName = data["product_name"];
-    final Category category = CategoryRepo().get(data["category_id"]);
 
+    final rawImages = data["images"] as List;
+    final rawOptions = data["options"] as List;
+    final rawCategory = data["category"];
     final List<MenuItemImage> images =
-        List<MenuItemImage>.from(rawImages.map((image) {
-      final String id = image["image_id"];
-
-      //we do this because the structure is different in the backend
-      if (image["file"] == null) {
-        final List<int> byteArray = List<int>.from(image["image"]["data"]);
-        return MenuItemImage(id: id, file: Uint8List.fromList(byteArray));
-      }
-      return MenuItemImage(id: id, file: image["file"]);
-    }).toList());
-    final List<Option> options = List<Option>.from(rawOptions.map((option) {
-      final bool isRequired = option["is_required"] == 1;
-      final bool isMultiSelect = option["is_multiselect"] == 1;
-      final String optionName = option["option_name"];
-      final String optionId = option["option_id"];
-      final rawItems = option["option_items"];
-      final List<OptionItem> items = List<OptionItem>.from(rawItems.map((item) {
-        final String itemId = item["item_id"];
-        final String itemName = item["item_name"];
-        final int additionalPrice = item["additional_price"];
-        return OptionItem(
-            id: itemId,
-            name: itemName,
-            additionalPrice: additionalPrice.toDouble());
-      }).toList());
-      return Option(
-        menuItemId: productId,
-        isRequired: isRequired,
-        isMultiSelect: isMultiSelect,
-        name: optionName,
-        id: optionId,
-        items: items,
-      );
-    }).toList());
+        rawImages.map((image) => MenuItemImage.fromJSON(image)).toList();
+    final List<Option> options =
+        rawOptions.map((option) => Option.fromJSON(option)).toList();
 
     return MenuItem(
-        name: productName,
-        id: productId,
-        description: description,
-        images: images,
-        options: options,
-        price: price.toDouble(),
-        category: category,
-        isAvailable: isAvailable,
-        discount: discount);
+      name: productName,
+      id: productId,
+      description: description,
+      images: images,
+      price: price,
+      options: options,
+      discount: discount,
+      category: Category.fromJSON(rawCategory),
+      isAvailable: isAvailable,
+    );
   }
 }

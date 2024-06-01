@@ -7,6 +7,7 @@ import 'package:keeyosk/data/models/menu_item.dart';
 import 'package:keeyosk/data/models/option.dart';
 import 'package:keeyosk/data/models/option_item.dart';
 import 'package:keeyosk/data/repositories/cart_repo.dart';
+import 'package:keeyosk/data/services/http_service.dart';
 import 'package:uuid/uuid.dart';
 
 class OptionBloc extends Bloc<OptionEvent, OptionState> {
@@ -21,6 +22,14 @@ class OptionBloc extends Bloc<OptionEvent, OptionState> {
           additionalPrice: 0,
           allRequiredFilled: item.options.isEmpty,
         )) {
+    on<Setup>((event, emit) {
+      emit(OptionModified(
+        quantity: quantity,
+        allRequiredFilled: filledRequiredOptions(),
+        additionalPrice: getAdditionalPrice(),
+        options: selectedOptions,
+      ));
+    });
     on<ChangedQuantity>((event, emit) {
       quantity += event.updatedQuantity;
       emit(OptionModified(
@@ -63,15 +72,15 @@ class OptionBloc extends Bloc<OptionEvent, OptionState> {
     );
 
     on<Apply>((event, emit) {
-      repo.add(
-        Cart(
-          ownerId: currentUser.userId,
-          id: const Uuid().v1(),
-          item: event.item,
-          selectedOptions: selectedOptions,
-          quantity: quantity,
-        ),
+      HttpService service = HttpService();
+      final Cart newCart = Cart(
+        ownerId: currentUser.userId,
+        id: const Uuid().v1(),
+        item: event.item,
+        selectedOptions: selectedOptions,
+        quantity: quantity,
       );
+      repo.add(newCart);
     });
   }
 
@@ -85,24 +94,25 @@ class OptionBloc extends Bloc<OptionEvent, OptionState> {
   bool filledRequiredOptions() {
     List<bool> allOptionIsFilled = [];
     for (Option option in item.options) {
-      if (option.isRequired) {
-        bool isFilled = false;
-        bool hasFound = false;
-        for (OptionItem item in option.items) {
-          for (OptionItem selectedItem in selectedOptions) {
-            if (item.id == selectedItem.id) {
-              isFilled = true;
-              hasFound = true;
-              break;
-            }
-          }
-          if (hasFound) {
-            allOptionIsFilled.add(isFilled);
+      if (!option.isRequired) continue;
+      bool isFilled = false;
+      bool hasFound = false;
+      for (OptionItem item in option.items) {
+        for (OptionItem selectedItem in selectedOptions) {
+          if (item.id == selectedItem.id) {
+            isFilled = true;
+            hasFound = true;
             break;
           }
         }
+        if (hasFound) {
+          allOptionIsFilled.add(isFilled);
+          break;
+        }
       }
     }
-    return (!allOptionIsFilled.contains(false) && allOptionIsFilled.isNotEmpty) || item.options.isEmpty;
+    return (!allOptionIsFilled.contains(false) &&
+            allOptionIsFilled.isNotEmpty) ||
+        allOptionIsFilled.isEmpty;
   }
 }

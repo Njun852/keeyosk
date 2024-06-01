@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:keeyosk/blocs/cart/cart_state.dart';
 import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/globals.dart';
 import 'package:keeyosk/constants/items.dart';
@@ -36,18 +37,18 @@ void main() async {
   final SocketService socketService = SocketService();
   final NotificationService notificationService = NotificationService();
   final HttpService httpService = HttpService();
-  // final CategoryRepo categoryRepo = CategoryRepo();
+  final OrderRepo orderRepo = OrderRepo();
   httpService.init();
   socketService.init();
-  // await categoryRepo.init();
+  orderRepo.init();
   notificationService.init();
-
+  
   if (currentUser.role == Role.admin) {
     OrderRepo repo = OrderRepo();
     socketService.socket.on("recieved order request", (data) async {
-      notificationService.showNotification(data["tableId"]);
-      repo.add(Order.fromJSON(data));
+      notificationService.showNotification(data["table_number"]);
       OrderStream orderStream = OrderStream();
+      repo.add(Order.fromJSON(data));
       final allOrders = repo.getAll();
       orderStream.add(allOrders);
     });

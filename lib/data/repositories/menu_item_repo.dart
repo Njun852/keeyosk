@@ -33,11 +33,17 @@ class MenuItemRepo implements Repo<MenuItem> {
   Future<List<MenuItem>> init() async {
     final response = await service.read(route: '/product/all');
     final List<Map<String, dynamic>> data =
-        List<Map<String, dynamic>>.from(response["data"]);
-    final List<MenuItem> items =
-        data.map((item) => MenuItem.fromJSON(item)).toList();
+        List<Map<String, dynamic>>.from(response);
     _items.clear();
-    _items.addAll(items);
+    try {
+      final List<MenuItem> items =
+          data.map((item) => MenuItem.fromJSON(item)).toList();
+      print(items);
+      _items.addAll(items);
+    } catch (e) {
+      print(e);
+    }
+
     return _items;
   }
 
@@ -51,6 +57,7 @@ class MenuItemRepo implements Repo<MenuItem> {
   void update(String id, MenuItem data) {
     final index = _items.indexWhere((e) => e.id == id);
     _items[index] = data;
+    service.update(route: '/product', id: id, data: data.toJSON());
   }
 
   @override

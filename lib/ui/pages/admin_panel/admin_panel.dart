@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keeyosk/constants/colors.dart';
@@ -39,7 +41,7 @@ class AdminPanel extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Welcome Prince',
+              'Welcome Harley',
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.w500,

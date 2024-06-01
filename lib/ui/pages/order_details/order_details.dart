@@ -7,8 +7,10 @@ import 'package:keeyosk/constants/colors.dart';
 import 'package:keeyosk/constants/items.dart';
 import 'package:keeyosk/constants/styles.dart';
 import 'package:keeyosk/data/models/order.dart';
+import 'package:keeyosk/data/repositories/order_repo.dart';
 import 'package:keeyosk/ui/widgets/format_price.dart';
 import 'package:keeyosk/ui/widgets/table_row.dart';
+import 'package:keeyosk/ui/widgets/toast.dart';
 import 'package:keeyosk/utils/extensions/price_format.dart';
 import 'package:keeyosk/utils/with_selected.dart';
 import 'package:keeyosk/utils/cart_list_subtotal.dart';
@@ -454,7 +456,32 @@ class OrderDetails extends StatelessWidget {
                             ),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          bool shouldAccept = await showDialog<bool>(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text('Are you sure?'),
+                                  content: const Text('Cancel order?'),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(false),
+                                        child: Text('Cancel')),
+                                    TextButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(true),
+                                        child: Text('Okay'))
+                                  ],
+                                );
+                              }).then((_) => false);
+                          OrderRepo repo = OrderRepo();
+                          repo.delete(order.id);
+                          OrderStream().add(repo.getAll());
+                          ToastView.init(context)
+                              .showToast('Rejected Order', Icons.warning);
+                          Navigator.of(context).pop();
+                        },
                         child: Text(
                           'Cancel Order',
                           style: TextStyle(
@@ -465,7 +492,33 @@ class OrderDetails extends StatelessWidget {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          bool shouldAccept = await showDialog<bool>(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text('Are you sure?'),
+                                  content: const Text('Accept order?'),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(false),
+                                        child: Text('Cancel')),
+                                    TextButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(true),
+                                        child: Text('Okay'))
+                                  ],
+                                );
+                              }).then((_) => false);
+                              
+                          OrderRepo repo = OrderRepo();
+                          repo.delete(order.id);
+                          OrderStream().add(repo.getAll());
+                          ToastView.init(context)
+                              .showToast('Accepted Order', Icons.check);
+                          Navigator.of(context).pop();
+                        },
                         style: ButtonStyle(
                           shape: WidgetStatePropertyAll(
                             RoundedRectangleBorder(

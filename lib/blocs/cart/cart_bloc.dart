@@ -8,6 +8,7 @@ import 'package:keeyosk/data/models/order.dart';
 import 'package:keeyosk/data/models/user.dart';
 import 'package:keeyosk/data/repositories/cart_repo.dart';
 import 'package:keeyosk/data/repositories/order_repo.dart';
+import 'package:keeyosk/data/services/http_service.dart';
 import 'package:keeyosk/data/services/socket_service.dart';
 import 'package:keeyosk/utils/cart_list_subtotal.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -17,7 +18,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   final CartRepo cartRepo;
   final List<Cart> selectedItems;
   final OrderRepo orderRepo;
-  final String orderMode;
+  final OrderMode orderMode;
 
   CartBloc({
     required this.cartRepo,
@@ -25,11 +26,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     required this.orderMode,
     required this.orderRepo,
   }) : super(
-          CartState(
-            items: cartRepo.getAll(),
-            mode: orderMode,
+          Initial(
+            items: [],
+            mode: OrderMode.dineIn,
             subtotal: 0,
-            selectedItems: selectedItems,
+            selectedItems: [],
           ),
         ) {
     on<ToggledCartItem>(
@@ -43,7 +44,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         }
         emit(
           CartState(
-            items: cartRepo.getAll(),
+            items: getCarts(),
             mode: orderMode,
             selectedItems: selectedItems,
             subtotal: getSubTotalFromCartList(selectedItems),
@@ -52,10 +53,20 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       },
     );
 
+    on<Setup>(
+      (event, emit) async {
+        emit(CartState(
+          items: getCarts(),
+          mode: orderMode,
+          selectedItems: selectedItems,
+          subtotal: getSubTotalFromCartList(selectedItems),
+        ));
+      },
+    );
     on<SwitchedMode>((event, emit) {
       emit(
         CartState(
-          items: cartRepo.getAll(),
+          items: getCarts(),
           mode: event.mode,
           selectedItems: selectedItems,
           subtotal: getSubTotalFromCartList(selectedItems),
@@ -63,10 +74,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       );
     });
 
-    on<ChangedQuantity>(((event, emit) {
+    on<ChangedQuantity>(((event, emit) async {
       final int index =
           selectedItems.indexWhere((element) => element.id == event.id);
-      for (Cart item in cartRepo.getAll()) {
+      for (Cart item in getCarts()) {
         if (item.id == event.id) {
           item.quantity = event.quantity;
           cartRepo.update(
@@ -78,6 +89,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
                 selectedOptions: item.selectedOptions,
                 quantity: event.quantity),
           );
+
           if (index != -1) {
             selectedItems[index] = cartRepo.get(item.id);
           }
@@ -87,7 +99,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
       emit(
         CartState(
-          items: cartRepo.getAll(),
+          items: getCarts(),
           mode: orderMode,
           selectedItems: selectedItems,
           subtotal: getSubTotalFromCartList(selectedItems),
@@ -96,11 +108,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     }));
 
     on<RemovedItem>((event, emit) {
-      cartRepo.getAll().removeWhere((element) => element.id == event.id);
+      cartRepo.delete(event.id);
       selectedItems.removeWhere((element) => element.id == event.id);
       emit(
         CartState(
-          items: cartRepo.getAll(),
+          items: getCarts(),
           mode: orderMode,
           selectedItems: selectedItems,
           subtotal: getSubTotalFromCartList(selectedItems),
@@ -133,7 +145,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         String time = '$hPrefix$hour:$prefix$minute$suffix';
         final Order order = Order(
           id: const Uuid().v1(),
-          orderMode: orderMode,
+          orderMode: orderMode.name,
           date: date,
           hour: time,
           customer: currentUser,
@@ -144,7 +156,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         emit(
           HasCheckout(
             order: order,
-            items: cartRepo.getAll(),
+            items: selectedItems,
             mode: orderMode,
             selectedItems: selectedItems,
             subtotal: getSubTotalFromCartList(selectedItems),
@@ -152,5 +164,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         );
       },
     );
+  }
+
+  List<Cart> getCarts() {
+    return cartRepo.getAll().where((cart) => !cart.hidden).toList();
   }
 }

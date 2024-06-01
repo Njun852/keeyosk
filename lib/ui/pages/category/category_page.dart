@@ -140,6 +140,7 @@ class _CategoryState extends State<Category> with WidgetsBindingObserver {
                           ),
                           onPressed: () {
                             context.read<CategoryBloc>().add(Apply());
+                            Navigator.of(context).pop();
                           },
                           child: Text(
                             'Save Changes',

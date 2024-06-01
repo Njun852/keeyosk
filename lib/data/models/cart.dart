@@ -9,10 +9,12 @@ class Cart {
   final String id;
   final MenuItem item;
   final String ownerId;
+  final bool hidden;
   final List<OptionItem> selectedOptions;
   int quantity;
 
   Cart({
+    this.hidden = false,
     required this.ownerId,
     required this.id,
     required this.item,
@@ -22,39 +24,48 @@ class Cart {
 
   Map<String, dynamic> toJSON() {
     return {
-      "ownerId": ownerId,
-      "cartId": id,
-      "itemId": item.id,
-      "selectedOptionsId": selectedOptions.map((e) => e.id).toList(),
+      "user_id": ownerId,
+      "cart_id": id,
+      "product_id": item.id,
+      "selected_options": selectedOptions.map((e) => e.id).toList(),
       "quantity": quantity
     };
   }
 
   static Cart fromJSON(Map data) {
     int quantity = data["quantity"];
-    String ownerId = data["ownerId"];
-    String cartId = data["cartId"];
-    String itemId = data["itemId"];
-    List<dynamic> selectedOptionsId = data["selectedOptionsId"];
+    String ownerId = data["user_id"];
+    String cartId = data["cart_id"];
+    String productId = data["product_id"];
+    List<dynamic> selectedOptions = data["selected_options"];
     final MenuItemRepo menuItemRepo = MenuItemRepo();
-    MenuItem item = menuItemRepo.get(itemId);
+    MenuItem item = menuItemRepo.get(productId);
 
-    List<OptionItem> selectedOptions = [];
-    for (Option option in item.options) {
-      for (String optionId in selectedOptionsId) {
-        int indexOfItem = option.items.indexWhere(
-          (element) => element.id == optionId,
-        );
-        if (indexOfItem != -1) {
-          selectedOptions.add(option.items[indexOfItem]);
-        }
-      }
-    }
     return Cart(
       id: cartId,
       ownerId: ownerId,
       item: item,
-      selectedOptions: selectedOptions,
+      hidden: data["is_hidden"] == 1,
+      selectedOptions: selectedOptions.map((option) {
+        int index = -1;
+        int outer = -1;
+        for (var i = 0; i < item.options.length; i++) {
+          for (var j = 0; j < item.options[i].items.length; j++) {
+            if (item.options[i].items[j].id == option["item_id"]) {
+              index = j;
+              outer = i;
+              break;
+            }
+          }
+          if (outer != -1) {
+            break;
+          }
+        }
+        return OptionItem(
+            id: option["item_id"],
+            name: item.options[outer].items[index].name,
+            additionalPrice: item.options[outer].items[index].additionalPrice);
+      }).toList(),
       quantity: quantity,
     );
   }

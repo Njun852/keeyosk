@@ -59,7 +59,6 @@ class _ProductListState extends State<ProductList> with RouteAware {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          //TODO: query from db
           await ProductService().init();
           setState(() {
             _items = MenuItemRepo().getAll();
@@ -346,14 +345,22 @@ class _ProductListState extends State<ProductList> with RouteAware {
                                                           .toList()
                                                     };
 
-                                                    await service.update(
-                                                        route: '/product',
-                                                        id: item.id,
-                                                        data: data);
-                                                    MenuItemRepo().update(
+                                                    MenuItemRepo repo =
+                                                        MenuItemRepo();
+
+                                                    repo.update(
                                                         _items[index].id,
-                                                        MenuItem.fromJSON(
-                                                            data));
+                                                        MenuItem(
+                                                            name: item.name,
+                                                            id: item.id,
+                                                            description: item
+                                                                .description,
+                                                            images: item.images,
+                                                            price: item.price,
+                                                            category:
+                                                                item.category,
+                                                            isAvailable: !item
+                                                                .isAvailable));
                                                     setState(() {
                                                       _items = MenuItemRepo()
                                                           .getAll();
@@ -389,7 +396,7 @@ class _ProductListState extends State<ProductList> with RouteAware {
                                                     //TODO: refactor
                                                     HttpService service =
                                                         HttpService();
-                                                    await service.delete(
+                                                    service.delete(
                                                         route: '/product',
                                                         id: _items[index].id);
                                                     MenuItemRepo().delete(

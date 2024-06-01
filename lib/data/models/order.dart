@@ -9,7 +9,6 @@ import 'package:keeyosk/data/models/voucher.dart';
 
 enum OrderStatus { completed, cancelled, pending }
 
-
 class Order {
   final String id;
   String? tableId;
@@ -35,37 +34,43 @@ class Order {
 
   Map<String, dynamic> toJSON() {
     return {
-      "id": id,
-      "tableId": tableId,
-      "hour": hour,
-      "date": date,
-      "customerId": customer.userId,
+      "order_id": id,
+      "table_number": tableId,
+      "order_hour": hour,
+      "order_date": date,
+      "user_id": customer.userId,
       "status": status.name,
-      "orderMode": orderMode,
-      "cart": carts.map((cart) => cart.toJSON()).toList(),
+      "order_mode": orderMode,
+      "carts": carts.map((cart) => cart.toJSON()).toList(),
     };
   }
 
   static Order fromJSON(Map data) {
-    final int customerIndex = users.indexWhere(
-      (element) => element.userId == data["customerId"],
-    );
-    final User customer = users[customerIndex];
-    final List<Cart> carts = [];
+    final int index = users.indexWhere((e) => e.userId == data["user_id"]);
+    final User user = users[index];
+    final rawCarts = data["carts"] as List;
+    final List<Cart> carts =
+        rawCarts.map((cart) => Cart.fromJSON(cart)).toList();
 
-    for (Map cartItem in data["cart"]) {
-      carts.add(Cart.fromJSON(cartItem));
-    }
+    Map<String, OrderStatus> statuses = {
+      "completed": OrderStatus.completed,
+      "pending": OrderStatus.pending,
+      "cancelled": OrderStatus.cancelled
+    };
+    Map<String, String> orderModes = {
+      "dineIn": 'Dine In',
+      "takeOut": 'Take Out'
+    };
     return Order(
-      id: data["id"],
-      orderMode: data["orderMode"],
-      hour: data["hour"],
-      date: data["date"],
-      customer: customer,
-      tableId: data["tableId"],
+      id: data["order_id"],
+      orderMode: orderModes[data["order_mode"]]!,
+      hour: data["order_hour"],
+      date: data["order_date"],
+      customer: user,
+      tableId: data["table_number"],
       carts: carts,
       vouchersApplied: [],
-      status: OrderStatus.pending,
+      status: statuses[data["status"]]!,
     );
   }
 }

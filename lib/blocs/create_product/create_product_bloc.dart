@@ -31,15 +31,12 @@ class CreateProductBloc extends Bloc<CreateProductEvent, CreateProductState> {
             images: item?.images ?? [],
             categoryId: item?.category.id ?? '',
             price: item?.price ?? 0,
-            description:  item?.description,
+            description: item?.description,
             options: item?.options ?? [],
             discountedPrice: item?.discount)) {
-    print('id: ' + (item?.id.toString() ?? ''));
-    print('imgs: ' + images.length.toString());
     if (item?.id != null) {
       alreadyExist = true;
-      print(item!.images.length);
-      images.addAll(item.images);
+      images.addAll(item!.images);
       options = item.options;
       productName = item.name;
       description = item.description;
@@ -52,7 +49,6 @@ class CreateProductBloc extends Bloc<CreateProductEvent, CreateProductState> {
       alreadyExist = false;
       productId = uuid.v1();
     }
-    print(item?.id != null);
     on<AddedImages>(
       (event, emit) {
         images.addAll(event.images);

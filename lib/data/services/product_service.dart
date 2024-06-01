@@ -1,15 +1,18 @@
 import 'package:keeyosk/data/models/category.dart';
 import 'package:keeyosk/data/models/menu_item.dart';
+import 'package:keeyosk/data/repositories/cart_repo.dart';
 import 'package:keeyosk/data/repositories/category_repo.dart';
 import 'package:keeyosk/data/repositories/menu_item_repo.dart';
 
 class ProductService {
   final MenuItemRepo menuItemRepo = MenuItemRepo();
+  final CartRepo cartRepo = CartRepo();
   final CategoryRepo categoryRepo = CategoryRepo();
 
   Future<Map<String, dynamic>> init() async {
     final categories = await categoryRepo.init();
     final items = await menuItemRepo.init();
+    await cartRepo.init();
     return {"products": items, "categories": categories};
   }
 

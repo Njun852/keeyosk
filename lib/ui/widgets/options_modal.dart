@@ -44,6 +44,14 @@ class _OptionsModalState extends State<OptionsModal> {
       create: (context) => OptionBloc(item: widget.item),
       child: BlocBuilder<OptionBloc, OptionState>(
         builder: (context, state) {
+          if (state is InitialOptions) {
+            context.read<OptionBloc>().add(Setup());
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
           return Container(
             height: 500,
             width: double.infinity,

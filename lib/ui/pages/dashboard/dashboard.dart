@@ -18,6 +18,7 @@ import 'package:keeyosk/data/services/product_service.dart';
 import 'package:keeyosk/ui/pages/dashboard/item_card.dart';
 import 'package:keeyosk/ui/widgets/search_bar.dart';
 import 'package:keeyosk/ui/pages/dashboard/sidebar.dart';
+import 'package:keeyosk/utils/grouped_products.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -28,10 +29,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> with RouteAware {
   List<Category> _categories = CategoryRepo().getAll();
-  List<List<MenuItem>> _productsGroup = CategoryRepo().getAll().map((category) {
-    final products = MenuItemRepo().getAll();
-    return products.where((item) => item.category.id == category.id).toList();
-  }).toList();
+  List<List<MenuItem>> _productsGroup = groupedProducts();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -127,12 +125,7 @@ class _DashboardState extends State<Dashboard> with RouteAware {
                     await ProductService().init();
                     setState(() {
                       _categories = CategoryRepo().getAll();
-                      _productsGroup = CategoryRepo().getAll().map((category) {
-                        final products = MenuItemRepo().getAll();
-                        return products
-                            .where((item) => item.category.id == category.id)
-                            .toList();
-                      }).toList();
+                      _productsGroup = groupedProducts();
                     });
                   },
                   child: GridView.count(
@@ -162,12 +155,7 @@ class _DashboardState extends State<Dashboard> with RouteAware {
     super.didPopNext();
     setState(() {
       _categories = CategoryRepo().getAll();
-      _productsGroup = CategoryRepo().getAll().map((category) {
-        final products = MenuItemRepo().getAll();
-        return products
-            .where((item) => item.category.id == category.id)
-            .toList();
-      }).toList();
+      _productsGroup = groupedProducts();
     });
   }
 
